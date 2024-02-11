@@ -1,15 +1,16 @@
 (ns leebonn.core
   (:require
-   ["react" :as react]
-   [reagent.core :as r]
-   [reagent.dom.client :as dom.client]
-   [leebonn.sections.projects :as projects]
-   [leebonn.sections.title :as title]
-   [leebonn.sections.overlay :as overlay]))
+    ["react" :as react]
+    [leebonn.sections.overlay :as overlay]
+    [leebonn.sections.projects :as projects]
+    [leebonn.sections.title :as title]
+    [leebonn.util :as util]
+    [reagent.core :as r]
+    [reagent.dom.client :as dom.client]))
 
 
 (def debug (r/atom nil))
-(def transition-ms 500)
+(def transition-ms 1000)
 (def initial-scene 1)
 (def timer (r/atom 0))
 (def scene-atom (r/atom initial-scene))
@@ -67,7 +68,6 @@
                     (> (/ dy dt) threshold) 2
                     (< (/ dy dt) (- threshold)) -2
                     :else 0)]
-    #_(reset! debug [dt (/ dy dt) change])
     (shift-scene change)))
 
 
@@ -106,33 +106,31 @@
 
 (defn app
   [screen]
-  (let [{:keys [width height]} @screen
-        scene              @scene-atom
-        narrow?            (> height width)
-        transition         (str " transition-all duration-[" (:per-scene-delay @scene-transition) "ms] ")
-        raw-text-colour    (cond
-                             (and narrow?
-                                  (= 1 scene)) "yellow-100 "
-                             narrow? "yellow-800"
-                             :else "white")
-        common-text-colour (str " text-" raw-text-colour " ")
-        bg-colour-raw      (if narrow?
-                             "yellow-300"
-                             "pink-300")
-        bg-colour          (str " bg-" bg-colour-raw " ")
-        context            {:scene              scene
-                            :bg-colour          bg-colour
-                            :bg-colour-raw      bg-colour-raw
-                            :width              width
-                            :height             height
-                            :narrow?            narrow?
-                            :transition         transition
-                            :raw-text-colour    raw-text-colour
-                            :common-text-colour common-text-colour}]
-    [:div {:class (str "w-[" width "px] h-[" height "px] overflow-hidden"
-                       (str " transition-colors duration-[" (:per-scene-delay @scene-transition) "ms] ")
-                       bg-colour)
-           :style {:transform "translateZ(0)"}}
+  (let [{:keys [width height]} screen
+        scene       @scene-atom
+        narrow?     (> height width)
+        transition  {:class "transition-all"
+                     :style {:transition-duration (str (:per-scene-delay @scene-transition) "ms")}}
+        text-colour (cond
+                      (and narrow?
+                           (= 1 scene)) "#FEF3C7"
+                      narrow? "#92400E"
+                      :else "#FFFFFF")
+
+        bg-colour   (if narrow?
+                      "#FCD34D"
+                      "#F9A8D4")
+        context     {:scene       scene
+                     :bg-colour   bg-colour
+                     :width       width
+                     :height      height
+                     :narrow?     narrow?
+                     :transition  transition
+                     :text-colour text-colour}]
+    [:div (util/combine-style {:class "w-full h-full"
+                               :style {:background-color bg-colour
+                                       :transform        "translateZ(0)"}}
+                              (assoc transition :class "transition-colors"))
      [title/title context]
      [projects/projects context]
      [overlay/overlay context]
@@ -151,19 +149,30 @@
     (js/console.log "Stopping...")))
 
 
+(defn get-screen-size
+  []
+  {:width  (.-innerWidth js/window)
+   :height (.-innerHeight js/window)})
+
+
 (defn on-resize
   [_event screen-atom]
-  (reset! screen-atom {:width  (.-innerWidth js/window)
-                       :height (.-innerHeight js/window)})
-  (reset! debug {:width  (.-innerWidth js/window)
-                 :height (.-innerHeight js/window)}))
+  (reset! screen-atom (get-screen-size)))
+
+
+(defn fixed-scroll
+  [screen-atom]
+  (let [{:keys [width height] :as screen} @screen-atom]
+    [:div {:class "overflow-hidden"
+           :style {:width  (str width "px")
+                   :height (str height "px")}}
+     [app screen]]))
 
 
 (defn ^:dev/after-load start
   []
   (js/console.log "Starting...")
-  (let [screen               (r/atom {:width  (.-innerWidth js/window)
-                                      :height (.-innerHeight js/window)})
+  (let [screen               (r/atom (get-screen-size))
         stop-timer           (start-loop 200 (fn [timestamp]
                                                (reset! timer timestamp)))
         root                 (dom.client/create-root (.getElementById js/document "app"))
@@ -187,8 +196,8 @@
     (.addEventListener js/window "touchstart" touch-start-listener)
     (.addEventListener js/window "touchend" touch-end-listener)
     (dom.client/render
-     root
-     [app screen])
+      root
+      [fixed-scroll screen])
     (reset! stop-ctx {:stop-fn (fn []
                                  (stop-timer)
                                  (.removeEventListener js/window "resize" resize-listener)

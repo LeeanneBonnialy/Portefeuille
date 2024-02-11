@@ -1,8 +1,11 @@
 (ns leebonn.image-loader
-  (:require [clojure.string :as str]))
+  (:require
+    [clojure.string :as str]))
+
 
 (def empty-image
   "data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=")
+
 
 (defn image-mips
   [image-name]
@@ -10,11 +13,13 @@
     [(str "img/" file-name "_LQIP.png")
      (str "img/" image-name)]))
 
+
 (def global-image-cache
   (memoize
     (fn [image-name]
       (let [mips (image-mips image-name)]
         (atom mips)))))
+
 
 (defn current-src!
   [image-cache]
@@ -24,6 +29,7 @@
                                               (rest x))))]
     src))
 
+
 (defn img-improver
   [img-element-id image-cache]
   (fn []
@@ -32,6 +38,7 @@
           best-src   (current-src! image-cache)]
       (when (not (str/ends-with? loaded-src best-src))
         (set! (.-src elem) best-src)))))
+
 
 (defn deferred-image
   ([width height image-name]

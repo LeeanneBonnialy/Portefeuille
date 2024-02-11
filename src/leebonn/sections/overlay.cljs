@@ -1,5 +1,6 @@
 (ns leebonn.sections.overlay
-  (:require [leebonn.i18n :as i18n]))
+  (:require
+    [leebonn.i18n :as i18n]))
 
 
 (defn lang-selection

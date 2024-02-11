@@ -1,8 +1,21 @@
 (ns leebonn.util
   (:require
-   ["react" :as react]
-   [reagent.core :as r]
-   [leebonn.i18n :as i18n]))
+    ["react" :as react]
+    [leebonn.i18n :as i18n]
+    [reagent.core :as r]))
+
+
+(defn combine-style
+  ([{ca :class sa :style :as a} {cb :class sb :style :as b}]
+   (-> (merge a b)
+       (assoc :class (str ca " " cb))
+       (assoc :style (merge sa sb))))
+  ([a b c & more]
+   (reduce combine-style
+           (-> a
+               (combine-style b)
+               (combine-style c))
+           more)))
 
 
 (defn ratio
@@ -22,9 +35,9 @@
 (defn attach-visibility-observer
   [element callback]
   (.observe (js/IntersectionObserver.
-             (fn [entries _observer]
-               (doseq [entry entries]
-                 (callback (> (.-intersectionRatio entry) 0)))))
+              (fn [entries _observer]
+                (doseq [entry entries]
+                  (callback (> (.-intersectionRatio entry) 0)))))
             element))
 
 
@@ -38,13 +51,13 @@
   (let [end-ref (react/createRef)
         obs     (atom nil)]
     (r/create-class
-     {:component-did-mount
-      (fn [_]
-        (attach-visibility-observer (.-current end-ref) callback))
-      :component-will-unmount
-      (fn [_]
-        (when-let [o @obs]
-          (detach-visibility-observer o)))
-      :reagent-render
-      (fn [_]
-        [:span.w-1.h-1.bottom-0 {:class "mt-[-4px]" :ref end-ref}])})))
+      {:component-did-mount
+       (fn [_]
+         (attach-visibility-observer (.-current end-ref) callback))
+       :component-will-unmount
+       (fn [_]
+         (when-let [o @obs]
+           (detach-visibility-observer o)))
+       :reagent-render
+       (fn [_]
+         [:span.w-1.h-1.bottom-0 {:class "mt-[-4px]" :ref end-ref}])})))

@@ -1,6 +1,6 @@
 {:deps     true
 
- :dev-http {8020 ["docs"]}
+ :dev-http {8020 [#_"resources/dev" "docs"]}
  :nrepl    {:port 5566}
 
  :builds   {:app  {:target     :browser

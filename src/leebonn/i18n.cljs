@@ -1,7 +1,10 @@
 (ns leebonn.i18n
-  (:require [reagent.core :as r]))
+  (:require
+    [reagent.core :as r]))
+
 
 (def lang (r/atom :fr))
+
 
 (def translations
   {:home               {:fr "FRhome"
@@ -22,11 +25,13 @@
 
                   SNCF comics was cool. SNCF comics was cool. SNCF comics was cool."}})
 
+
 (defn text
   [kw]
   (if-let [t (get-in translations [kw @lang])]
     [:div.whitespace-pre-line t]
     [:span.text-red-500 "missing[" (str kw) "]"]))
+
 
 (defn set-lang!
   [l]
