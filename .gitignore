@@ -1,0 +1,8 @@
+/docs/js/cljs-runtime
+node_modules
+target
+.shadow-cljs
+.nrepl-port
+.cpcache/
+.idea/
+*.iml

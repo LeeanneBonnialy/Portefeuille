@@ -1,0 +1,9 @@
+{:deps     true
+
+ :dev-http {8020 ["docs"]}
+ :nrepl    {:port 5566}
+
+ :builds   {:app  {:target     :browser
+                   :output-dir "docs/js"
+                   :asset-path "/js"
+                   :modules    {:main {:init-fn leebonn.core/init}}}}}
