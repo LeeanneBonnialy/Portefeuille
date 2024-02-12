@@ -10,7 +10,7 @@
 
 
 (def debug (r/atom nil))
-(def transition-ms 1000)
+(def transition-ms 500)
 (def initial-scene 1)
 (def timer (r/atom 0))
 (def scene-atom (r/atom initial-scene))
