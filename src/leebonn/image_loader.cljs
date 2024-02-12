@@ -41,16 +41,14 @@
 
 
 (defn deferred-image
-  ([width height image-name]
-   (deferred-image width height image-name nil))
-  ([width height image-name more-attributes]
+  ([image-name]
+   (deferred-image image-name nil))
+  ([image-name more-attributes]
    (let [id          (str (random-uuid))
          image-cache (global-image-cache image-name)
          improver    (img-improver id image-cache)]
      [:img (merge more-attributes
                   {:id       id
-                   :width    width
-                   :height   height
                    :on-load  improver
                    :on-error improver
                    :src      (current-src! image-cache)})])))

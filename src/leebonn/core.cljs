@@ -1,6 +1,7 @@
 (ns leebonn.core
   (:require
     ["react" :as react]
+    [leebonn.navigation :as nav]
     [leebonn.sections.overlay :as overlay]
     [leebonn.sections.projects :as projects]
     [leebonn.sections.title :as title]
@@ -10,70 +11,13 @@
 
 
 (def debug (r/atom nil))
-(def transition-ms 500)
-(def initial-scene 1)
 (def timer (r/atom 0))
-(def scene-atom (r/atom initial-scene))
-
-
-(def scene-transition
-  (r/atom {:total-delay     transition-ms
-           :per-scene-delay transition-ms
-           :from            initial-scene
-           :to              initial-scene
-           :changing        false
-           :min-scene       1
-           :max-scene       5}))
-
-
-(defn set-scene
-  [new-scene]
-  (let [{:keys [total-delay changing]} @scene-transition
-        current-scene   @scene-atom
-        scene-change    (- new-scene current-scene)
-        step            (cond
-                          (> scene-change 0) inc
-                          (< scene-change 0) dec)
-        steps           (abs (- new-scene current-scene))
-        per-scene-delay (int (/ total-delay steps))]
-    (when (and (not changing) (not= current-scene new-scene))
-      (swap! scene-transition assoc
-             :per-scene-delay per-scene-delay
-             :changing true
-             :from current-scene
-             :to new-scene)
-      ((fn looper
-         []
-         (if (= (swap! scene-atom step) new-scene)
-           (swap! scene-transition assoc :changing false)
-           (js/setTimeout looper
-                          per-scene-delay)))))))
-
-
-(defn shift-scene
-  [desired-change]
-  (let [{:keys [min-scene max-scene]} @scene-transition
-        current-scene @scene-atom
-        desired-scene (+ current-scene desired-change)
-        new-scene     (max min-scene (min max-scene desired-scene))]
-    (set-scene new-scene)))
-
-
-(defn mimic-scroll
-  [dt dx dy]
-  (let [dt        (max (/ 1 60) dt)
-        threshold 200
-        change    (cond
-                    (> (abs dx) (abs dy)) 0
-                    (> (/ dy dt) threshold) 2
-                    (< (/ dy dt) (- threshold)) -2
-                    :else 0)]
-    (shift-scene change)))
+(def screen (r/atom {:width 0 :height 0}))
 
 
 (defn on-scroll
   [v]
-  (mimic-scroll (/ 1 60) (.-deltaX v) (.-deltaY v)))
+  (nav/mimic-scroll (/ 1 60) (.-deltaX v) (.-deltaY v)))
 
 
 (defn ms-now
@@ -95,47 +39,133 @@
 
 
 (defn svg-defs
-  [seed]
-  [:svg {:xmlns "http://www.w3.org/2000/svg" :version "1.1"
-         :class "w-0 h-0"}
-   (into [:defs
-          [:filter {:id "squiggly"}
-           [:feTurbulence#turbulence {:baseFrequency "0.02" :numOctaves "3" :result "noise" :seed (mod seed 1000)}]
-           [:feDisplacementMap {:in "SourceGraphic" :in2 "noise" :scale (+ 5 (mod seed 3))}]]])])
+  []
+  (let [seed @timer]
+    [:svg {:xmlns "http://www.w3.org/2000/svg" :version "1.1"
+           :class "w-0 h-0"}
+     (into [:defs
+            [:filter {:id "squiggly"}
+             [:feTurbulence#turbulence {:baseFrequency "0.02" :numOctaves "3" :result "noise" :seed (mod seed 1000)}]
+             [:feDisplacementMap {:in "SourceGraphic" :in2 "noise" :scale (+ 5 (mod seed 3))}]]])]))
 
 
-(defn app
-  [screen]
-  (let [{:keys [width height]} screen
-        scene       @scene-atom
+(defn test-view
+  [ctx]
+  [:div (str ctx)])
+
+
+(defn with-context
+  [view origin-index {:keys [current-index scene-transition-ms] :as nav-context}]
+  (let [{:keys [width height]} @screen
         narrow?     (> height width)
         transition  {:class "transition-all"
-                     :style {:transition-duration (str (:per-scene-delay @scene-transition) "ms")}}
+                     :style {:transition-duration (str scene-transition-ms "ms")}}
         text-colour (cond
                       (and narrow?
-                           (= 1 scene)) "#FEF3C7"
+                           (= 0 current-index)) "#FEF3C7"
                       narrow? "#92400E"
                       :else "#FFFFFF")
 
         bg-colour   (if narrow?
                       "#FCD34D"
                       "#F9A8D4")
-        context     {:scene       scene
-                     :bg-colour   bg-colour
-                     :width       width
-                     :height      height
-                     :narrow?     narrow?
-                     :transition  transition
-                     :text-colour text-colour}]
-    [:div (util/combine-style {:class "w-full h-full"
-                               :style {:background-color bg-colour
-                                       :transform        "translateZ(0)"}}
-                              (assoc transition :class "transition-colors"))
-     [title/title context]
-     [projects/projects context]
-     [overlay/overlay context]
-     [svg-defs @timer]
-     [:div.absolute.text-white.font-sans (str @debug)]]))
+        offset      (- current-index (* 2 origin-index))
+        context     (assoc nav-context
+                           :offset offset
+                           :bg-colour bg-colour
+                           :width width
+                           :height height
+                           :narrow? narrow?
+                           :transition transition
+                           :text-colour text-colour)]
+    (into view [context])))
+
+
+(defn set-scene
+  [{:keys [width height] :as ctx}]
+  (let [[x y] (projects/project-fit ctx)
+        projects-per-page (* x y)
+
+        title             [{:anchors [:home]
+                            :view    [title/title]}]
+
+        project-groups    (->> projects/projects
+                               (partition-all projects-per-page)
+                               (map (fn [projects]
+                                      {:anchors (map :anchor projects)
+                                       :view    [projects/project-page projects]})))
+
+        after             [{:view [overlay/overlay]}
+                           {:view [svg-defs]}]
+
+        all-parts         (concat title
+                                  project-groups
+                                  after)
+
+        {:keys [views index->anchors]} (reduce
+                                         (fn [{:keys [index] :as agg} {:keys [anchors view]}]
+                                           (if anchors
+                                             (-> agg
+                                                 (update :index inc)
+                                                 (update :views conj [with-context view index])
+                                                 (update :index->anchors assoc index anchors))
+                                             (update agg :views conj [with-context view 0])))
+                                         {:index          0
+                                          :views          []
+                                          :index->anchors {}}
+                                         all-parts)]
+    (nav/set-scene views index->anchors)))
+
+
+(defn get-screen-size
+  []
+  {:width  (.-innerWidth js/window)
+   :height (.-innerHeight js/window)})
+
+
+(defn on-resize
+  []
+  (let [new-screen (get-screen-size)]
+    (reset! screen new-screen)
+    (set-scene new-screen)))
+
+
+(defn fixed-scroll
+  []
+  (let [{:keys [width height]} @screen]
+    [:div {:class "overflow-hidden"
+           :style {:width  (str width "px")
+                   :height (str height "px")}}
+     [nav/scroll-view]]))
+
+
+(defn setup-listeners
+  []
+  (let [stop-timer           (start-loop 200 (fn [timestamp]
+                                               (reset! timer timestamp)))
+        touch                (r/atom nil)
+        touch-start-listener (fn [e]
+                               (reset! touch {:time  (ms-now)
+                                              :touch (first (.-changedTouches e))}))
+        touch-end-listener   (fn [e]
+                               (let [{start-t :time start :touch} @touch
+                                     end-t (ms-now)
+                                     end   (first (.-changedTouches e))
+                                     dx    (- (.-screenX start) (.-screenX end))
+                                     dy    (- (.-screenY start) (.-screenY end))
+                                     dt    (/ (max 1 (- end-t start-t)) 1000)]
+                                 (reset! touch nil)
+                                 (nav/mimic-scroll dt dx dy)))]
+    (.addEventListener js/window "resize" on-resize)
+    (.addEventListener js/window "wheel" on-scroll)
+    (.addEventListener js/window "touchstart" touch-start-listener)
+    (.addEventListener js/window "touchend" touch-end-listener)
+    (fn []
+      (stop-timer)
+      (.removeEventListener js/window "resize" on-resize)
+      (.removeEventListener js/window "wheel" on-scroll)
+      (.removeEventListener js/window "touchstart" touch-start-listener)
+      (.removeEventListener js/window "touchend" touch-end-listener))))
 
 
 (def stop-ctx (atom nil))
@@ -149,61 +179,17 @@
     (js/console.log "Stopping...")))
 
 
-(defn get-screen-size
-  []
-  {:width  (.-innerWidth js/window)
-   :height (.-innerHeight js/window)})
-
-
-(defn on-resize
-  [_event screen-atom]
-  (reset! screen-atom (get-screen-size)))
-
-
-(defn fixed-scroll
-  [screen-atom]
-  (let [{:keys [width height] :as screen} @screen-atom]
-    [:div {:class "overflow-hidden"
-           :style {:width  (str width "px")
-                   :height (str height "px")}}
-     [app screen]]))
-
-
 (defn ^:dev/after-load start
   []
   (js/console.log "Starting...")
-  (let [screen               (r/atom (get-screen-size))
-        stop-timer           (start-loop 200 (fn [timestamp]
-                                               (reset! timer timestamp)))
-        root                 (dom.client/create-root (.getElementById js/document "app"))
-        resize-listener      #(on-resize % screen)
-        scroll-listener      on-scroll
-        touch                (r/atom nil)
-        touch-start-listener (fn [e]
-                               (reset! touch {:time  (ms-now)
-                                              :touch (first (.-changedTouches e))}))
-        touch-end-listener   (fn [e]
-                               (let [{start-t :time start :touch} @touch
-                                     end-t (ms-now)
-                                     end   (first (.-changedTouches e))
-                                     dx    (- (.-screenX start) (.-screenX end))
-                                     dy    (- (.-screenY start) (.-screenY end))
-                                     dt    (/ (max 1 (- end-t start-t)) 1000)]
-                                 (reset! touch nil)
-                                 (mimic-scroll dt dx dy)))]
-    (.addEventListener js/window "resize" resize-listener)
-    (.addEventListener js/window "wheel" scroll-listener)
-    (.addEventListener js/window "touchstart" touch-start-listener)
-    (.addEventListener js/window "touchend" touch-end-listener)
+  (let [stop-listeners (setup-listeners)
+        root           (dom.client/create-root (.getElementById js/document "app"))]
+    (on-resize)
     (dom.client/render
       root
-      [fixed-scroll screen])
+      [fixed-scroll])
     (reset! stop-ctx {:stop-fn (fn []
-                                 (stop-timer)
-                                 (.removeEventListener js/window "resize" resize-listener)
-                                 (.removeEventListener js/window "wheel" scroll-listener)
-                                 (.removeEventListener js/window "touchstart" touch-start-listener)
-                                 (.removeEventListener js/window "touchend" touch-end-listener)
+                                 (stop-listeners)
                                  (dom.client/unmount root))})))
 
 

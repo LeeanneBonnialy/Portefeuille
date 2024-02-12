@@ -5,12 +5,11 @@
 
 
 (defn title
-  [{:keys [scene width height narrow? transition bg-colour]}]
+  [{:keys [offset width height narrow? transition bg-colour]}]
   (let [image-src             (if narrow?
                                 "leeanne_2.JPG"
                                 "leeanne_1.JPG")
-        common-classes        "p-4 leading-none"
-        scene-one-top-class   {:class (str common-classes " squiggly w-full "
+        scene-one-top-class   {:class (str "p-4 leading-none squiggly w-full h-full "
                                            (if narrow?
                                              " text-yellow-400 "
                                              " whitespace-nowrap text-pink-400 "))
@@ -28,21 +27,22 @@
         scene-two-title-class {:class (if narrow?
                                         "origin-left scale-[10000%] translate-x-[-260%] translate-y-[-2000%]"
                                         "origin-left scale-[18000%] translate-x-[-240%] translate-y-[-6220%]")
-                               :style {:color bg-colour}}]
+                               :style {:color bg-colour
+                                       :background-color bg-colour}}]
     [:<>
-     (when (contains? #{1 2} scene)
-       [img/deferred-image nil nil image-src
+     (when (contains? #{0 1} offset)
+       [img/deferred-image image-src
         {:id    "background"
-         :class "absolute object-cover w-full h-full"}])
-     (when (contains? #{1 2 3} scene)
-       [:div {:id    "title-container"
-              :class (str "flex h-full absolute leading-none"
-                          (if narrow?
-                            " w-2/3"
-                            " w-full"))}
-        [:div scene-one-top-class
-         [:div#title (util/combine-style transition
-                                         (if (= scene 1)
-                                           scene-one-title-class
-                                           scene-two-title-class))
-          "Leeanne Bonnialy"]]])]))
+         :class "object-cover absolute w-full h-full"}])
+     [:div {:id    "title-container"
+            :class (str "flex h-full absolute leading-none"
+                        (if narrow?
+                          " w-2/3"
+                          " w-full"))}
+      [:div scene-one-top-class
+       [:div#title (util/combine-style transition
+                                       {:class "pointer-events-auto"}
+                                       (if (zero? offset)
+                                         scene-one-title-class
+                                         scene-two-title-class))
+        "Leeanne Bonnialy"]]]]))
