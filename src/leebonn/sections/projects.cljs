@@ -49,7 +49,7 @@
        [:div {:class "flex flex-grow"}
         [:div {:class "w-16 flex-shrink-0 flex-grow-0"}]
         [:div {:class "flex-grow p-4"}
-         [img/deferred-image "sncf_comics2.jpg" {:class "rounded-tl-full object-cover w-full h-full"}]]]
+         [img/deferred-image "sncf/sncf_comics2.jpg" {:class "rounded-tl-full object-cover w-full h-full"}]]]
 
        #_[:div.col-span-1.row-span-2 {:class "border-b border-black"} "abc"]
        #_[:div.col-span-10.row-span-8 {:class "border-black"} "abc"]]
@@ -124,66 +124,23 @@
 
 
 (def projects
-  [{:anchor        :sncf
+  [{:anchor        :seazon
+    :detail-anchor :seazon-detail
+    :image         "seazon/seazon.jpg"
+    :title         "seazon"
+    :abstract      "seazon abstract"
+    :detail        (repeat 1000 "B\n")}
+
+   {:anchor        :sncf
     :detail-anchor :sncf-detail
-    :image         "sncf_comics2.jpg"
+    :image         "sncf/sncf_comics2.jpg"
     :title         "SNCF"
     :abstract      "sncf abstract"
     :detail        (repeat 1000 "A\n")}
 
-   {:anchor        :sncf2
-    :detail-anchor :sncf2-detail
-    :image         "sncf_comics.jpg"
-    :title         "SNCF"
-    :abstract      "sncf abstract"
-    :detail        (repeat 1000 "B\n")}
-
    {:anchor        :lart
     :detail-anchor :lart-detail
-    :image         "lartdanslarue.png"
-    :title         "L'art"
-    :abstract      "L'art abstract"
-    :detail        (repeat 1000 "C\n")}
-
-   {:anchor        :lart2
-    :detail-anchor :lart2-detail
-    :image         "lartdanslarue.png"
-    :title         "L'art"
-    :abstract      "L'art abstract"
-    :detail        (repeat 1000 "C\n")}
-
-   {:anchor        :lart4
-    :detail-anchor :lart4-detail
-    :image         "lartdanslarue.png"
-    :title         "L'art"
-    :abstract      "L'art abstract"
-    :detail        (repeat 1000 "C\n")}
-
-
-   #_{:anchor        :lart3
-    :detail-anchor :lart3-detail
-    :image         "lartdanslarue.png"
-    :title         "L'art"
-    :abstract      "L'art abstract"
-    :detail        (repeat 1000 "C\n")}
-
-   #_{:anchor        :lart5
-    :detail-anchor :lart5-detail
-    :image         "lartdanslarue.png"
-    :title         "L'art"
-    :abstract      "L'art abstract"
-    :detail        (repeat 1000 "C\n")}
-
-   #_{:anchor        :lart6
-    :detail-anchor :lart6-detail
-    :image         "lartdanslarue.png"
-    :title         "L'art"
-    :abstract      "L'art abstract"
-    :detail        (repeat 1000 "C\n")}
-
-   #_{:anchor        :lart7
-    :detail-anchor :lart7-detail
-    :image         "lartdanslarue.png"
+    :image         "l-art/lartdanslarue.png"
     :title         "L'art"
     :abstract      "L'art abstract"
     :detail        (repeat 1000 "C\n")}])
@@ -235,11 +192,39 @@
 
 (defn desired-project-fit
   [{:keys [narrow?] :as context} projects]
-  (println (count projects))
   (let [orientation (get factors (count projects) (max-project-fit context))]
     (if narrow?
       (vec (reverse orientation))
       orientation)))
+
+
+(defn project-grid
+  [{:keys [target]} _projects]
+  (let [anchor           (:anchor target)
+        selected-project (->> projects
+                              (some #(when (= anchor (:detail-anchor %))
+                                       %)))]
+    (when selected-project
+      (reset! current-project selected-project)
+      (reset! detail-opened (system-time))
+      (nav/set-scroll close-detail
+                      nil))
+    (fn [{:keys [narrow?] :as context} projects]
+      (let [[x y] (desired-project-fit context projects)]
+        (into [:div {:class (str "grid h-full p-16 gap-16 "
+                                 (if narrow?
+                                   " w-full "
+                                   " w-10/12 mx-auto"))
+                     :style {:grid-template-columns (str/join " " (repeat x "1fr"))
+                             :grid-template-rows    (str/join " " (repeat y "1fr"))}}]
+              (for [project projects]
+                [project-item context project]))))))
+
+
+(defn project-page
+  [projects context]
+  [fly-in context
+   [project-grid context projects]])
 
 
 (defn project-detail
@@ -262,8 +247,8 @@
     (fn [{:keys [narrow? modal-text-colour] :as context}]
       (let [open?   @detail-opened
             project @current-project
-            shift   (if open? " translate-x-[0%] opacity-100 "
-                        " translate-x-[90%] opacity-0 ")]
+            shift   (if open? " translate-x-[0%] "
+                        " translate-x-[100%] ")]
         [:<>
          [:div {:class          (str "bg-white transition-all duration-500 top-0 left-0 right-0 bot-0 fixed w-full h-full cursor-pointer "
                                      (if open? " pointer-events-auto " " pointer-events-none "))
@@ -301,32 +286,3 @@
             [:div {:class "w-11/12 mx-auto text-2xl font-sans"
                    :style {:color modal-text-colour}}
              (:detail project)]]]]]))))
-
-
-(defn project-grid
-  [{:keys [target]} _projects]
-  (let [anchor           (:anchor target)
-        selected-project (->> projects
-                              (some #(when (= anchor (:detail-anchor %))
-                                       %)))]
-    (when selected-project
-      (reset! current-project selected-project)
-      (reset! detail-opened (system-time))
-      (nav/set-scroll close-detail
-                      nil))
-    (fn [{:keys [narrow?] :as context} projects]
-      (let [[x y] (desired-project-fit context projects)]
-        (into [:div {:class (str "grid h-full p-16 gap-16 "
-                                 (if narrow?
-                                   " w-full "
-                                   " w-10/12 mx-auto"))
-                     :style {:grid-template-columns (str/join " " (repeat x "1fr"))
-                             :grid-template-rows    (str/join " " (repeat y "1fr"))}}]
-              (for [project projects]
-                [project-item context project]))))))
-
-
-(defn project-page
-  [projects context]
-  [fly-in context
-   [project-grid context projects]])

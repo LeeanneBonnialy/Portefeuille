@@ -7,8 +7,8 @@
 (defn title
   [{:keys [offset width height narrow? transition bg-colour]}]
   (let [image-src             (if narrow?
-                                "leeanne_2.JPG"
-                                "leeanne_1.JPG")
+                                "home/leeanne_2.JPG"
+                                "home/leeanne_1.JPG")
         scene-one-top-class   {:class (str "p-4 leading-none squiggly w-full h-full "
                                            (if narrow?
                                              " text-yellow-400 "

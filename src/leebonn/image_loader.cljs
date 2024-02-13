@@ -10,7 +10,7 @@
 (defn image-mips
   [image-name]
   (let [[file-name] (str/split image-name #"\.")]
-    [(str "img/" file-name "_LQIP.png")
+    [(str "img/" file-name "_LQIP.jpg")
      (str "img/" image-name)]))
 
 
@@ -18,37 +18,65 @@
   (memoize
     (fn [image-name]
       (let [mips (image-mips image-name)]
-        (atom mips)))))
+        (atom {:mips   mips
+               :loaded nil})))))
 
 
-(defn current-src!
+(defn current-src
   [image-cache]
-  (let [[[src] _] (swap-vals! image-cache (fn [x]
-                                            (if (= 1 (count x))
-                                              x
-                                              (rest x))))]
+  (let [{:keys [loaded mips]} @image-cache
+        src (if loaded
+              (nth mips loaded)
+              (first mips))]
     src))
 
 
-(defn img-improver
-  [img-element-id image-cache]
-  (fn []
-    (let [elem       (.getElementById js/document img-element-id)
-          loaded-src (.-src elem)
-          best-src   (current-src! image-cache)]
-      (when (not (str/ends-with? loaded-src best-src))
-        (set! (.-src elem) best-src)))))
+(defn succeed-load!
+  [id image-cache]
+  (let [elem         (.getElementById js/document id)
+        loaded-src   (.-src elem)
+
+        {:keys [mips loaded] :as ic} @image-cache
+        loaded-index (first (keep-indexed (fn [i mip]
+                                            (when (str/ends-with? loaded-src mip)
+                                              i))
+                                          mips))
+
+        new-load?    (or (nil? loaded)
+                         (> loaded-index loaded))
+
+        new-state    (if new-load?
+                       (assoc ic :loaded loaded-index)
+                       ic)
+
+        next-src     (nth mips (inc (:loaded new-state)) nil)]
+    (reset! image-cache new-state)
+    (when next-src
+      (set! (.-src (.getElementById js/document id)) next-src))))
+
+
+(defn fail-load!
+  [id image-cache]
+  (let [elem            (.getElementById js/document id)
+        attempted-src   (.-src elem)
+
+        {:keys [mips]} @image-cache
+        attempted-index (first (keep-indexed (fn [i mip]
+                                               (when (str/ends-with? attempted-src mip)
+                                                 i))
+                                             mips))
+
+        next-src        (nth mips (inc attempted-index) nil)]
+    (when next-src
+      (set! (.-src (.getElementById js/document id)) next-src))))
 
 
 (defn deferred-image
-  ([image-name]
-   (deferred-image image-name nil))
-  ([image-name more-attributes]
-   (let [id          (str (random-uuid))
-         image-cache (global-image-cache image-name)
-         improver    (img-improver id image-cache)]
-     [:img (merge more-attributes
-                  {:id       id
-                   :on-load  improver
-                   :on-error improver
-                   :src      (current-src! image-cache)})])))
+  [image-name more-attributes]
+  (let [id          (str (random-uuid))
+        image-cache (global-image-cache image-name)]
+    [:img (merge more-attributes
+                 {:id       id
+                  :on-load  (partial succeed-load! id image-cache)
+                  :on-error (partial fail-load! id image-cache)
+                  :src      (current-src image-cache)})]))
