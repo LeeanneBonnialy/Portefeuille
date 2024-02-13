@@ -126,11 +126,8 @@
 
 
 (def default-scroll
-  {:x nil
-   :y (fn [v]
-        (case v
-          1 (go-to-prev)
-          -1 (go-to-next)))})
+  {:x shift-index
+   :y shift-index})
 
 
 (defn clear-scroll
@@ -148,15 +145,13 @@
   [dt dx dy]
   (let [dt        (max (/ 1 60) dt)
         threshold 200
-        dx (- dx)
 
-        [dir v] (cond
-                  (> (abs dx) (* 2 (abs dy))) [:x dx]
-                  (> (abs dy) (* 2 (abs dx))) [:y dy]
-                  :else [nil 0])
+        [dir v] (if (> (abs dx) (abs dy))
+                  [:x dx]
+                  [:y dy])
         norm-v    (cond
-                    (> (/ v dt) threshold) -1
-                    (< (/ v dt) (- threshold)) 1
+                    (> (/ v dt) threshold) 1
+                    (< (/ v dt) (- threshold)) -1
                     :else 0)
 
         scroll-fn (get @scroll-atom dir (get default-scroll dir))]
