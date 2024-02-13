@@ -2,6 +2,7 @@
   (:require
     ["react" :as react]
     [leebonn.navigation :as nav]
+    [leebonn.sections.contact :as contact]
     [leebonn.sections.overlay :as overlay]
     [leebonn.sections.projects :as projects]
     [leebonn.sections.title :as title]
@@ -151,7 +152,7 @@
                                   r (if (zero? r) r (- o r))]
                               [(if (= 1 o) 1000000 r)
                                (- o)]))
-        [best-option]          (sort-by option-preference options)]
+        [best-option] (sort-by option-preference options)]
     best-option))
 
 
@@ -163,14 +164,25 @@
                             :anchors [:home]
                             :view    [title/title]}]
 
-        project-groups    (->> projects/projects
-                               (partition-all projects-per-page)
+        project-groups    (partition-all projects-per-page projects/projects)
+        project-views     (->> project-groups
                                (map-indexed (fn [i projects]
-                                              {:id      (str "projects-slice-" i)
-                                               :anchors (mapcat (juxt :anchor :detail-anchor) projects)
-                                               :view    [projects/project-page projects]})))
+                                              (let [last? (= i (dec (count project-groups)))]
+                                                {:id      (str "projects-slice-" i)
+                                                 :anchors (mapcat (juxt :anchor :detail-anchor) projects)
+                                                 :view    [projects/project-page
+                                                           projects
+                                                           "translate(100%,0%)"
+                                                           (if last?
+                                                             "translate(0%,-100%)"
+                                                             "translate(-100%,0%)")]}))))
 
-        after             [{:id   :project-modal
+        after             [{:id   :contact
+                            :anchors [:contact]
+                            :view [contact/contact-page
+                                   "translate(0%,100%)"
+                                   "translate(0%,-100%)"]}
+                           {:id   :project-modal
                             :view [projects/project-detail]}
                            {:id   :language
                             :view [overlay/overlay]}
@@ -178,7 +190,7 @@
                             :view [svg-defs]}]
 
         all-parts         (concat title
-                                  project-groups
+                                  project-views
                                   after)
 
         {:keys [views index->anchors]} (reduce

@@ -9,7 +9,7 @@
   (let [image-src             (if narrow?
                                 "home/leeanne_2.JPG"
                                 "home/leeanne_1.JPG")
-        scene-one-top-class   {:class (str "p-4 leading-none squiggly w-full h-full "
+        scene-one-top-class   {:class (str "p-4 leading-none squiggly w-full h-full font-slim"
                                            (if narrow?
                                              " text-yellow-400 "
                                              " whitespace-nowrap text-pink-400 "))

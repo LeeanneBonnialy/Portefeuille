@@ -1,8 +1,11 @@
 /* Components */
 /* @import "components/root"; */
 body {
-  font-family: 'Amatic SC', sans-serif;
   overscroll-behavior-y: contain;
+}
+
+.font-slim {
+    font-family: 'Amatic SC', sans-serif;
 }
 
 @media (hover: hover) {

@@ -61,3 +61,24 @@
        :reagent-render
        (fn [_]
          [:span.w-1.h-1.bottom-0 {:class "mt-[-4px]" :ref end-ref}])})))
+
+
+(defn fly-in
+  [{:keys [offset transition text-colour]} content before after]
+  (let [translation {:style
+                     {:transform (case offset
+                                   -1 before
+                                   1 after
+                                   "translate(0%, 0%)")}}]
+    (when (contains? #{-1 0 1} offset)
+      [:div (combine-style transition
+                           {:class "font-sans absolute text-xl w-full h-full flex"
+                            :style {:color text-colour}}
+                           {:class (case offset
+                                     -1 " pointer-events-none opacity-0"
+                                     0 " opacity-100"
+                                     1 " pointer-events-none opacity-0")})
+       [:div (combine-style transition
+                            {:class "flex w-full h-full relative"}
+                            translation)
+        content]])))

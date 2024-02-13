@@ -8,30 +8,6 @@
     [reagent.core :as r]))
 
 
-(defn fly-in
-  [{:keys [offset transition text-colour]} content]
-  (let [x           "100%"
-        y           "0%"
-
-        translation {:style
-                     {:transform (case offset
-                                   -1 (str "translate(" x ", " y ")")
-                                   1 (str "translate(-" x ", -" y ")")
-                                   "translate(0%, 0%)")}}]
-    (when (contains? #{-1 0 1} offset)
-      [:div (util/combine-style transition
-                                {:class "font-sans absolute text-xl w-full h-full flex"
-                                 :style {:color text-colour}}
-                                {:class (case offset
-                                          -1 " pointer-events-none opacity-0"
-                                          0 " opacity-100"
-                                          1 " pointer-events-none opacity-0")})
-       [:div (util/combine-style transition
-                                 {:class "flex w-full h-full relative"}
-                                 translation)
-        content]])))
-
-
 (defn sncf
   [_]
   (let [with-border-col (fn [s text-colour]
@@ -167,7 +143,7 @@
                     (reset! current-project proj)
                     (reset! detail-opened (system-time))))]
     (fn [_ {:keys [image]}]
-      [:div {:class "relative row-span-1 col-span-1 flex min-h-0 min-w-0 h-full w-full"}
+      [:div {:class "relative row-span-1 col-span-1 flex min-h-0 min-w-0 h-full w-full squiggly"}
        [img/deferred-image image {:class    "transition-all duration-500 flex object-cover w-full h-full rounded-xl
                                              hover:scale-95 shadow-xl hover:shadow-lg pointer-events-auto cursor-pointer"
                                   :on-click click}]])))
@@ -222,9 +198,10 @@
 
 
 (defn project-page
-  [projects context]
-  [fly-in context
-   [project-grid context projects]])
+  [projects before after context]
+  [util/fly-in context
+   [project-grid context projects]
+   before after])
 
 
 (defn project-detail
