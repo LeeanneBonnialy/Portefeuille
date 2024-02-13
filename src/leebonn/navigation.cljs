@@ -175,7 +175,8 @@
              (keep
                (fn [view]
                  (when view
-                   [:div {:class "w-full h-full overflow-hidden z-0 absolute pointer-events-none"}
+                   [:div {:id    (:id (meta view))
+                          :class "w-full h-full overflow-hidden z-0 absolute pointer-events-none"}
                     (into view [(assoc ctx :current-index index)])]))))))))
 
 

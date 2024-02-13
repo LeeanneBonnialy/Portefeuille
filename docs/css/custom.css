@@ -1,14 +1,1 @@
-/* Components */
-/* @import "components/root"; */
-body {
-  font-family: 'Amatic SC', sans-serif;
-  overscroll-behavior-y: contain;
-}
-@media (hover: hover) {
-    .hover-squiggly:hover {
-        filter: url('#squiggly');
-    }
-}
-.squiggly {
-    filter: url('#squiggly');
-}
+body{font-family:Amatic SC,sans-serif;overscroll-behavior-y:contain}@media (hover:hover){.hover-squiggly:hover{filter:url(#squiggly)}}.squiggly{filter:url(#squiggly)}

@@ -142,31 +142,36 @@
   (let [[x y] (projects/project-fit ctx)
         projects-per-page (* x y)
 
-        title             [{:anchors [:home]
+        title             [{:id :title
+                            :anchors [:home]
                             :view    [title/title]}]
 
         project-groups    (->> projects/projects
                                (partition-all projects-per-page)
-                               (map (fn [projects]
-                                      {:anchors (mapcat (juxt :anchor :detail-anchor) projects)
-                                       :view    [projects/project-page projects]})))
+                               (map-indexed (fn [i projects]
+                                              {:id      (str "projects-slice-" i)
+                                               :anchors (mapcat (juxt :anchor :detail-anchor) projects)
+                                               :view    [projects/project-page projects]})))
 
-        after             [{:view [projects/project-detail]}
-                           {:view [overlay/overlay]}
-                           {:view [svg-defs]}]
+        after             [{:id   :project-modal
+                            :view [projects/project-detail]}
+                           {:id   :language
+                            :view [overlay/overlay]}
+                           {:id   :svg-filters
+                            :view [svg-defs]}]
 
         all-parts         (concat title
                                   project-groups
                                   after)
 
         {:keys [views index->anchors]} (reduce
-                                         (fn [{:keys [index] :as agg} {:keys [anchors view]}]
+                                         (fn [{:keys [index] :as agg} {:keys [anchors view id]}]
                                            (if anchors
                                              (-> agg
                                                  (update :index inc)
-                                                 (update :views conj [with-context view index])
+                                                 (update :views conj (vary-meta [with-context view index] assoc :id id))
                                                  (update :index->anchors assoc index anchors))
-                                             (update agg :views conj [with-context view 0])))
+                                             (update agg :views conj (vary-meta [with-context view 0] assoc :id id))))
                                          {:index          0
                                           :views          []
                                           :index->anchors {}}
