@@ -29,7 +29,7 @@
                shift               (when-not (zero? diff)
                                      (/ diff (abs diff)))
                changes             (abs (- target-i current-i))
-               scene-transition-ms (max 200 (/ remaining-ms changes))]
+               scene-transition-ms (max 100 (/ remaining-ms changes))]
            (if shift
              (do (reset! state-atom
                          (-> init-state

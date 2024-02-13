@@ -167,9 +167,9 @@
                     (reset! current-project proj)
                     (reset! detail-opened (system-time))))]
     (fn [_ {:keys [image]}]
-      [:div {:class "relative row-span-1 col-span-1 flex min-h-0 min-w-0 h-full w-full"
-             :style {:transform-style "flat"}}
-       [img/deferred-image image {:class    "flex object-cover w-full h-full rounded-xl shadow-xl pointer-events-auto"
+      [:div {:class "relative row-span-1 col-span-1 flex min-h-0 min-w-0 h-full w-full"}
+       [img/deferred-image image {:class    "transition-all duration-500 flex object-cover w-full h-full rounded-xl
+                                             hover:scale-95 shadow-xl hover:shadow-lg pointer-events-auto cursor-pointer"
                                   :on-click click}]])))
 
 
@@ -257,16 +257,14 @@
                       nil))
     (fn [{:keys [narrow?] :as context} projects]
       (let [[x y] (project-fit context)]
-        [:div {:class "w-full h-full"}
-         (into [:div {:class (str "grid h-full p-16 gap-16 "
-                                  (if narrow?
-                                    " w-full "
-                                    " w-10/12 mx-auto"))
-                      :style {:grid-template-columns (str/join " " (repeat x "1fr"))
-                              :grid-template-rows    (str/join " " (repeat y "1fr"))}}]
-               (for [project projects]
-                 [project-item context project]))
-         [project-detail context]]))))
+        (into [:div {:class (str "grid h-full p-16 gap-16 "
+                                 (if narrow?
+                                   " w-full "
+                                   " w-10/12 mx-auto"))
+                     :style {:grid-template-columns (str/join " " (repeat x "1fr"))
+                             :grid-template-rows    (str/join " " (repeat y "1fr"))}}]
+              (for [project projects]
+                [project-item context project]))))))
 
 
 (defn project-page

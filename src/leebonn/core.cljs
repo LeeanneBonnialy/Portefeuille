@@ -151,7 +151,8 @@
                                       {:anchors (mapcat (juxt :anchor :detail-anchor) projects)
                                        :view    [projects/project-page projects]})))
 
-        after             [{:view [overlay/overlay]}
+        after             [{:view [projects/project-detail]}
+                           {:view [overlay/overlay]}
                            {:view [svg-defs]}]
 
         all-parts         (concat title
