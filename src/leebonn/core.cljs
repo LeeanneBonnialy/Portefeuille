@@ -15,9 +15,58 @@
 (def screen (r/atom {:width 0 :height 0}))
 
 
+(defn debouncer
+  "Returns a function that accepts threshold, f, & args.
+  It will call f with args only after threshold has passed without new calls
+  to the function."
+  []
+  (let [t (atom nil)]
+    (fn [threshold f & args]
+      (when-let [current-timeout @t] (js/clearTimeout current-timeout))
+      (reset! t (js/setTimeout #(do
+                                  (reset! t nil)
+                                  (apply f args))
+                               threshold)))))
+
+
+(defn debounce
+  "Returns a function that will call f only after threshold has passed without new calls
+  to the function."
+  [threshold f]
+  (partial (debouncer) threshold f))
+
+
+(def can-scroll? (atom true))
+(def accumulated-scroll (atom nil))
+(def scroll-timeout (atom nil))
+
+
+(defn do-scroll
+  []
+  (let [{:keys [start end dx dy]} @accumulated-scroll]
+    (reset! can-scroll? false)
+    (reset! accumulated-scroll nil)
+    (js/setTimeout #(reset! can-scroll? true)
+                   (/ nav/transition-ms 3))
+    (nav/mimic-scroll (/ (- end start) 1000) dx dy)))
+
+
 (defn on-scroll
   [v]
-  (nav/mimic-scroll (/ 1 60) (.-deltaX v) (.-deltaY v)))
+  (when @can-scroll?
+    (when-let [t @scroll-timeout] (js/clearTimeout t))
+    (let [{:keys [dx dy start]} @accumulated-scroll
+          now    (system-time)
+          start  (or start (- now (/ 1 60)))
+          dx     (+ dx (.-deltaX v))
+          dy     (+ dy (.-deltaY v))
+
+          passed (- now start)]
+      (if (> passed 100)
+        (do-scroll)
+        (do
+          (reset! accumulated-scroll {:start start :end now :dx dx :dy dy})
+          (reset! scroll-timeout (js/setTimeout do-scroll 50)))))))
 
 
 (defn ms-now
@@ -57,27 +106,34 @@
 (defn with-context
   [view origin-index {:keys [current-index scene-transition-ms] :as nav-context}]
   (let [{:keys [width height]} @screen
-        narrow?     (> height width)
-        transition  {:class "transition-all"
-                     :style {:transition-duration (str scene-transition-ms "ms")}}
-        text-colour (cond
-                      (and narrow?
-                           (= 0 current-index)) "#FEF3C7"
-                      narrow? "#92400E"
-                      :else "#FFFFFF")
+        narrow?           (> height width)
+        transition        {:class "transition-all"
+                           :style {:transition-duration (str scene-transition-ms "ms")}}
+        text-colour       (cond
+                            (and narrow?
+                                 (= 0 current-index)) "#FEF3C7"
+                            narrow? "#92400E"
+                            :else "#FFFFFF")
+        modal-text-colour (cond
+                            (and narrow?
+                                 (= 0 current-index)) "#FEF3C7"
+                            narrow? "#92400E"
+                            @projects/detail-open? "#F472B6"
+                            :else "#FFFFFF")
 
-        bg-colour   (if narrow?
-                      "#FCD34D"
-                      "#F9A8D4")
-        offset      (- current-index (* 2 origin-index))
-        context     (assoc nav-context
-                           :offset offset
-                           :bg-colour bg-colour
-                           :width width
-                           :height height
-                           :narrow? narrow?
-                           :transition transition
-                           :text-colour text-colour)]
+        bg-colour         (if narrow?
+                            "#FCD34D"
+                            "#F9A8D4")
+        offset            (- current-index (* 2 origin-index))
+        context           (assoc nav-context
+                                 :offset offset
+                                 :bg-colour bg-colour
+                                 :width width
+                                 :height height
+                                 :narrow? narrow?
+                                 :transition transition
+                                 :text-colour text-colour
+                                 :modal-text-colour modal-text-colour)]
     (into view [context])))
 
 
@@ -92,7 +148,7 @@
         project-groups    (->> projects/projects
                                (partition-all projects-per-page)
                                (map (fn [projects]
-                                      {:anchors (map :anchor projects)
+                                      {:anchors (mapcat (juxt :anchor :detail-anchor) projects)
                                        :view    [projects/project-page projects]})))
 
         after             [{:view [overlay/overlay]}

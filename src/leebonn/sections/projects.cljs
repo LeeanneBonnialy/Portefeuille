@@ -3,6 +3,7 @@
     [clojure.string :as str]
     [leebonn.i18n :as i18n]
     [leebonn.image-loader :as img]
+    [leebonn.navigation :as nav]
     [leebonn.util :as util]
     [reagent.core :as r]))
 
@@ -26,14 +27,9 @@
                                           0 " opacity-100"
                                           1 " pointer-events-none opacity-0")})
        [:div (util/combine-style transition
-                                 {:class "flex w-full h-full"}
+                                 {:class "flex w-full h-full relative"}
                                  translation)
-        content]])
-    (when (contains? #{-1 0 1} offset)
-      [:div (util/combine-style transition
-                                {:class "flex w-full h-full"}
-                                translation)
-       content])))
+        content]])))
 
 
 (defn sncf
@@ -123,36 +119,58 @@
 
 
 (def desired-size {:dim1 400 :dim2 750})
+(def current-project (r/atom nil))
+(def detail-open? (r/atom false))
 
 
 (def projects
-  [{:anchor   :sncf
-    :image    "sncf_comics2.jpg"
-    :title    "SNCF"
-    :abstract "sncf abstract"
-    :detail   []}
+  [{:anchor        :sncf
+    :detail-anchor :sncf-detail
+    :image         "sncf_comics2.jpg"
+    :title         "SNCF"
+    :abstract      "sncf abstract"
+    :detail        (repeat 1000 "A\n")}
 
-   {:anchor   :sncf2
-    :image    "sncf_comics.jpg"
-    :title    "SNCF"
-    :abstract "sncf abstract"
-    :detail   []}
+   {:anchor        :sncf2
+    :detail-anchor :sncf2-detail
+    :image         "sncf_comics.jpg"
+    :title         "SNCF"
+    :abstract      "sncf abstract"
+    :detail        (repeat 1000 "B\n")}
 
-   {:anchor   :lart
-    :image    "lartdanslarue.png"
-    :title    "L'art"
-    :abstract "L'art abstract"
-    :detail   []}])
+   {:anchor       :lart
+    :detail-anchor :lart-detail
+    :image         "lartdanslarue.png"
+    :title         "L'art"
+    :abstract      "L'art abstract"
+    :detail        (repeat 1000 "C\n")}])
+
+
+(defn close-detail
+  [v]
+  (when (= -1 v)
+    (reset! detail-open? false)
+    (nav/go-to-anchor (:anchor @current-project))
+    (nav/clear-scroll)))
 
 
 (defn project-item
-  [{:keys [narrow?]} {:keys [image] :as project}]
-  (if narrow?
-    [:div {:class "row-span-1 col-span-1 flex flex-col h-full w-full"}
-     [img/deferred-image image {:class "flex object-cover w-full h-full rounded-xl shadow-xl"}]]
-
-    [:div {:class "row-span-1 col-span-1 min-h-0 min-w-0 flex h-full w-full"}
-     [img/deferred-image image {:class "flex object-cover w-full h-full rounded-xl shadow-xl"}]]))
+  [_context {:keys [anchor detail-anchor] :as proj}]
+  (let [click  (fn []
+                 (do (nav/go-to-anchor detail-anchor)
+                     (nav/set-scroll (fn [v]
+                                       (when (= -1 v)
+                                         (reset! detail-open? false)
+                                         (nav/go-to-anchor anchor)
+                                         (nav/clear-scroll)))
+                                     nil)
+                     (reset! current-project proj)
+                     (reset! detail-open? true)))]
+    (fn [_ {:keys [image]}]
+      [:div {:class "z-[-10] relative row-span-1 col-span-1 flex min-h-0 min-w-0 h-full w-full"
+             :style {:transform-style "flat"}}
+       [img/deferred-image image {:class    "flex object-cover w-full h-full rounded-xl shadow-xl pointer-events-auto"
+                                  :on-click click}]])))
 
 
 (defn project-fit
@@ -165,17 +183,59 @@
     [x y]))
 
 
+(defn project-detail
+  [{:keys [narrow? modal-text-colour] :as context}]
+  (let [open?   @detail-open?
+        project @current-project
+        shift   (if open? " translate-x-[0%] opacity-100 "
+                    " translate-x-[90%] opacity-0 ")]
+    [:<>
+     [:div {:class (str "bg-white transition-all duration-500 top-0 left-0 right-0 bot-0 fixed w-full h-full"
+                        (if open? " pointer-events-auto " " pointer-events-none "))
+            :on-click (fn [event]
+                        (.preventDefault event)
+                        (.stopPropagation event)
+                        (close-detail -1))
+            :style {:background-color (if open?
+                                        "rgba(255,255,255,0.3)"
+                                        "rgba(255,255,255,0)")}}
+      [:div {:class (str "bg-white transition-all duration-500 top-0 right-0 fixed h-full pointer-events-auto"
+                         shift
+                         (if narrow? " w-full " " w-10/12 "))
+             :on-click (fn [event]
+                         (.preventDefault event)
+                         (.stopPropagation event))}
+       [:div {:class "w-full h-full my-16 pb-20 overflow-y-auto"}
+        [:div {:class "w-11/12 mx-auto text-2xl font-sans"
+               :style {:color modal-text-colour}}
+         (:detail project)]]]]]))
+
+
 (defn project-grid
-  [{:keys [narrow?] :as context} projects]
-  (let [[x y] (project-fit context)]
-    (into [:div {:class (str "grid h-full p-16 gap-16 "
-                             (if narrow?
-                               " w-full "
-                               " w-10/12 mx-auto"))
-                 :style {:grid-template-columns (str/join " " (repeat x "1fr"))
-                         :grid-template-rows    (str/join " " (repeat y "1fr"))}}]
-          (for [project projects]
-            [project-item context project]))))
+  [{:keys [target]} _projects]
+  (let [anchor           (:anchor target)
+        selected-project (->> projects
+                              (some #(when (= anchor (:detail-anchor %))
+                                       %)))]
+    (prn anchor)
+    (when selected-project
+      (reset! current-project selected-project)
+      (reset! detail-open? true)
+      (println "set scroll")
+      (nav/set-scroll close-detail
+                      nil))
+    (fn [{:keys [narrow?] :as context} projects]
+      (let [[x y] (project-fit context)]
+        [:div {:class "w-full h-full z-0"}
+         (into [:div {:class (str "grid h-full p-16 gap-16 "
+                                  (if narrow?
+                                    " w-full "
+                                    " w-10/12 mx-auto"))
+                      :style {:grid-template-columns (str/join " " (repeat x "1fr"))
+                              :grid-template-rows    (str/join " " (repeat y "1fr"))}}]
+               (for [project projects]
+                 [project-item context project]))
+         [project-detail context]]))))
 
 
 (defn project-page

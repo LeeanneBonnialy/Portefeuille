@@ -5,10 +5,10 @@
 
 
 (defn lang-selection
-  [{:keys [transition text-colour]}]
+  [{:keys [transition modal-text-colour]}]
   [:div (util/combine-style transition
-                            {:class "pointer-events-none p-4 absolute text-xl w-full h-full text-right top-0 right-0 font-sans"
-                             :style {:color text-colour}})
+                            {:class "pointer-events-none p-4 absolute text-2xl w-full h-full text-right top-0 right-0 font-sans"
+                             :style {:color modal-text-colour}})
    [:a {:class    "hover-squiggly pointer-events-auto cursor-pointer"
         :on-click #(i18n/set-lang! :fr)} "FR"]
    [:span " | "]

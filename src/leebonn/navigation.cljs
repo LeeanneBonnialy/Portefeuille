@@ -6,6 +6,7 @@
 
 (def transition-ms 500)
 (def state-atom (r/atom {}))
+(def scroll-atom (r/atom {}))
 
 
 (defn converge
@@ -21,14 +22,14 @@
       ((fn do-loop
          []
          (let [init-state          @state-atom
-               remaining-ms        (max 100 (- end-ms (system-time)))
+               remaining-ms        (- end-ms (system-time))
                current-i           (get-in init-state [:current :index])
                target-i            (get-in init-state [:target :index])
                diff                (- target-i current-i)
                shift               (when-not (zero? diff)
                                      (/ diff (abs diff)))
                changes             (abs (- target-i current-i))
-               scene-transition-ms (/ remaining-ms changes)]
+               scene-transition-ms (max 200 (/ remaining-ms changes))]
            (if shift
              (do (reset! state-atom
                          (-> init-state
@@ -40,12 +41,17 @@
       nil)))
 
 
+(defn set-fragment
+  [anchor]
+  (set! (.-hash (.-location js/window)) (name anchor)))
+
+
 (defn go-to-index
   [index]
   (let [{:keys [index->anchors min-index max-index]} @state-atom
         possible-i (min max-index (max index min-index))
         anchor     (first (index->anchors possible-i))]
-    (set! (.-hash (.-location js/window)) (name anchor))
+    (set-fragment anchor)
     (swap! state-atom assoc :target {:index  possible-i
                                      :anchor anchor})
     (converge)))
@@ -59,7 +65,7 @@
         [index anchor] (if desired-index
                          [desired-index desired-anchor]
                          [min-index (first (index->anchors min-index))])]
-    (set! (.-hash (.-location js/window)) (name anchor))
+    (set-fragment anchor)
     (swap! state-atom assoc :target {:index  index
                                      :anchor anchor})
     (converge)))
@@ -77,8 +83,9 @@
                     (or (nil? current-i) (nil? target-i)) nil
                     changing (cond
                                same-dir? nil
+                               (= current-i target-i) (+ current-i shift shift)
                                (even? current-i) current-i
-                               :else (- current-i shift))
+                               :else (+ current-i shift))
                     :else (+ current-i shift shift))]
     (when desired-i
       (go-to-index desired-i))))
@@ -126,12 +133,22 @@
           -1 (go-to-next)))})
 
 
+(defn clear-scroll
+  []
+  (reset! scroll-atom nil))
+
+
+(defn set-scroll
+  [x y]
+  (reset! scroll-atom {:x x
+                       :y y}))
+
+
 (defn mimic-scroll
   [dt dx dy]
-  (let [{:keys [current]} @state-atom
-
-        dt        (max (/ 1 60) dt)
+  (let [dt        (max (/ 1 60) dt)
         threshold 200
+        dx (- dx)
 
         [dir v] (cond
                   (> (abs dx) (* 2 (abs dy))) [:x dx]
@@ -142,8 +159,7 @@
                     (< (/ v dt) (- threshold)) 1
                     :else 0)
 
-        ;; TODO fix this to allow override
-        scroll-fn (get-in current [:scroll dir] (get default-scroll dir))]
+        scroll-fn (get @scroll-atom dir (get default-scroll dir))]
     (when (and dir (not (zero? norm-v)) scroll-fn)
       (scroll-fn norm-v))))
 
@@ -159,7 +175,7 @@
              (keep
                (fn [view]
                  (when view
-                   [:div {:class "w-full h-full overflow-hidden absolute pointer-events-none"}
+                   [:div {:class "w-full h-full overflow-hidden z-0 absolute pointer-events-none"}
                     (into view [(assoc ctx :current-index index)])]))))))))
 
 

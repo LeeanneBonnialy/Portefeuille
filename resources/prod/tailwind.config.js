@@ -4,11 +4,7 @@ module.exports = {
     "./docs/**/*.{html,js}",
   ],
   theme: {
-    extend: {},
-    fontFamily: {
-        regular: ['Proxima Nova Regular', 'sans-serif'],
-        bold: ['Proxima Nova Bold', 'sans-serif'],
-    },
+    extend: {}
   },
   plugins: [],
 }
