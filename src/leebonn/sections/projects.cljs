@@ -120,7 +120,7 @@
 
 (def desired-size {:dim1 400 :dim2 750})
 (def current-project (r/atom nil))
-(def detail-open? (r/atom false))
+(def detail-opened (r/atom false))
 
 
 (def projects
@@ -138,7 +138,7 @@
     :abstract      "sncf abstract"
     :detail        (repeat 1000 "B\n")}
 
-   {:anchor       :lart
+   {:anchor        :lart
     :detail-anchor :lart-detail
     :image         "lartdanslarue.png"
     :title         "L'art"
@@ -149,25 +149,25 @@
 (defn close-detail
   [v]
   (when (= -1 v)
-    (reset! detail-open? false)
+    (reset! detail-opened nil)
     (nav/go-to-anchor (:anchor @current-project))
     (nav/clear-scroll)))
 
 
 (defn project-item
   [_context {:keys [anchor detail-anchor] :as proj}]
-  (let [click  (fn []
-                 (do (nav/go-to-anchor detail-anchor)
-                     (nav/set-scroll (fn [v]
-                                       (when (= -1 v)
-                                         (reset! detail-open? false)
-                                         (nav/go-to-anchor anchor)
-                                         (nav/clear-scroll)))
-                                     nil)
-                     (reset! current-project proj)
-                     (reset! detail-open? true)))]
+  (let [click (fn []
+                (do (nav/go-to-anchor detail-anchor)
+                    (nav/set-scroll (fn [v]
+                                      (when (= -1 v)
+                                        (reset! detail-opened nil)
+                                        (nav/go-to-anchor anchor)
+                                        (nav/clear-scroll)))
+                                    nil)
+                    (reset! current-project proj)
+                    (reset! detail-opened (system-time))))]
     (fn [_ {:keys [image]}]
-      [:div {:class "z-[-10] relative row-span-1 col-span-1 flex min-h-0 min-w-0 h-full w-full"
+      [:div {:class "relative row-span-1 col-span-1 flex min-h-0 min-w-0 h-full w-full"
              :style {:transform-style "flat"}}
        [img/deferred-image image {:class    "flex object-cover w-full h-full rounded-xl shadow-xl pointer-events-auto"
                                   :on-click click}]])))
@@ -184,31 +184,64 @@
 
 
 (defn project-detail
-  [{:keys [narrow? modal-text-colour] :as context}]
-  (let [open?   @detail-open?
-        project @current-project
-        shift   (if open? " translate-x-[0%] opacity-100 "
-                    " translate-x-[90%] opacity-0 ")]
-    [:<>
-     [:div {:class (str "bg-white transition-all duration-500 top-0 left-0 right-0 bot-0 fixed w-full h-full"
-                        (if open? " pointer-events-auto " " pointer-events-none "))
-            :on-click (fn [event]
-                        (.preventDefault event)
-                        (.stopPropagation event)
-                        (close-detail -1))
-            :style {:background-color (if open?
-                                        "rgba(255,255,255,0.3)"
-                                        "rgba(255,255,255,0)")}}
-      [:div {:class (str "bg-white transition-all duration-500 top-0 right-0 fixed h-full pointer-events-auto"
-                         shift
-                         (if narrow? " w-full " " w-10/12 "))
-             :on-click (fn [event]
+  [_]
+  (let [kill-event     (fn [event]
                          (.preventDefault event)
-                         (.stopPropagation event))}
-       [:div {:class "w-full h-full my-16 pb-20 overflow-y-auto"}
-        [:div {:class "w-11/12 mx-auto text-2xl font-sans"
-               :style {:color modal-text-colour}}
-         (:detail project)]]]]]))
+                         (.stopPropagation event))
+        hover-close    (r/atom false)
+        do-enter-close #(let [now (system-time)]
+                          (kill-event %)
+                          (when (> (- now (or @detail-opened now)) 500)
+                            (reset! hover-close true)))
+        do-leave-close #(do (kill-event %)
+                            (reset! hover-close false))
+        closer         (fn [event]
+                         (reset! hover-close false)
+                         (kill-event event)
+                         (close-detail -1))
+        closer-dash    9]
+    (fn [{:keys [narrow? modal-text-colour] :as context}]
+      (let [open?   @detail-opened
+            project @current-project
+            shift   (if open? " translate-x-[0%] opacity-100 "
+                        " translate-x-[90%] opacity-0 ")]
+        [:<>
+         [:div {:class          (str "bg-white transition-all duration-500 top-0 left-0 right-0 bot-0 fixed w-full h-full cursor-pointer "
+                                     (if open? " pointer-events-auto " " pointer-events-none "))
+                :on-click       closer
+                :on-mouse-over  do-enter-close
+                :on-mouse-leave do-leave-close
+                :style          {:background-color (if open?
+                                                     "rgba(255,255,255,0.3)"
+                                                     "rgba(255,255,255,0)")}}
+          [:div {:class          (str "bg-white transition-all duration-500 top-0 right-0 fixed h-full pointer-events-auto cursor-auto "
+                                      shift
+                                      (if narrow? " w-full " " w-10/12 "))
+                 :on-mouse-over  do-leave-close
+                 :on-mouse-leave kill-event
+                 :on-click       kill-event}
+           [:svg
+            {:class          "w-16 h-16 mb-[-64px] cursor-pointer"
+             :on-click       closer
+             :on-mouse-over  do-enter-close
+             :on-mouse-leave do-leave-close
+             :aria-hidden    "true"
+             :xmlns          "http://www.w3.org/2000/svg"
+             :fill           "none"
+             :color          modal-text-colour
+             :viewBox        "0 0 24 24"}
+            [:path {:stroke (str modal-text-colour "55") :stroke-linecap "round" :stroke-linejoin "round" :stroke-width "2" :d "M6 18 18 6m0 12L6 6"}]
+            [:path {:class             "transition-all duration-300"
+                    :stroke            "currentColor"
+                    :stroke-dasharray  (if @hover-close 8 closer-dash)
+                    :stroke-dashoffset (if @hover-close 0 closer-dash)
+                    :stroke-linecap    "round"
+                    :stroke-linejoin   "round"
+                    :stroke-width      "2" :d "M12 12 6 18M12 12 18 6M12 12 6 6M12 12 18 18"}]]
+           [:div {:class "w-full h-full my-16 pb-20 overflow-y-auto"}
+            [:div {:class "w-11/12 mx-auto text-2xl font-sans"
+                   :style {:color modal-text-colour}}
+             (:detail project)]]]]]))))
 
 
 (defn project-grid
@@ -217,16 +250,14 @@
         selected-project (->> projects
                               (some #(when (= anchor (:detail-anchor %))
                                        %)))]
-    (prn anchor)
     (when selected-project
       (reset! current-project selected-project)
-      (reset! detail-open? true)
-      (println "set scroll")
+      (reset! detail-opened (system-time))
       (nav/set-scroll close-detail
                       nil))
     (fn [{:keys [narrow?] :as context} projects]
       (let [[x y] (project-fit context)]
-        [:div {:class "w-full h-full z-0"}
+        [:div {:class "w-full h-full"}
          (into [:div {:class (str "grid h-full p-16 gap-16 "
                                   (if narrow?
                                     " w-full "

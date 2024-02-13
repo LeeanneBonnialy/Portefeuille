@@ -118,7 +118,7 @@
                             (and narrow?
                                  (= 0 current-index)) "#FEF3C7"
                             narrow? "#92400E"
-                            @projects/detail-open? "#F472B6"
+                            @projects/detail-opened "#F472B6"
                             :else "#FFFFFF")
 
         bg-colour         (if narrow?

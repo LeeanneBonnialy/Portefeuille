@@ -34,15 +34,18 @@
        [img/deferred-image image-src
         {:id    "background"
          :class "object-cover absolute w-full h-full"}])
-     [:div {:id    "title-container"
-            :class (str "flex h-full absolute leading-none"
-                        (if narrow?
-                          " w-2/3"
-                          " w-full"))}
-      [:div scene-one-top-class
-       [:div#title (util/combine-style transition
-                                       {:class "pointer-events-auto"}
-                                       (if (zero? offset)
-                                         scene-one-title-class
-                                         scene-two-title-class))
-        "Leeanne Bonnialy"]]]]))
+     (if (contains? #{0 1 2} offset)
+       [:div {:id    "title-container"
+              :class (str "flex h-full absolute leading-none"
+                          (if narrow?
+                            " w-2/3"
+                            " w-full"))}
+        [:div scene-one-top-class
+         [:div#title (util/combine-style transition
+                                         {:class "pointer-events-auto"}
+                                         (if (zero? offset)
+                                           scene-one-title-class
+                                           scene-two-title-class))
+          "Leeanne Bonnialy"]]]
+       [:div {:class "w-full h-full"
+              :style {:background-color bg-colour}}])]))
