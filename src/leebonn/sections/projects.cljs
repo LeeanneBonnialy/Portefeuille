@@ -143,6 +143,49 @@
     :image         "lartdanslarue.png"
     :title         "L'art"
     :abstract      "L'art abstract"
+    :detail        (repeat 1000 "C\n")}
+
+   {:anchor        :lart2
+    :detail-anchor :lart2-detail
+    :image         "lartdanslarue.png"
+    :title         "L'art"
+    :abstract      "L'art abstract"
+    :detail        (repeat 1000 "C\n")}
+
+   {:anchor        :lart4
+    :detail-anchor :lart4-detail
+    :image         "lartdanslarue.png"
+    :title         "L'art"
+    :abstract      "L'art abstract"
+    :detail        (repeat 1000 "C\n")}
+
+
+   #_{:anchor        :lart3
+    :detail-anchor :lart3-detail
+    :image         "lartdanslarue.png"
+    :title         "L'art"
+    :abstract      "L'art abstract"
+    :detail        (repeat 1000 "C\n")}
+
+   #_{:anchor        :lart5
+    :detail-anchor :lart5-detail
+    :image         "lartdanslarue.png"
+    :title         "L'art"
+    :abstract      "L'art abstract"
+    :detail        (repeat 1000 "C\n")}
+
+   #_{:anchor        :lart6
+    :detail-anchor :lart6-detail
+    :image         "lartdanslarue.png"
+    :title         "L'art"
+    :abstract      "L'art abstract"
+    :detail        (repeat 1000 "C\n")}
+
+   #_{:anchor        :lart7
+    :detail-anchor :lart7-detail
+    :image         "lartdanslarue.png"
+    :title         "L'art"
+    :abstract      "L'art abstract"
     :detail        (repeat 1000 "C\n")}])
 
 
@@ -173,7 +216,14 @@
                                   :on-click click}]])))
 
 
-(defn project-fit
+(def factors
+  {1 [1 1]
+   2 [2 1]
+   3 [3 1]
+   4 [2 2]})
+
+
+(defn max-project-fit
   [{:keys [width height]}]
   (let [[w h width] (if (> height width)
                       [(:dim1 desired-size) (:dim2 desired-size) width]
@@ -181,6 +231,15 @@
         x (min 2 (max 1 (int (/ width w))))
         y (min 2 (max 1 (int (/ height h))))]
     [x y]))
+
+
+(defn desired-project-fit
+  [{:keys [narrow?] :as context} projects]
+  (println (count projects))
+  (let [orientation (get factors (count projects) (max-project-fit context))]
+    (if narrow?
+      (vec (reverse orientation))
+      orientation)))
 
 
 (defn project-detail
@@ -256,7 +315,7 @@
       (nav/set-scroll close-detail
                       nil))
     (fn [{:keys [narrow?] :as context} projects]
-      (let [[x y] (project-fit context)]
+      (let [[x y] (desired-project-fit context projects)]
         (into [:div {:class (str "grid h-full p-16 gap-16 "
                                  (if narrow?
                                    " w-full "

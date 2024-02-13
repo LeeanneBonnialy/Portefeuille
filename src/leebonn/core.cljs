@@ -137,12 +137,29 @@
     (into view [context])))
 
 
-(defn set-scene
-  [{:keys [width height] :as ctx}]
-  (let [[x y] (projects/project-fit ctx)
-        projects-per-page (* x y)
+(defn projects-per-page
+  [ctx projects]
+  (let [[x y] (projects/max-project-fit ctx)
+        max-per-page      (* x y)
+        min-pages         (count (->> projects
+                                      (partition-all max-per-page)))
+        c-projects        (count projects)
+        options           (range 1 (inc (min max-per-page 4)))
 
-        title             [{:id :title
+        option-preference (fn [o]
+                            (let [r (rem c-projects o)
+                                  r (if (zero? r) r (- o r))]
+                              [(if (= 1 o) 1000000 r)
+                               (- o)]))
+        [best-option]          (sort-by option-preference options)]
+    best-option))
+
+
+(defn set-scene
+  [ctx]
+  (let [projects-per-page (projects-per-page ctx projects/projects)
+
+        title             [{:id      :title
                             :anchors [:home]
                             :view    [title/title]}]
 
