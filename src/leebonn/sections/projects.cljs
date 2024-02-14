@@ -143,7 +143,7 @@
                     (reset! current-project proj)
                     (reset! detail-opened (system-time))))]
     (fn [_ {:keys [image]}]
-      [:div {:class "relative row-span-1 col-span-1 flex min-h-0 min-w-0 h-full w-full squiggly"}
+      [:div {:class "relative row-span-1 col-span-1 flex min-h-0 min-w-0 h-full w-full"}
        [img/deferred-image image {:class    "transition-all duration-500 flex object-cover w-full h-full rounded-xl
                                              hover:scale-95 shadow-xl hover:shadow-lg pointer-events-auto cursor-pointer"
                                   :on-click click}]])))
