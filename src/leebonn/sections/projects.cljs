@@ -112,7 +112,7 @@
     :image         "sncf/sncf_comics2.jpg"
     :title         "SNCF"
     :abstract      "sncf abstract"
-    :detail        (repeat 1000 "A\n")}
+    :detail        [i18n/text :sncf-comics]}
 
    {:anchor        :lart
     :detail-anchor :lart-detail
@@ -259,7 +259,8 @@
                     :stroke-linecap    "round"
                     :stroke-linejoin   "round"
                     :stroke-width      "2" :d "M12 12 6 18M12 12 18 6M12 12 6 6M12 12 18 18"}]]
-           [:div {:class "w-full h-full my-16 pb-20 overflow-y-auto"}
-            [:div {:class "w-11/12 mx-auto text-2xl font-sans"
-                   :style {:color modal-text-colour}}
-             (:detail project)]]]]]))))
+           [:div {:class "relative w-full h-full pt-16 pointer-events-none"}
+            [:div {:class "w-full h-full overflow-y-auto pb-2 pointer-events-auto"}
+             [:div {:class "w-11/12 mx-auto text-2xl font-sans"
+                    :style {:color modal-text-colour}}
+              (:detail project)]]]]]]))))

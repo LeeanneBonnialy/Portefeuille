@@ -1,29 +1,34 @@
 (ns leebonn.i18n
   (:require
+    [clojure.string :as str]
     [reagent.core :as r]))
 
 
-(def lang (r/atom :fr))
+(defn get-default-language
+  []
+  (let [options      (concat (.-languages js/navigator)
+                             [(.-useLanguage js/navigator)]
+                             [(.-language js/navigator)]
+                             [(.-browserLanguage js/navigator)])
+        best-default (some #(when (string? %)
+                              (cond
+                                (= % "en") :en
+                                (= % "fr") :fr
+                                (str/starts-with? % "en-") :en
+                                (str/starts-with? % "fr-") :fr
+                                :else nil))
+                           options)]
+    (or best-default :en)))
+
+
+(def lang (r/atom (get-default-language)))
 
 
 (def translations
-  {:home               {:fr "FRhome"
-                        :en "home"}
-   :read-more          {:fr "FRread more"
-                        :en "read more"}
-   :sncf-comics-header {:fr "SNCF Bandeau"
-                        :en "SNCF Comics"}
-   :sncf-comics        {:fr "SNCF est drole"
-                        :en "SNCF comics was cool.
-
-
-
-
-
-
-                  SNCF comics was cool.
-
-                  SNCF comics was cool. SNCF comics was cool. SNCF comics was cool."}})
+  {:job-title   {:en "Junior Creative Strategist"}
+   :thanks      {:en "Thanks for reading"}
+   :sncf-comics {:fr (str/join "\n" (repeat 100 (str/join " " (repeat 100 "À"))))
+                 :en (str/join "\n" (repeat 100 (str/join " " (repeat 100 "A"))))}})
 
 
 (defn text

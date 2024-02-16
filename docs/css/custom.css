@@ -1,1 +1,16 @@
-body{overscroll-behavior-y:contain}.font-slim{font-family:Amatic SC,sans-serif}@media (hover:hover){.hover-squiggly:hover{filter:url(#squiggly)}}.squiggly{filter:url(#squiggly)}
+/* Components */
+/* @import "components/root"; */
+body {
+  overscroll-behavior-y: contain;
+}
+.font-slim {
+    font-family: 'Amatic SC', sans-serif;
+}
+@media (hover: hover) {
+    .hover-squiggly:hover {
+        filter: url('#squiggly');
+    }
+}
+.squiggly {
+    filter: url('#squiggly');
+}
