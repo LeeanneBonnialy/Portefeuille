@@ -3,10 +3,10 @@
     ["react" :as react]
     [leebonn.navigation :as nav]
     [leebonn.sections.contact :as contact]
+    [leebonn.sections.intro :as intro]
     [leebonn.sections.overlay :as overlay]
     [leebonn.sections.projects :as projects]
     [leebonn.sections.title :as title]
-    [leebonn.util :as util]
     [reagent.core :as r]
     [reagent.dom.client :as dom.client]))
 
@@ -105,7 +105,7 @@
 
 
 (defn with-context
-  [view origin-index {:keys [current-index scene-transition-ms] :as nav-context}]
+  [menu-anchors view origin-index {:keys [current-index scene-transition-ms] :as nav-context}]
   (let [{:keys [width height]} @screen
         narrow?           (> height width)
         transition        {:class "transition-all"
@@ -119,7 +119,8 @@
                             (and narrow?
                                  (= 0 current-index)) "#FEF3C7"
                             narrow? "#92400E"
-                            @projects/detail-opened "#F472B6"
+                            (or @overlay/open-atom?
+                                @projects/detail-opened) "#F472B6"
                             :else "#FFFFFF")
 
         bg-colour         (if narrow?
@@ -127,6 +128,7 @@
                             "#F9A8D4")
         offset            (- current-index (* 2 origin-index))
         context           (assoc nav-context
+                                 :menu-anchors menu-anchors
                                  :offset offset
                                  :bg-colour bg-colour
                                  :width width
@@ -160,9 +162,12 @@
   [ctx]
   (let [projects-per-page (projects-per-page ctx projects/projects)
 
-        title             [{:id      :title
+        intro             [{:id      :title
                             :anchors [:home]
-                            :view    [title/title]}]
+                            :view    [title/title]}
+                           {:id      :intro
+                            :anchors [:intro]
+                            :view    [intro/intro]}]
 
         project-groups    (partition-all projects-per-page projects/projects)
         project-views     (->> project-groups
@@ -172,35 +177,46 @@
                                                  :anchors (mapcat (juxt :anchor :detail-anchor) projects)
                                                  :view    [projects/project-page
                                                            projects
-                                                           "translate(100%,0%)"
+                                                           (if (zero? i)
+                                                             "translate(0%,100%)"
+                                                             "translate(100%,0%)")
                                                            (if last?
                                                              "translate(0%,-100%)"
                                                              "translate(-100%,0%)")]}))))
 
-        after             [{:id   :contact
+        after             [{:id      :contact
                             :anchors [:contact]
-                            :view [contact/contact-page
-                                   "translate(0%,100%)"
-                                   "translate(0%,-100%)"]}
+                            :view    [contact/contact-page
+                                      "translate(0%,100%)"
+                                      "translate(0%,-100%)"]}
                            {:id   :project-modal
                             :view [projects/project-detail]}
-                           {:id   :language
+                           {:id   :menu
                             :view [overlay/overlay]}
                            {:id   :svg-filters
                             :view [svg-defs]}]
 
-        all-parts         (concat title
+        all-parts         (concat intro
                                   project-views
                                   after)
+
+        menu-anchors      (concat
+                            [{:title  "home"
+                              :anchor :home}
+                             {:title  "intro"
+                              :anchor :intro}]
+                            (mapv #(assoc % :anchor (:detail-anchor %)) projects/projects)
+                            [{:title  "contact"
+                              :anchor :contact}])
 
         {:keys [views index->anchors]} (reduce
                                          (fn [{:keys [index] :as agg} {:keys [anchors view id]}]
                                            (if anchors
                                              (-> agg
                                                  (update :index inc)
-                                                 (update :views conj (vary-meta [with-context view index] assoc :id id))
+                                                 (update :views conj (vary-meta [with-context menu-anchors view index] assoc :id id))
                                                  (update :index->anchors assoc index anchors))
-                                             (update agg :views conj (vary-meta [with-context view 0] assoc :id id))))
+                                             (update agg :views conj (vary-meta [with-context menu-anchors view 0] assoc :id id))))
                                          {:index          0
                                           :views          []
                                           :index->anchors {}}

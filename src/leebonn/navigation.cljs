@@ -41,6 +41,12 @@
       nil)))
 
 
+(defn anchors-on-page
+  []
+  (let [{:keys [index->anchors current]} @state-atom]
+    (set (get index->anchors (:index current)))))
+
+
 (defn set-fragment
   [anchor]
   (set! (.-hash (.-location js/window)) (name anchor)))

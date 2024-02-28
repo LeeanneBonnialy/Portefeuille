@@ -26,9 +26,19 @@
 
 (def translations
   {:job-title   {:en "Junior Creative Strategist"}
-   :thanks      {:en "Thanks for reading"}
+
+   :competency-1 {:en "very cute"}
+   :competency-2 {:en "best smile"}
+   :competency-3 {:en "did i mention cute"}
+   :competency-4 {:en "courageous"}
+   :competency-5 {:en "most well read"}
+   :competency-6 {:en "light of my heart"}
+
    :sncf-comics {:fr (str/join "\n" (repeat 100 (str/join " " (repeat 100 "À"))))
-                 :en (str/join "\n" (repeat 100 (str/join " " (repeat 100 "A"))))}})
+                 :en (str/join "\n" (repeat 100 (str/join " " (repeat 100 "A"))))}
+
+
+   :thanks {:en "Thanks for reading"}})
 
 
 (defn text
