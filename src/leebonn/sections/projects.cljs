@@ -1,6 +1,7 @@
 (ns leebonn.sections.projects
   (:require
     [clojure.string :as str]
+    [leebonn.content.seazon :as seazon]
     [leebonn.i18n :as i18n]
     [leebonn.image-loader :as img]
     [leebonn.navigation :as nav]
@@ -104,43 +105,37 @@
   [{:anchor        :seazon
     :detail-anchor :seazon-detail
     :image         "seazon/seazon.jpg"
-    :title         "seazon"
-    :abstract      "seazon abstract"
-    :detail        (repeat 1000 "B\n")}
+    :title         seazon/seazon-title
+    :detail        [seazon/project-detail]}
 
    {:anchor        :sncf
     :detail-anchor :sncf-detail
     :image         "sncf/sncf_comics2.jpg"
     :title         "SNCF"
-    :abstract      "sncf abstract"
     :detail        [i18n/text :sncf-comics]}
 
    {:anchor        :lart
     :detail-anchor :lart-detail
     :image         "l-art/lartdanslarue.png"
     :title         "L'art"
-    :abstract      "L'art abstract"
     :detail        (repeat 1000 "C\n")}
 
    {:anchor        :lart4
     :detail-anchor :lart-detail4
     :image         "l-art/lartdanslarue.png"
     :title         "L'art"
-    :abstract      "L'art abstract"
     :detail        (repeat 1000 "C\n")}
 
    {:anchor        :lart5
     :detail-anchor :lart-detail5
     :image         "l-art/lartdanslarue.png"
     :title         "L'art"
-    :abstract      "L'art abstract"
     :detail        (repeat 1000 "C\n")}
 
    {:anchor        :lart6
     :detail-anchor :lart-detail6
     :image         "l-art/lartdanslarue.png"
     :title         "L'art"
-    :abstract      "L'art abstract"
     :detail        (repeat 1000 "C\n")}])
 
 

@@ -2,6 +2,7 @@
   (:require
     ["react" :as react]
     [leebonn.navigation :as nav]
+    [leebonn.sections.carousel :as carousel]
     [leebonn.sections.contact :as contact]
     [leebonn.sections.intro :as intro]
     [leebonn.sections.overlay :as overlay]
@@ -110,22 +111,13 @@
         narrow?           (> height width)
         transition        {:class "transition-all"
                            :style {:transition-duration (str scene-transition-ms "ms")}}
-        text-colour       (cond
-                            (and narrow?
-                                 (= 0 current-index)) "#FEF3C7"
-                            narrow? "#92400E"
-                            :else "#FFFFFF")
-        modal-text-colour (cond
-                            (and narrow?
-                                 (= 0 current-index)) "#FEF3C7"
-                            narrow? "#92400E"
-                            (or @overlay/open-atom?
-                                @projects/detail-opened) "#F472B6"
-                            :else "#FFFFFF")
+        text-colour       "#FFFFFF"
+        modal-text-colour (if (or @overlay/open-atom?
+                                  @projects/detail-opened)
+                            "#F472B6"
+                            "#FFFFFF")
 
-        bg-colour         (if narrow?
-                            "#FCD34D"
-                            "#F9A8D4")
+        bg-colour         "#F9A8D4"
         offset            (- current-index (* 2 origin-index))
         context           (assoc nav-context
                                  :menu-anchors menu-anchors
@@ -193,6 +185,8 @@
                             :view [projects/project-detail]}
                            {:id   :menu
                             :view [overlay/overlay]}
+                           {:id   :carousel
+                            :view [carousel/carousel-overlay]}
                            {:id   :svg-filters
                             :view [svg-defs]}]
 
@@ -252,17 +246,21 @@
                                                (reset! timer timestamp)))
         touch                (r/atom nil)
         touch-start-listener (fn [e]
-                               (reset! touch {:time  (ms-now)
-                                              :touch (first (.-changedTouches e))}))
+                               (if @touch
+                                 (swap! touch update :touches concat (.-changedTouches e))
+                                 (reset! touch {:time    (ms-now)
+                                                :touches (.-changedTouches e)})))
         touch-end-listener   (fn [e]
-                               (let [{start-t :time start :touch} @touch
+                               (let [{start-t :time touches :touches} @touch
+                                     start (first touches)
                                      end-t (ms-now)
                                      end   (first (.-changedTouches e))
                                      dx    (- (.-screenX start) (.-screenX end))
                                      dy    (- (.-screenY start) (.-screenY end))
                                      dt    (/ (max 1 (- end-t start-t)) 1000)]
                                  (reset! touch nil)
-                                 (nav/mimic-scroll dt dx dy)))]
+                                 (when (= 1 (.-length touches))
+                                   (nav/mimic-scroll dt dx dy))))]
     (.addEventListener js/window "resize" on-resize)
     (.addEventListener js/window "wheel" on-scroll)
     (.addEventListener js/window "touchstart" touch-start-listener)

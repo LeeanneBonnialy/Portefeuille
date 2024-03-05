@@ -4,7 +4,7 @@
     [reagent.core :as r]))
 
 
-(def transition-ms 500)
+(def transition-ms 1000)
 (def state-atom (r/atom {}))
 (def scroll-atom (r/atom {}))
 
@@ -139,6 +139,11 @@
 (defn clear-scroll
   []
   (reset! scroll-atom nil))
+
+
+(defn get-scroll
+  []
+  @scroll-atom)
 
 
 (defn set-scroll

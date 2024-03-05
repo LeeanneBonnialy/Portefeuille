@@ -71,7 +71,7 @@
                                                     open? "M1,4.25 15,11.25"
                                                     mid-transition? "M7,4.25 7,4.25"
                                                     language? "M7,1 7,7.5"
-                                                    (not language?) "M1,4.25 15,4.25") #_"M7,2 7,2"})]
+                                                    (not language?) "M1,4.25 15,4.25")})]
       [:path (util/combine-style t2
                                  {:stroke-width   (if mid-transition? 2 2)
                                   :stroke-linecap "round"
@@ -79,7 +79,7 @@
                                                     open? "M1,11.25 15,4.25"
                                                     mid-transition? "M7,11.25 7,11.25"
                                                     language? "M7,7.5 7,15"
-                                                    (not language?) "M1,11.25 15,11.25") #_"M7,2 7,2"})]]
+                                                    (not language?) "M1,11.25 15,11.25")})]]
      [:a (util/combine-style transition
                              {:class    (str "hover-squiggly"
                                              (if language?
@@ -95,7 +95,7 @@
          :style    {:border-color modal-text-colour}
          :on-click on-click}
    [:div {:class "hover-squiggly"}
-    title]])
+    [i18n/text title]]])
 
 
 (defn menu
@@ -124,7 +124,7 @@
                 :style {:border-color modal-text-colour}}
           "projects"]
          [:div {:class "row-start-1 col-start-2 col-span-1 row-span-1"}
-          [simple-menu-item modal-text-colour "intro" #(do (println "hererere") (close-menu true %) (nav/go-to-anchor :intro)) (active? :intro)]]
+          [simple-menu-item modal-text-colour "intro" #(do (close-menu true %) (nav/go-to-anchor :intro)) (active? :intro)]]
          (for [{:keys [title anchor detail-anchor] :as proj} projects/projects]
            ^{:key anchor} [:div {:class "col-start-2 col-span-1 row-span-1"}
                            [simple-menu-item modal-text-colour title #(do (close-menu true %) (projects/open-project proj)) (active? anchor detail-anchor)]])

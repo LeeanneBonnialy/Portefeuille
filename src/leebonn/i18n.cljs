@@ -41,11 +41,24 @@
    :thanks {:en "Thanks for reading"}})
 
 
-(defn text
+(defn synopsis
   [kw]
-  (if-let [t (get-in translations [kw @lang])]
-    [:div.whitespace-pre-line t]
-    [:span.text-red-500 "missing[" (str kw) "]"]))
+  (str kw)
+  (cond
+    (keyword? kw) (name kw)
+    (map? kw) (apply str (take 15 (first (vals kw))))
+    :else (str kw)))
+
+
+(defn text
+  ([attrs kw]
+   (if-let [t (get-in translations [kw @lang])]
+     [:div.whitespace-pre-line attrs t]
+     (if-let [t (and (map? kw) (get kw @lang))]
+       [:div.whitespace-pre-line attrs t]
+       [:div.whitespace-pre-line.text-red-500 (str "missing[" (synopsis kw) "]")])))
+  ([kw]
+   (text {} kw)))
 
 
 (defn set-lang!
