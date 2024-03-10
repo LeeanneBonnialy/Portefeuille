@@ -1,5 +1,6 @@
 (ns leebonn.sections.carousel
   (:require
+    ["react" :as react]
     [leebonn.image-loader :as img]
     [leebonn.navigation :as nav]
     [reagent.core :as r]))
@@ -20,15 +21,16 @@
 
 
 (defn scroll-image
-  [v]
+  [index content v]
   (swap! index #(min (max 0 (+ % v)) (dec (count @content)))))
 
 
 (defn open-carousel
-  [images]
-  (reset! index 0)
+  [initial-index images]
+  (reset! index initial-index)
   (reset! old-scroll (nav/get-scroll))
-  (nav/set-scroll scroll-image
+  (nav/set-scroll (fn [v]
+                    (scroll-image index content v))
                   (fn [_v]
                     (close-carousel)))
   (reset! content images)
@@ -38,22 +40,23 @@
 (defn carousel-image
   [src offset]
   (when (contains? #{-1 0 1} offset)
-    [img/deferred-image
-     src
-     {:class (str "absolute duration-500 px-14 transition-all w-full h-full object-contain "
-                  (case offset
-                    -1 " translate-x-[110%]"
-                    0 " translate-x-[0%]"
-                    1 " translate-x-[-110%]"))}]))
+    [:div {:class (str "absolute top-0 duration-500 px-8 md:px-14 transition-all "
+                       (case offset
+                         -1 " translate-x-[110%] opacity-0"
+                         0 " translate-x-[0%] opacity-100"
+                         1 " translate-x-[-110%] opacity-0"))}
+     [img/deferred-image
+      src
+      {:class "rounded-lg shadow-lg"}]]))
 
 
 (defn cross
   []
   [:svg.h-8.w-8
-   {:xmlns    "http://www.w3.org/2000/svg"
-    :stroke   "currentColor"
-    :fill     "currentColor"
-    :viewBox  "0 0 16 16"}
+   {:xmlns   "http://www.w3.org/2000/svg"
+    :stroke  "currentColor"
+    :fill    "currentColor"
+    :viewBox "0 0 16 16"}
    [:path {:stroke-width   2
            :stroke-linecap "round"
            :d              "M1,4.25 15,11.25"}]
@@ -65,11 +68,11 @@
 (defn arrow-right
   [active]
   [:svg.h-full
-   {:xmlns    "http://www.w3.org/2000/svg"
-    :stroke   "currentColor"
-    :fill     "none"
-    :viewBox  "0 0 12 16"}
-   [:path {:class "transition-all duration-500"
+   {:xmlns   "http://www.w3.org/2000/svg"
+    :stroke  "currentColor"
+    :fill    "none"
+    :viewBox "0 0 12 16"}
+   [:path {:class          "transition-all duration-500"
            :stroke-width   2
            :stroke-linecap "round"
            :d              (if active
@@ -80,51 +83,77 @@
 (defn arrow-left
   [active]
   [:svg.h-full
-   {:xmlns    "http://www.w3.org/2000/svg"
-    :stroke   "currentColor"
-    :fill     "none"
-    :viewBox  "0 0 12 16"}
-   [:path {:class "transition-all duration-500"
+   {:xmlns   "http://www.w3.org/2000/svg"
+    :stroke  "currentColor"
+    :fill    "none"
+    :viewBox "0 0 12 16"}
+   [:path {:class          "transition-all duration-500"
            :stroke-width   2
            :stroke-linecap "round"
-           :d (if active
-                "M11,11.25 4,8 11,4.25"
-                "M7.5,11.25 7.5,8 7.5,4.25")}]])
+           :d              (if active
+                             "M11,11.25 4,8 11,4.25"
+                             "M7.5,11.25 7.5,8 7.5,4.25")}]])
+
+
+(defn kill-event
+  [event]
+  (when event
+    (.preventDefault event)
+    (.stopPropagation event)))
 
 
 (defn arrow
   [index content direction]
   (let [active (case direction
-                 -1 (not= index 0)
-                 1 (not= index (dec (count content))))]
-    [:div {:class    "transition-all hover:scale-95 cursor-pointer opacity-50 hover:opacity-100"
-           :on-click #(scroll-image direction)}
+                 -1 (not= @index 0)
+                 1 (not= @index (dec (count @content))))]
+    [:div {:class    "transition-all w-6 md:w-12 hover:scale-95 cursor-pointer hover:opacity-100"
+           :on-click #(do (kill-event %)
+                          (scroll-image index content direction))}
      (case direction
        -1 [arrow-left active]
        1 [arrow-right active])]))
 
 
+(defn carousel-view
+  [& _args]
+  (let [ref (react/createRef)]
+    (fn [index content on-click]
+      [:div.w-full.relative.overflow-hidden
+       [img/deferred-image
+        (first @content)
+        {:class "px-8 md:px-14 opacity-0"
+         :ref   ref}]
+       (doall (map-indexed
+                (fn [i image]
+                  ^{:key i} [carousel-image image (- @index i)])
+                @content))
+       [:div {:class    "absolute top-0 w-full h-full flex cursor-pointer"
+              :on-click (fn [e] (on-click e (.-current ref) index content))}
+        [:div {:class "h-8 md:h-16 w-full my-auto flex justify-between text-pink-300"}
+         [arrow index content -1]
+         [arrow index content 1]]]])))
+
+
+(defn click-scroll-carousel
+  [e element index content]
+  (let [rect (.getBoundingClientRect element)
+        l    (.-left rect)
+        r    (.-right rect)
+        mid  (/ (+ l r) 2)]
+    (scroll-image index content
+                  (if (> (.-clientX e) mid)
+                    1
+                    -1))))
+
+
 (defn carousel-overlay
   []
-  (let [open?   @open?
-        index   @index
-        content @content]
-    [:div {:class (str "bg-[#000000ee] w-full relative h-full transition-all"
-                       (if open?
-                         " opacity-100 pointer-events-auto"
-                         " opacity-0 pointer-events-none"))}
-     (map-indexed
-       (fn [i image]
-         ^{:key i} [carousel-image image (- index i)])
-       content)
-     [:div {:class "absolute w-full h-full flex"
-            :on-click (fn [e]
-                        (scroll-image (if (> (.-clientX e) (/ (.-innerWidth js/window) 2))
-                                        1
-                                        -1)))}
-      [:div {:class "w-full h-16 my-auto flex justify-between text-pink-300"}
-       [arrow index content -1]
-       [arrow index content 1]]]
-     [:div {:class "transition-all top-0 right-0 p-4 absolute text-pink-300 cursor-pointer opacity-50 hover:opacity-100"
-            :on-click (fn [e] (close-carousel))}
-      [cross]]]))
+  [:div {:class (str "bg-[#000000ee] w-full relative h-full transition-all"
+                     (if @open?
+                       " opacity-100 pointer-events-auto"
+                       " opacity-0 pointer-events-none"))}
+   [carousel-view index content click-scroll-carousel]
+   [:div {:class    "transition-all top-0 right-0 p-4 absolute text-pink-300 cursor-pointer opacity-50 hover:opacity-100"
+          :on-click (fn [e] (close-carousel))}
+    [cross]]])

@@ -6,7 +6,7 @@
 
 (defn get-default-language
   []
-  (let [options      (concat (.-languages js/navigator)
+  #_(let [options      (concat (.-languages js/navigator)
                              [(.-useLanguage js/navigator)]
                              [(.-language js/navigator)]
                              [(.-browserLanguage js/navigator)])
@@ -18,7 +18,8 @@
                                 (str/starts-with? % "fr-") :fr
                                 :else nil))
                            options)]
-    (or best-default :en)))
+    (or best-default :en))
+  :fr)
 
 
 (def lang (r/atom (get-default-language)))

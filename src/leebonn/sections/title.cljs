@@ -23,8 +23,8 @@
 
         scene-one-top-class   {:class (str "p-4 leading-none squiggly w-full h-full font-slim"
                                            (if narrow?
-                                             " text-pink-400 text-center"
-                                             " whitespace-nowrap text-pink-400 "))
+                                             " pt-16 text-pink-400 text-center"
+                                             " pt-4 whitespace-nowrap text-pink-400 "))
                                :style {:font-size (str font-size "px")}}
         scene-one-title-class {:class (str "scale-[100%] translate-x-[0px] translate-y-[0px]"
                                            (cond
