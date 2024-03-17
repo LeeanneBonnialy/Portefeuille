@@ -98,6 +98,14 @@
    :en "Marine Lorphelin participated in the French national beauty competition “Miss France”. Now she’s a doctor, an author and a content creator around well-being, nutrition and fitness. She has 1 million followers on Instagram \n\nWhy choose Marine Lorphelin?\n\nMarine Lorphelin’s community meet the target audience of Seazon Equilibre. Also,Marine Lorphelin's medical background enhances her influence within her community. As a former Miss France, she also enjoys public recognition, which could significantly boost the visibility of Seazon Equilibre.\n\nThe campaign is planned to kick off after the year-end holidays, taking advantage of the New Year's resolutions period, often associated with dietary changes."})
 
 
+(def tab-context
+  [{:fr "Cultural"
+    :en "Cultural"}
+   nil
+   {:fr "2021 TODO"
+    :en "2021 TODO"}])
+
+
 (defn project-detail
   []
   [:div.space-y-4.text-pink-400

@@ -107,7 +107,8 @@
     :detail-anchor :seazon-detail
     :image         "seazon/seazon.jpg"
     :title         seazon/seazon-title
-    :detail        [seazon/project-detail]}
+    :detail        [seazon/project-detail]
+    :context       seazon/tab-context}
 
    {:anchor        :arte
     :detail-anchor :arte-detail
@@ -163,11 +164,21 @@
 
 (defn project-item
   [_context proj]
-  (fn [_ {:keys [image]}]
-    [:div {:class "relative row-span-1 col-span-1 flex min-h-0 min-w-0 h-full w-full"}
-     [img/deferred-image image {:class    "transition-all duration-500 flex object-cover w-full h-full rounded-xl
-                                             hover:scale-95 shadow-xl hover:shadow-lg pointer-events-auto cursor-pointer"
-                                :on-click (partial open-project proj)}]]))
+  (fn [_ {:keys [image context]}]
+    (let [[c0 c1 c2] context]
+      [:div {:class "row-span-1 col-span-1 flex min-h-0 min-w-0 h-full w-full p-4"}
+       [:div {:class "relative w-full h-full transition-all duration-500 hover:scale-95"}
+        [:div {:class "absolute w-full h-full"}
+         (when c0 [:div {:class "text-2xl absolute bottom-4 left-[-29px]"
+                         :style {:writing-mode     "sideways-lr"
+                                 :text-orientation "mixed"}} [i18n/text c0]])
+         (when c1 [:div {:class "text-2xl absolute left-4 top-[-29px]"} [i18n/text c1]])
+         (when c2 [:div {:class "text-2xl absolute top-4 right-[-29px]"
+                         :style {:writing-mode     "vertical-rl"
+                                 :text-orientation "mixed"}} [i18n/text c2]])]
+        [img/deferred-image image {:class    "absolute object-cover w-full h-full rounded-xl
+                                            shadow-xl hover:shadow-lg pointer-events-auto cursor-pointer"
+                                   :on-click (partial open-project proj)}]]])))
 
 
 (def factors

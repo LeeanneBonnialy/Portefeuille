@@ -17,21 +17,24 @@
     (.stopPropagation event)))
 
 
+(def old-scroll (atom nil))
+
+
 (defn close-menu
   [navigating? event]
   (when navigating?
     (projects/close-modal event))
   (kill-event event)
   (reset! open-atom? nil)
-  (nav/clear-scroll))
+  (nav/set-scroll (:x @old-scroll) (:y @old-scroll)))
 
 
 (defn open-menu
   []
+  (reset! old-scroll (nav/get-scroll))
   (nav/set-scroll (fn [v]
                     (when (= -1 v)
-                      (close-menu false nil)
-                      (nav/clear-scroll)))
+                      (close-menu false nil)))
                   nil)
   (reset! open-atom? (system-time)))
 
