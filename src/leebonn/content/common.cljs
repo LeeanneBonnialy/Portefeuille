@@ -36,7 +36,7 @@
 (defn download
   [description file]
   (let [file-name (last (str/split file #"/"))]
-    [:div.w-full
+    [:div.w-full.pt-8
      [:div
       {:class "w-11/12 md:w-2/3 mx-auto pointer-events-auto transition-all cursor-pointer hover:scale-95 z-30"}
       [:a
@@ -55,9 +55,10 @@
 
 
 (defn header
-  [text]
+  [text & {:keys [classes]
+           :or {classes "text-pink-500"}}]
   [:<>
-   [i18n/text {:class "pt-8 font-slim text-4xl text-pink-500"} text]
+   [i18n/text {:class (str "pt-8 font-slim text-4xl " classes)} text]
    [horizontal-rule]])
 
 

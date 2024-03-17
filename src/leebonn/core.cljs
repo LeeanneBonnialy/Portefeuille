@@ -158,7 +158,7 @@
                             :anchors [:home]
                             :view    [title/title]}
                            {:id      :intro
-                            :anchors [:intro]
+                            :anchors [:intro :intro-detail]
                             :view    [intro/intro]}]
 
         project-groups    (partition-all projects-per-page projects/projects)

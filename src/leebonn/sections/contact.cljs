@@ -24,11 +24,11 @@
 (defn contacts
   [{:keys [narrow? height width]}]
   (let []
-    [:div {:class "w-full bg-black flex squiggly m-4"}
+    [:div {:class "w-full flex m-4"}
      [:div {:class "my-auto mx-8 font-slim text-8xl md:text-9xl space-y-8"}
       [:span "Thanks for reading"]
       [:div
-       {:class "mx-auto grid grid-cols-4 gap-4 pointer-events-auto"}
+       {:class "mx-auto grid grid-cols-4 gap-4 pointer-events-auto squiggly"}
        [:div.col-span-1 [insta "http://www.google.com"]]
        [:div.col-span-1 [linkedin "http://www.google.com"]]
        [:div.col-span-1 [insta "http://www.google.com"]]

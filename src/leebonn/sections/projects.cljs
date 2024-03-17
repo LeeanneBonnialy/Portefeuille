@@ -103,53 +103,6 @@
 (def hover-close (r/atom false))
 
 
-(def projects
-  [{:anchor        :seazon
-    :detail-anchor :seazon-detail
-    :image         "seazon/seazon.jpg"
-    :title         seazon/seazon-title
-    :detail        [seazon/project-detail]
-    :context       seazon/tab-context}
-
-   {:anchor        :arte
-    :detail-anchor :arte-detail
-    :image         "arte/body_1.jpg"
-    :title         arte/title
-    :detail        [arte/project-detail]}
-
-   {:anchor        :lart
-    :detail-anchor :lart-detail
-    :image         "l-art/lartdanslarue.png"
-    :title         "L'art"
-    :detail        (repeat 1000 "C\n")}
-
-   {:anchor        :ptit-bleds
-    :detail-anchor :ptit-bleds-detail4
-    :image         "ptit-bleds/main_1.jpg"
-    :title         ptit-bleds/title
-    :detail        [ptit-bleds/project-detail]}
-
-   {:anchor        :lart5
-    :detail-anchor :lart-detail5
-    :image         "l-art/lartdanslarue.png"
-    :title         "L'art"
-    :detail        (repeat 1000 "C\n")}
-
-   {:anchor        :lart6
-    :detail-anchor :lart-detail6
-    :image         "l-art/lartdanslarue.png"
-    :title         "L'art"
-    :detail        (repeat 1000 "C\n")}])
-
-
-(defn close-detail
-  [v]
-  (when (= -1 v)
-    (reset! detail-opened nil)
-    (nav/go-to-anchor (:anchor @current-project))
-    (nav/clear-scroll)))
-
-
 (defn open-project
   [{:keys [anchor detail-anchor] :as proj}]
   (nav/go-to-anchor detail-anchor)
@@ -183,6 +136,59 @@
                                    :on-click (partial open-project proj)}]]])))
 
 
+(def projects
+  [{:anchor        :seazon
+    :detail-anchor :seazon-detail
+    :image         "seazon/seazon.jpg"
+    :title         seazon/seazon-title
+    :detail        [seazon/project-detail]
+    :context       seazon/tab-context
+    :view          project-item}
+
+   {:anchor        :arte
+    :detail-anchor :arte-detail
+    :image         "arte/body_1.jpg"
+    :title         arte/title
+    :detail        [arte/project-detail]
+    :view          project-item}
+
+   {:anchor        :lart
+    :detail-anchor :lart-detail
+    :image         "l-art/lartdanslarue.png"
+    :title         "L'art"
+    :detail        (repeat 1000 "C\n")
+    :view          project-item}
+
+   {:anchor        :ptit-bleds
+    :detail-anchor :ptit-bleds-detail4
+    :image         "ptit-bleds/main_1.jpg"
+    :title         ptit-bleds/title
+    :detail        [ptit-bleds/project-detail]
+    :view          project-item}
+
+   {:anchor        :lart5
+    :detail-anchor :lart-detail5
+    :image         "l-art/lartdanslarue.png"
+    :title         "L'art"
+    :detail        (repeat 1000 "C\n")
+    :view          project-item}
+
+   {:anchor        :lart6
+    :detail-anchor :lart-detail6
+    :image         "l-art/lartdanslarue.png"
+    :title         "L'art"
+    :detail        (repeat 1000 "C\n")
+    :view          project-item}])
+
+
+(defn close-detail
+  [v]
+  (when (= -1 v)
+    (reset! detail-opened nil)
+    (nav/go-to-anchor (:anchor @current-project))
+    (nav/clear-scroll)))
+
+
 (def factors
   {1 [1 1]
    2 [2 1]
@@ -209,7 +215,7 @@
 
 
 (defn project-grid
-  [{:keys [target]} _projects]
+  [{:keys [target]} projects]
   (let [anchor           (:anchor target)
         selected-project (->> projects
                               (some #(when (= anchor (:detail-anchor %))
@@ -228,7 +234,7 @@
                      :style {:grid-template-columns (str/join " " (repeat x "1fr"))
                              :grid-template-rows    (str/join " " (repeat y "1fr"))}}]
               (for [project projects]
-                [project-item context project]))))))
+                [(:view project) context project]))))))
 
 
 (defn project-page
