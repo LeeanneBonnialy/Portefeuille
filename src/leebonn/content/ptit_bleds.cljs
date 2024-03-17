@@ -100,7 +100,7 @@
 
 (def recommendation-4
   {:fr "Le lancement de la campagne de dons sur les réseaux sociaux se fera pas le lancement de l’évènement Bled Express. L'événement en ligne réunit des créateurs de contenu engagés pour l’écologie."
-   :en "The launch of the donation campaign on social media will coincide with the launch of the Bled Express event. The online event brings together content creators committed to ecology."})
+   :en "The launch of the donation campaign on social media will coincide with the launch of the Bled Express event. The online event brings together content creators committed to ecology.\nTheir mission? A high-speed bicycle race to reach the village of Seraincourt in the Val d'Oise. The interactive event will be broadcasted live on Instagram. Through stories, content creators will encourage their audience to challenge them, adding excitement to the race."})
 
 
 (def recommendation-5
