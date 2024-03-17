@@ -171,7 +171,8 @@
        [:div {:class "relative w-full h-full transition-all duration-500 hover:scale-95"}
         [:div {:class "absolute w-full h-full"}
          (when c0 [:div {:class "text-2xl absolute bottom-4 left-[-29px]"
-                         :style {:writing-mode     "sideways-lr"
+                         :style {:writing-mode     "vertical-rl"
+                                 :transform        "rotate(180deg)"
                                  :text-orientation "mixed"}} [i18n/text c0]])
          (when c1 [:div {:class "text-2xl absolute left-4 top-[-29px]"} [i18n/text c1]])
          (when c2 [:div {:class "text-2xl absolute top-4 right-[-29px]"

@@ -22,21 +22,9 @@
 
 (defn letter
   [{:keys [width height] :as ctx}]
-  (let [ref      (r/createRef)
-        aw       width
-        ah       (- height 116 32)
-        mx       (str (* width 0.17) "px")
-        offset-h (- height 116 32 (* width 1))]
-    [:div {:ref   ref
-           :class "w-full max-h-full my-auto flex-shrink h-max-fit text-white"}
-     #_[:div {:class "absolute"}
-        (str "abc" (when-let [el (.-current ref)]
-                     (str (.getBoundingClientRect el))))
-        #_[page offset-h #_(max -120 (min 0 offset-h))]]
-     [:div {:class "text-black font-slim text-3xl top-0"
-            :style {:margin-left  mx
-                    :margin-right mx}}
-      (apply str (interleave (repeat " ") (range 96)))]]))
+  [:div {:class "w-full max-h-full mt-16 h-fit m-auto text-center text-white"}
+   [i18n/text {:fr "“I am more than a communication strategist, I am a storyteller and a bold conversation-starter”\n\nJe suis Leeanne Bonnialy, une amoureuse des mots et des questions audacieuses. Je recherche un stage de 6 mois à l’étranger en stratégie de marque au sein d’une agence de communication. \n\nMon histoire est celle d’une culture-lover formée à la recherche en science humaine devenue planneur stratégique.Je me suis tournée vers la stratégie de marque car c’est le point de rencontre idéal entre la curiosité que je nourris pour comprendre les gens et ma passion pour les histoires. \nMes atouts ? Une capacité à adopter une approche anthropologique de l’insight pour penser “out of the box”. Ajouté à cela, une belle plume et une bonne dose de créativité pour concevoir des récits de marque en phase avec les publics cibles et les problématiques contemporaines."
+               :en "“I am more than a communication strategist, I am a storyteller and a bold conversation-starter”\n\nI am Leeanne Bonnialy, a lover of words and question marks. I am seeking a 6-month internship abroad in brand strategy within a communication agency.\nMy story is dealing with a culture-aficionado, trained in humanities research who turned into a communication strategist. I want to do brand strategy because it’s the perfect intersection between my curiosity to understand people and my passion for storytelling. Creating brand narratives resonates with the reason why I’ve started communication : to tell stories that question the world and foster connections. \n\nMy strengths? A capability to embrace an anthropological approach to insight for thinking \"out of the box\". Additionally, I possess strong writing skills and a keen creative flair to craft brand narratives that resonate with target audiences and address contemporary challenges."}]])
 
 
 (defn pill
@@ -60,10 +48,10 @@
 (defn intro-body
   [{:keys [narrow? height width] :as ctx}]
   (let []
-    [:div {:class (str "w-full h-full p-4  flex justify-center pointer-events-auto"
+    [:div {:class (str "w-full h-full p-4 flex justify-center pointer-events-auto"
                        (when narrow? " flex-col "))}
      [letter ctx]
-     [competencies ctx]]))
+     #_[competencies ctx]]))
 
 
 (defn intro
