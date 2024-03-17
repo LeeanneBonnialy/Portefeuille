@@ -2,6 +2,7 @@
   (:require
     [leebonn.i18n :as i18n]
     [leebonn.navigation :as nav]
+    [leebonn.sections.contact :as contact]
     [leebonn.sections.intro :as intro]
     [leebonn.sections.projects :as projects]
     [leebonn.util :as util]
@@ -96,12 +97,12 @@
 
 (defn simple-menu-item
   [modal-text-colour title on-click active?]
-  [:div {:class    (str "p-4 cursor-pointer h-min w-full"
+  [:div {:class    (str "p-4 cursor-pointer h-full w-min"
                         (when active? " border-l-2"))
          :style    {:border-color modal-text-colour}
          :on-click on-click}
-   [:div {:class "hover-squiggly"}
-    [i18n/text title]]])
+   [:div {:class "hover-squiggly whitespace-nowrap"}
+    [i18n/text {:class "whitespace-nowrap"} title]]])
 
 
 (defn menu
@@ -126,7 +127,7 @@
         [:div {:class "transition-all duration-500 w-full h-full pb-2 pointer-events-auto text-4xl font-slim grid grid-cols-3"
                :style {:color modal-text-colour}}
          [:span {:class "row-span-1"}]
-         [:div {:class "row-span-6 col-start-1 col-span-1 p-4 transition-all duration-500 border-r-2 text-right"
+         [:div {:class "row-span-4 col-start-1 col-span-1 p-4 transition-all duration-500 border-r-2 text-right"
                 :style {:border-color modal-text-colour}}
           "projects"]
          [:div {:class "row-start-1 col-start-2 col-span-2 row-span-1"}
@@ -134,8 +135,19 @@
          (for [{:keys [title anchor detail-anchor] :as proj} projects/projects]
            ^{:key anchor} [:div {:class "col-start-2 col-span-2 row-span-1"}
                            [simple-menu-item modal-text-colour title #(do (close-menu true %) (projects/open-project proj)) (active? anchor detail-anchor)]])
-         [:div {:class "row-start-8 col-start-2 col-span-2 row-span-1"}
-          [simple-menu-item modal-text-colour "contact" #(do (close-menu true %) (nav/go-to-anchor :contact)) (active? :contact)]]]]]]]))
+         [:div {:class "row-start-6 col-start-2 col-span-2 row-span-1"}
+          [simple-menu-item modal-text-colour contact/title #(do (close-menu true %) (nav/go-to-anchor :contact)) (active? :contact)]]
+         [:span {:class "row-start-7 row-span-1 h-16"}]
+
+
+         [:div {:class "p-4 h-min row-start-8 col-start-1 col-span-1 row-span-1 transition-all duration-500 border-r-2 text-right"
+                :style {:border-color modal-text-colour}}
+          [:a {:class    "hover-squiggly pointer-events-auto cursor-pointer opacity-100 "
+               :on-click #(i18n/set-lang! :fr)} "FR"]]
+         [:div {:class "p-4 h-min row-start-8 col-start-2 col-span-1 row-span-1"
+                :style {:border-color modal-text-colour}}
+          [:a {:class    "hover-squiggly pointer-events-auto cursor-pointer opacity-100 "
+               :on-click #(i18n/set-lang! :en)} "EN"]]]]]]]))
 
 
 (defn overlay

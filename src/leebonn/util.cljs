@@ -76,7 +76,7 @@
                             :style {:color text-colour}}
                            {:class (case offset
                                      -1 " pointer-events-none opacity-0"
-                                     0 " opacity-100"
+                                     0 " opacity-100 pointer-events-auto"
                                      1 " pointer-events-none opacity-0")})
        [:div (combine-style transition
                             {:class "flex w-full h-full relative"}

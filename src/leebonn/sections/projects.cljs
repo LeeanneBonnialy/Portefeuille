@@ -166,15 +166,8 @@
     :detail        [ptit-bleds/project-detail]
     :view          project-item}
 
-   {:anchor        :lart5
+   #_{:anchor        :lart5
     :detail-anchor :lart-detail5
-    :image         "l-art/lartdanslarue.png"
-    :title         "L'art"
-    :detail        (repeat 1000 "C\n")
-    :view          project-item}
-
-   {:anchor        :lart6
-    :detail-anchor :lart-detail6
     :image         "l-art/lartdanslarue.png"
     :title         "L'art"
     :detail        (repeat 1000 "C\n")

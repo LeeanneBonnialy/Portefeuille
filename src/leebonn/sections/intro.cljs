@@ -72,14 +72,21 @@
             :en "“I am more than a communication strategist, I am a storyteller and a bold conversation-starter”.\n\nI am Leeanne Bonnialy, a lover of words and question marks. I am seeking a 6-month internship abroad in brand strategy within a communication agency.\nMy story is dealing with a culture-aficionado, trained in humanities research who turned into a communication strategist. Passionate about theater and writing, I honed my skills in strategic communication and event management within cultural institutions."}]])
 
 
+(defn cv-download
+  []
+  [c/download {:en "Download my CV"
+               :fr "Téléchargez mon CV"}
+   "assets/CV Leeanne Bonnialy.pdf"])
+
+
 (defn large-letter-2
   [opts]
   [:div
-   [:div {:class "h-[106px] w-full"}]
+   [:div {:class "h-[76px] w-full"}]
    [:div.space-y-4
     [c/body {:fr "Je me suis tournée vers la stratégie de marque car c’est le point de rencontre idéal entre la curiosité que je nourris pour comprendre les gens et ma passion pour les histoires. Créer des récits de marque fait écho à ce pourquoi je fais de la communication : pour raconter des histoires qui bousculent le monde et créent des rencontres.\n\nMes atouts ? Une capacité à adopter une approche anthropologique de l’insight pour penser “out of the box”. Ajouté à cela, une belle plume et une bonne dose de créativité pour concevoir des récits de marque en phase avec les publics cibles et les problématiques contemporaines."
              :en "I want to do brand strategy because it’s the perfect intersection between my curiosity to understand people and my passion for storytelling. Creating brand narratives resonates with the reason why I’ve started communication : to tell stories that question the world and foster connections. \n\nMy strengths? A capability to embrace an anthropological approach to insight for thinking \"out of the box\". Additionally, I possess strong writing skills and a keen creative flair to craft brand narratives that resonate with target audiences and address contemporary challenges."}]
-    [c/download {:en "Download my CV"} "assets/arte/QUESTIONNAIRES QUALI ET QUANTI ETUDE ARTE.pdf"]]])
+    [cv-download]]])
 
 
 (defn large-letter-3
@@ -97,7 +104,7 @@
             :en "... TODO"}]
    [hard-skills {:header-classes "text-pink-500"}]
    [soft-skills {:header-classes "text-pink-500"}]
-   [c/download {:en "Download my CV"} "assets/arte/QUESTIONNAIRES QUALI ET QUANTI ETUDE ARTE.pdf"]
+   [cv-download]
    [c/page-end-buffer]])
 
 
