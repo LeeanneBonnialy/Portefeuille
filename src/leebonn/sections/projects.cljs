@@ -1,6 +1,7 @@
 (ns leebonn.sections.projects
   (:require
     [clojure.string :as str]
+    [leebonn.content.arte :as arte]
     [leebonn.content.seazon :as seazon]
     [leebonn.i18n :as i18n]
     [leebonn.image-loader :as img]
@@ -98,7 +99,7 @@
 (def desired-size {:dim1 400 :dim2 750})
 (def current-project (r/atom nil))
 (def detail-opened (r/atom false))
-(def hover-close    (r/atom false))
+(def hover-close (r/atom false))
 
 
 (def projects
@@ -108,11 +109,11 @@
     :title         seazon/seazon-title
     :detail        [seazon/project-detail]}
 
-   {:anchor        :sncf
-    :detail-anchor :sncf-detail
-    :image         "sncf/sncf_comics2.jpg"
-    :title         "SNCF"
-    :detail        [i18n/text :sncf-comics]}
+   {:anchor        :arte
+    :detail-anchor :arte-detail
+    :image         "arte/body_1.jpg"
+    :title         arte/title
+    :detail        [arte/project-detail]}
 
    {:anchor        :lart
     :detail-anchor :lart-detail
@@ -201,7 +202,6 @@
                               (some #(when (= anchor (:detail-anchor %))
                                        %)))]
     (when selected-project
-      (println "resetting")
       (reset! current-project selected-project)
       (reset! detail-opened (system-time))
       (nav/set-scroll close-detail
@@ -228,7 +228,7 @@
 (defn kill-event
   [event]
   (when event
-    (.preventDefault event)
+    ;; (.preventDefault event)
     (.stopPropagation event)))
 
 
@@ -280,7 +280,7 @@
              :color          modal-text-colour
              :viewBox        "0 0 16 16"}
             [:path {:stroke (str modal-text-colour "55") :stroke-linecap "round" :stroke-linejoin "round" :stroke-width "2"
-                    :d "M1,11.25 15,4.25 M1,4.25 15,11.25"}]
+                    :d      "M1,11.25 15,4.25 M1,4.25 15,11.25"}]
             [:path
              {:class             "transition-all duration-300"
               :stroke            "currentColor"
@@ -289,7 +289,7 @@
               :stroke-linecap    "round"
               :stroke-linejoin   "round"
               :stroke-width      "2"
-              :d "M7.5,7.5 1,11.25 M7.5,7.5 15,4.25 M7.5,7.5 1,4.25 M7.5,7.5 15,11.25"}]]
+              :d                 "M7.5,7.5 1,11.25 M7.5,7.5 15,4.25 M7.5,7.5 1,4.25 M7.5,7.5 15,11.25"}]]
            [:div {:class "relative w-full h-full pt-16 pointer-events-none"}
             [:div {:class "w-full h-full overflow-y-auto pb-2 pointer-events-auto"}
              [:div {:class "transition-all duration-500 w-11/12 mx-auto text-2xl font-sans"
