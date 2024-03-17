@@ -144,5 +144,6 @@
      "seazon/cara_2.jpg"
      "seazon/cara_3.jpg"
      "seazon/cara_4.jpg"]]
-   [c/download {:en "Download the full presentation"} "assets/seazon/SEAZON.pdf"]
+   [c/download {:en "Download the presentation"
+                :fr "Téléchargez la présentation"} "assets/seazon/SEAZON.pdf"]
    [c/page-end-buffer]])

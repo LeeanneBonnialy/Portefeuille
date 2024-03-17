@@ -158,7 +158,7 @@
     :view           project-item}
 
    {:anchor        :ptit-bleds
-    :detail-anchor :ptit-bleds-detail4
+    :detail-anchor :ptit-bleds-detail
     :image         "ptit-bleds/main_1.jpg"
     :image-position "bg-[#fef2c2] object-contain object-center"
     :title         ptit-bleds/title
@@ -215,8 +215,7 @@
     (when selected-project
       (reset! current-project selected-project)
       (reset! detail-opened (system-time))
-      (nav/set-scroll close-detail
-                      nil))
+      (nav/set-scroll nil nil))
     (fn [{:keys [narrow?] :as context} projects]
       (let [[x y] (desired-project-fit context projects)]
         (into [:div {:class (str "grid h-full p-16 gap-16 "

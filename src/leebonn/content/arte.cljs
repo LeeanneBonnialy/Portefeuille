@@ -117,5 +117,7 @@
    [c/inline-img "arte/body_1.jpg"]
    [c/body recommendation]
    [c/carousel-dir "arte/cara/ARTE_page-%s.jpg" 32]
-   [c/download {:en "Download the presentation"} "assets/arte/ARTE.pdf"]
+   [c/download {:en "Download the presentation"
+                :fr "Téléchargez la présentation"}
+    "assets/arte/ARTE.pdf"]
    [c/page-end-buffer]])

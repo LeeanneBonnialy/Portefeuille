@@ -37,7 +37,7 @@
     :download "CV Leeanne Bonnialy.pdf"
     :href     "assets/CV Leeanne Bonnialy.pdf"}
    [:div.grid.grid-cols-2
-    [:div.bottom-0.h-min.mt-auto.mb-8 [c/download-icon]]
+    [:div.bottom-0.h-min.mt-auto.mb-8.squiggly [c/download-icon]]
     [:div {:class "ml-[-80px] text-6xl"
            :style {:writing-mode     "vertical-rl"
                    :text-orientation "mixed"
@@ -65,7 +65,7 @@
        {:class "mx-auto flex pointer-events-auto justify-items-end"}
        [:div.flex.mr-4.squiggly.mt-auto [linkedin "https://www.linkedin.com/in/%F0%9F%8C%9Eleeanne-bonnialy%F0%9F%8C%9E-242b441b1/"]]
        [:div.flex.mr-4.squiggly.mt-auto [mail "mailto:bonnigeorgina@gmail.com?subject=Bonjour Leeanne"]]
-       [:div.flex.mr-4.squiggly
+       [:div.flex.mr-4
         [cv-download]]]]]))
 
 
