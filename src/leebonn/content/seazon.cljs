@@ -34,8 +34,8 @@
 
 
 (def seazon-brief
-  {:fr "Réaliser une campagne publicitaire pour le lancement de la nouvelle gamme proposée par Seazon,  Seazon Équilibre."
-   :en "Conduct an advertising campaign for the launch of the new offer created by Seazon, Seazon Equilibre."})
+  {:fr [:b "Réaliser une campagne publicitaire pour le lancement de la nouvelle gamme proposée par Seazon, Seazon Équilibre."]
+   :en [:b "Conduct an advertising campaign for the launch of the new offer created by Seazon, Seazon Equilibre."]})
 
 
 (def seazon-context-header
@@ -44,8 +44,8 @@
 
 
 (def seazon-context
-  {:fr "Créé en 2018, Seazon est un abonnement de plats fraîchement cuisinés par des chefs livrés dans toute la France. Cette formule sans engagement propose des plats équilibrés concoctés avec des produits locaux. La marque lance en 2021 la gamme Equilibre destiné au rééquilibrage alimentaire. La philosophie de la gamme est de faire du rééquilibrage alimentaire une habitude à adopter pour se sentir mieux dans sa peau."
-   :en "Created in 2018, Seazon is a subscription service delivering freshly prepared meals by chefs across France. This commitment-free option offers balanced dishes made with local ingredients. In 2021, the brand introduced the offer Seazon Equilibre, designed for nutritional rebalancing. The range's philosophy aims to make nutritional rebalancing a daily habit for a better sense of well-being."})
+  {:fr "Créé en 2018, Seazon est un abonnement de plats\nfraîchement cuisinés par des chefs livrés dans toute la France. Cette formule sans engagement propose des plats équilibrés concoctés avec des produits locaux. \n\nLa marque lance en 2021 la gamme Equilibre destiné au rééquilibrage alimentaire. La philosophie de la gamme est de faire du rééquilibrage alimentaire une habitude à adopter pour se sentir mieux dans sa peau."
+   :en "Created in 2018, Seazon is a subscription service delivering freshly prepared meals by chefs across France. This commitment-free option offers balanced dishes made with local ingredients. \n\nIn 2021, the brand introduced the offer Seazon Equilibre, designed for nutritional rebalancing. The range's philosophy aims to make nutritional rebalancing a daily habit for a better sense of well-being."})
 
 
 (def seazon-challenge-header
@@ -54,8 +54,8 @@
 
 
 (def seazon-challenge
-  {:fr "Comment toucher une cible déçue des régimes afin de les convertir au rééquilibrage alimentaire ?"
-   :en "How to engage a target audience disillusioned with diets and convert them to nutritional rebalancing?"})
+  {:fr [:b "Comment toucher une cible déçue des régimes afin de les convertir au rééquilibrage alimentaire ?"]
+   :en [:b "How to engage a target audience disillusioned with diets and convert them to nutritional rebalancing?"]})
 
 
 (def seazon-objective-header
@@ -74,13 +74,13 @@
 
 
 (def seazon-steps-1
-  {:fr "Afin de promouvoir la gamme Seazon Équilibre il est essentiel de tenir un discours non culpabilisant auprès d’une audience cible majoritairement féminine qui cherche à concilier pragmatisme et envie de manger sainement. L’objectif est de faire la distinction entre le rééquilibrage alimentaire synonyme de plaisir et de bien-être et le régime plutôt associé à l’échec et à la privation."
-   :en "To effectively promote the Seazon Equilibre, it is essential to convey a message free of guilt to a predominantly  female audience looking to balance practicality seeking to reconcile pragmatism with a desire for healthy eating. The objective is to emphasize the distinction between nutritional rebalancing, associated with enjoyment and well-being, and diets, which are often linked to failure and deprivation."})
+  {:fr "Afin de promouvoir la gamme Seazon Équilibre il est essentiel de tenir un discours non culpabilisant auprès d’une audience cible majoritairement féminine qui cherche à concilier pragmatisme et envie de manger sainement. \n\nL’objectif est de faire la distinction entre le rééquilibrage alimentaire synonyme de plaisir et de bien-être et le régime plutôt associé à l’échec et à la privation."
+   :en "To effectively promote the Seazon Equilibre, it is essential to convey a message free of guilt to a predominantly  female audience looking to balance practicality seeking to reconcile pragmatism with a desire for healthy eating. \n\nThe objective is to emphasize the distinction between nutritional rebalancing, associated with enjoyment and well-being, and diets, which are often linked to failure and deprivation."})
 
 
 (def seazon-steps-2
-  {:fr "Outre ce changement de valeur symbolique, il s’agit de se démarquer des offres multiples du secteur et détourner les adaptes des marques les plus installées. D’après le benchmark concurrentiel , Seazon Équilibre se démarque grâce à trois caractéristiques :  la facilité de préparation, l’accent mis sur les recettes préparés avec des produits locaux de saison et l’objectif de rééquilibrage alimentaire. Ces trois éléments différenciants doivent figurer dans le message de communication finale."
-   :en "In addition to this symbolic value shift, the aim is to stand out from the numerous offerings in the sector and divert followers from more established brands. According to competitive benchmarking, Seazon Équilibre distinguishes itself through three key features: ease of preparation, a focus on recipes made with local seasonal ingredients, and the goal of nutritional rebalancing. These three distinctive elements should be highlighted in the final communication message."})
+  {:fr "Outre ce changement de valeur symbolique, il s’agit de se démarquer des offres multiples du secteur et détourner les adaptes des marques les plus installées. \n\nD’après le benchmark concurrentiel , Seazon Équilibre se démarque grâce à trois caractéristiques :  la facilité de préparation, l’accent mis sur les recettes préparés avec des produits locaux de saison et l’objectif de rééquilibrage alimentaire. Ces trois éléments différenciants doivent figurer dans le message de communication finale."
+   :en "In addition to this symbolic value shift, the aim is to stand out from the numerous offerings in the sector and divert followers from more established brands. \n\nAccording to competitive benchmarking, Seazon Équilibre distinguishes itself through three key features: ease of preparation, a focus on recipes made with local seasonal ingredients, and the goal of nutritional rebalancing. These three distinctive elements should be highlighted in the final communication message."})
 
 
 (def seazon-quote
@@ -90,12 +90,12 @@
 
 (def seazon-recommendation-header
   {:fr "Recommandation stratégique : une campagne d’influence sur Instagram avec la créatrice de contenu Marine Lorphelin"
-   :en "Strategic recommendation : An influencer campaign on Instagram with the content creator @MarineLorphelin"})
+   :en "Strategic recommendation : An influencer campaign on Instagram with the content creator Marine Lorphelin"})
 
 
 (def seazon-recommendation
-  {:fr "Ex-miss France, désormais interne de médecine générale,  Marine Lorphelin est créatrice de contenus et chroniqueuse bien-être. Elle a 1M de followers sur Instagram. Son contenu est axé sur la nutrition et le sport.\n\nPourquoi Marine Lorphelin ?\n\nEn plus d’avoir une communauté en phase avec la cible de la gamme Équilibre, la profession de médecin de Marine Lorphelin renforce son rôle prescripteur auprès de sa communauté. En tant qu’ancienne Miss France, elle jouit aussi d’une notoriété auprès du grand public qui pourrait contribuer à accroître la visibilité de la gamme Seazon.\n\nLa campagne serait lancée après les fêtes de fin d’année, afin de capitaliser sur la période des bonnes résolutions qui s’ensuit, souvent synonyme de changement de régime alimentaire."
-   :en "Marine Lorphelin participated in the French national beauty competition “Miss France”. Now she’s a doctor, an author and a content creator around well-being, nutrition and fitness. She has 1 million followers on Instagram \n\nWhy choose Marine Lorphelin?\n\nMarine Lorphelin’s community meet the target audience of Seazon Equilibre. Also,Marine Lorphelin's medical background enhances her influence within her community. As a former Miss France, she also enjoys public recognition, which could significantly boost the visibility of Seazon Equilibre.\n\nThe campaign is planned to kick off after the year-end holidays, taking advantage of the New Year's resolutions period, often associated with dietary changes."})
+  {:fr [:span "Ex-miss France, désormais interne de médecine générale,  Marine Lorphelin est créatrice de contenus et chroniqueuse bien-être. Elle a 1M de followers sur Instagram. Son contenu est axé sur la nutrition et le sport.\n\n" [:b "Pourquoi Marine Lorphelin ?"] "\n\nEn plus d’avoir une communauté en phase avec la cible de la gamme Équilibre, la profession de médecin de Marine Lorphelin renforce son rôle prescripteur auprès de sa communauté. En tant qu’ancienne Miss France, elle jouit aussi d’une notoriété auprès du grand public qui pourrait contribuer à accroître la visibilité de la gamme Seazon.\n\nLa campagne serait lancée après les fêtes de fin d’année, afin de capitaliser sur la période des bonnes résolutions qui s’ensuit, souvent synonyme de changement de régime alimentaire."]
+   :en [:span "Marine Lorphelin participated in the French national beauty competition “Miss France”. Now she’s a doctor, an author and a content creator around well-being, nutrition and fitness. She has 1 million followers on Instagram \n\n" [:b "Why choose Marine Lorphelin?"] "\n\nIn addition to having a community aligned with the Seazon Equilibre’s target audience, Marine Lorphelin's medical background enhances her influence within her community. As a former Miss France, she also enjoys public recognition, which could significantly boost the visibility of Seazon Equilibre.\n\nThe campaign is planned to kick off after the year-end holidays, taking advantage of the New Year's resolutions period, often associated with dietary changes."]})
 
 
 (def tab-context
@@ -144,4 +144,7 @@
     "seazon/cara_2.jpg"
     "seazon/cara_3.jpg"
     "seazon/cara_4.jpg"]
+   [c/download
+    {:en "Download the full presentation"}
+    "TODO"]
    [c/page-end-buffer]])

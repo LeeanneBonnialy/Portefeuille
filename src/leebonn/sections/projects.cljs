@@ -118,7 +118,8 @@
 
 (defn project-item
   [_context proj]
-  (fn [_ {:keys [image context]}]
+  (fn [_ {:keys [image context image-position]
+          :or {image-position "object-cover"}}]
     (let [[c0 c1 c2] context]
       [:div {:class "row-span-1 col-span-1 flex min-h-0 min-w-0 h-full w-full p-4"}
        [:div {:class "relative w-full h-full transition-all duration-500 hover:scale-95"}
@@ -131,8 +132,8 @@
          (when c2 [:div {:class "text-2xl absolute top-4 right-[-29px]"
                          :style {:writing-mode     "vertical-rl"
                                  :text-orientation "mixed"}} [i18n/text c2]])]
-        [img/deferred-image image {:class    "transition-all duration-500 absolute object-cover w-full h-full rounded-xl
-                                            shadow-xl hover:shadow-lg pointer-events-auto cursor-pointer"
+        [img/deferred-image image {:class    (str "transition-all duration-500 absolute object-contain w-full h-full rounded-xl
+                                            shadow-xl hover:shadow-lg pointer-events-auto cursor-pointer" " " image-position)
                                    :on-click (partial open-project proj)}]]])))
 
 
@@ -142,36 +143,38 @@
     :image         "seazon/seazon.jpg"
     :title         seazon/seazon-title
     :detail        [seazon/project-detail]
-    :context       seazon/tab-context
+    ;; :context       seazon/tab-context
     :view          project-item}
 
-   {:anchor        :arte
-    :detail-anchor :arte-detail
-    :image         "arte/body_1.jpg"
-    :title         arte/title
-    :detail        [arte/project-detail]
-    :view          project-item}
-
-   {:anchor        :lart
-    :detail-anchor :lart-detail
+   {:anchor        :roger
+    :detail-anchor :roger-detail
     :image         "l-art/lartdanslarue.png"
     :title         "L'art"
     :detail        (repeat 1000 "C\n")
     :view          project-item}
 
+   {:anchor         :arte
+    :detail-anchor  :arte-detail
+    :image          "arte/title.png"
+    :image-position "bg-white object-contain object-right-bottom"
+    :title          arte/title
+    :detail         [arte/project-detail]
+    :view           project-item}
+
    {:anchor        :ptit-bleds
     :detail-anchor :ptit-bleds-detail4
     :image         "ptit-bleds/main_1.jpg"
+    :image-position "bg-[#fef2c2] object-contain object-center"
     :title         ptit-bleds/title
     :detail        [ptit-bleds/project-detail]
     :view          project-item}
 
    #_{:anchor        :lart5
-    :detail-anchor :lart-detail5
-    :image         "l-art/lartdanslarue.png"
-    :title         "L'art"
-    :detail        (repeat 1000 "C\n")
-    :view          project-item}])
+      :detail-anchor :lart-detail5
+      :image         "l-art/lartdanslarue.png"
+      :title         "L'art"
+      :detail        (repeat 1000 "C\n")
+      :view          project-item}])
 
 
 (defn close-detail
