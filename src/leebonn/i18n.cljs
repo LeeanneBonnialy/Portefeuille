@@ -26,7 +26,8 @@
 
 
 (def translations
-  {:job-title   {:en "Junior Creative Strategist"}
+  {:job-title   {:en "Communication strategist"
+                 :fr "Stratège en communication"}
 
    :competency-1 {:en "very cute"}
    :competency-2 {:en "best smile"}

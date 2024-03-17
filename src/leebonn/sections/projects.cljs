@@ -2,6 +2,7 @@
   (:require
     [clojure.string :as str]
     [leebonn.content.arte :as arte]
+    [leebonn.content.ptit-bleds :as ptit-bleds]
     [leebonn.content.seazon :as seazon]
     [leebonn.i18n :as i18n]
     [leebonn.image-loader :as img]
@@ -122,11 +123,11 @@
     :title         "L'art"
     :detail        (repeat 1000 "C\n")}
 
-   {:anchor        :lart4
-    :detail-anchor :lart-detail4
-    :image         "l-art/lartdanslarue.png"
-    :title         "L'art"
-    :detail        (repeat 1000 "C\n")}
+   {:anchor        :ptit-bleds
+    :detail-anchor :ptit-bleds-detail4
+    :image         "ptit-bleds/main_1.jpg"
+    :title         ptit-bleds/title
+    :detail        [ptit-bleds/project-detail]}
 
    {:anchor        :lart5
     :detail-anchor :lart-detail5
@@ -176,7 +177,7 @@
          (when c2 [:div {:class "text-2xl absolute top-4 right-[-29px]"
                          :style {:writing-mode     "vertical-rl"
                                  :text-orientation "mixed"}} [i18n/text c2]])]
-        [img/deferred-image image {:class    "absolute object-cover w-full h-full rounded-xl
+        [img/deferred-image image {:class    "transition-all duration-500 absolute object-cover w-full h-full rounded-xl
                                             shadow-xl hover:shadow-lg pointer-events-auto cursor-pointer"
                                    :on-click (partial open-project proj)}]]])))
 

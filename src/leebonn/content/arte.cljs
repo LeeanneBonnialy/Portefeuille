@@ -112,8 +112,4 @@
    [c/inline-img "arte/body_2.jpg"]
    [c/inline-img "arte/body_3.jpg"]
    [c/inline-img "arte/body_4.jpg"]
-   #_[c/carousel
-    "seazon/cara_1.jpg"
-    "seazon/cara_2.jpg"
-    "seazon/cara_3.jpg"
-    "seazon/cara_4.jpg"]])
+   [c/page-end-buffer]])

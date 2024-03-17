@@ -85,3 +85,8 @@
                                                                 :en "Acquired skills"}]
    (for [i18n i18ns]
      ^{:key i18n} [pill i18n])])
+
+
+(defn page-end-buffer
+  []
+  [:div {:class "h-[10vh] w-full"}])

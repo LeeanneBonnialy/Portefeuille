@@ -26,7 +26,9 @@
     (projects/close-modal event))
   (kill-event event)
   (reset! open-atom? nil)
-  (nav/set-scroll (:x @old-scroll) (:y @old-scroll)))
+  (if-let [s (and (not navigating?) @old-scroll)]
+    (nav/set-scroll (:x s) (:y s))
+    (nav/clear-scroll)))
 
 
 (defn open-menu
