@@ -197,8 +197,8 @@
         menu-anchors      (concat
                             [{:title  "home"
                               :anchor :home}
-                             {:title  "intro"
-                              :anchor :intro}]
+                             {:title  intro/title
+                              :anchor :intro-detail}]
                             (mapv #(assoc % :anchor (:detail-anchor %)) projects/projects)
                             [{:title  "contact"
                               :anchor :contact}])
