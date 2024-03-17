@@ -106,11 +106,7 @@
 (defn open-project
   [{:keys [anchor detail-anchor] :as proj}]
   (nav/go-to-anchor detail-anchor)
-  (nav/set-scroll (fn [v]
-                    (when (= -1 v)
-                      (reset! detail-opened nil)
-                      (nav/go-to-anchor anchor)
-                      (nav/clear-scroll)))
+  (nav/set-scroll nil
                   nil)
   (reset! current-project proj)
   (reset! detail-opened (system-time)))

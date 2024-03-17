@@ -8,15 +8,25 @@
 
 
 (defn carousel
-  [& _images]
+  [_images]
   (let [index (r/atom 0)]
-    (fn [& images]
+    (fn [images]
       [:div
        {:class "w-full lg:w-2/3 mx-auto py-12"}
        [carousel-overlay/carousel-view
         index
         (atom images)
         carousel-overlay/click-scroll-carousel]])))
+
+
+(defn carousel-dir
+  [matcher slide-count]
+  (println (for [i (map inc (range slide-count))
+                 :let [is (str i)]]
+             (str/replace matcher #"%s" (str (apply str (repeat (- 4 (count is)) \0)) is))))
+  [carousel (for [i (map inc (range slide-count))
+                  :let [is (str i)]]
+              (str/replace matcher #"%s" (str (apply str (repeat (- 4 (count is)) \0)) is)))])
 
 
 (defn horizontal-rule

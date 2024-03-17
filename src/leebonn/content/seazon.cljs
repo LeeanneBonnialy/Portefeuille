@@ -140,11 +140,9 @@
    [c/body seazon-recommendation]
 
    [c/carousel
-    "seazon/cara_1.jpg"
-    "seazon/cara_2.jpg"
-    "seazon/cara_3.jpg"
-    "seazon/cara_4.jpg"]
-   [c/download
-    {:en "Download the full presentation"}
-    "TODO"]
+    ["seazon/cara_1.jpg"
+     "seazon/cara_2.jpg"
+     "seazon/cara_3.jpg"
+     "seazon/cara_4.jpg"]]
+   [c/download {:en "Download the full presentation"} "assets/seazon/SEAZON.pdf"]
    [c/page-end-buffer]])
