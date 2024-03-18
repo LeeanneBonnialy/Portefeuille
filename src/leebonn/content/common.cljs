@@ -35,12 +35,17 @@
 
 
 (defn inline-img
-  [image]
+  [image & {:keys [href]}]
   [:div.w-full
    [:div {:class "w-full lg:w-2/3 mx-auto px-8 md:px-14 py-12"}
-    [img/deferred-image
-     image
-     {:class "rounded-lg shadow-lg"}]]])
+    (if href
+      [:a {:href href}
+       [img/deferred-image
+        image
+        {:class "rounded-lg shadow-lg"}]]
+      [img/deferred-image
+       image
+       {:class "rounded-lg shadow-lg"}])]])
 
 
 (defn download-icon
@@ -71,7 +76,7 @@
 
 (defn header
   [text & {:keys [classes]
-           :or {classes "text-pink-500"}}]
+           :or   {classes "text-pink-500"}}]
   [:<>
    [i18n/text {:class (str "pt-8 font-slim text-4xl " classes)} text]
    [horizontal-rule]])

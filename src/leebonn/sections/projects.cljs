@@ -3,6 +3,7 @@
     [clojure.string :as str]
     [leebonn.content.arte :as arte]
     [leebonn.content.ptit-bleds :as ptit-bleds]
+    [leebonn.content.roger :as roger]
     [leebonn.content.seazon :as seazon]
     [leebonn.i18n :as i18n]
     [leebonn.image-loader :as img]
@@ -29,7 +30,7 @@
 (defn project-item
   [_context proj]
   (fn [_ {:keys [image context image-position]
-          :or {image-position "object-cover"}}]
+          :or   {image-position "object-cover"}}]
     (let [[c0 c1 c2] context]
       [:div {:class "row-span-1 col-span-1 flex min-h-0 min-w-0 h-full w-full p-4"}
        [:div {:class "relative w-full h-full transition-all duration-500 hover:scale-95"}
@@ -48,20 +49,22 @@
 
 
 (def projects
-  [{:anchor        :seazon
-    :detail-anchor :seazon-detail
-    :image         "seazon/seazon.jpg"
-    :title         seazon/seazon-title
-    :detail        [seazon/project-detail]
+  [{:anchor         :seazon
+    :detail-anchor  :seazon-detail
+    :image          "seazon/main_1.jpg"
+    :image-position "bg-white object-contain object-center"
+    :title          seazon/seazon-title
+    :detail         [seazon/project-detail]
     ;; :context       seazon/tab-context
-    :view          project-item}
+    :view           project-item}
 
-   {:anchor        :roger
-    :detail-anchor :roger-detail
-    :image         "l-art/lartdanslarue.png"
-    :title         "L'art"
-    :detail        (repeat 1000 "C\n")
-    :view          project-item}
+   {:anchor         :roger
+    :detail-anchor  :roger-detail
+    :image          "roger/main_1.jpg"
+    :image-position "bg-white object-contain object-center"
+    :title          roger/title
+    :detail         [roger/project-detail]
+    :view           project-item}
 
    {:anchor         :arte
     :detail-anchor  :arte-detail
@@ -71,13 +74,13 @@
     :detail         [arte/project-detail]
     :view           project-item}
 
-   {:anchor        :ptit-bleds
-    :detail-anchor :ptit-bleds-detail
-    :image         "ptit-bleds/main_1.jpg"
+   {:anchor         :ptit-bleds
+    :detail-anchor  :ptit-bleds-detail
+    :image          "ptit-bleds/main_1.jpg"
     :image-position "bg-[#fef2c2] object-contain object-center"
-    :title         ptit-bleds/title
-    :detail        [ptit-bleds/project-detail]
-    :view          project-item}
+    :title          ptit-bleds/title
+    :detail         [ptit-bleds/project-detail]
+    :view           project-item}
 
    #_{:anchor        :lart5
       :detail-anchor :lart-detail5
