@@ -6,7 +6,7 @@
 
 (defn get-default-language
   []
-  #_(let [options      (concat (.-languages js/navigator)
+  (let [options      (concat (.-languages js/navigator)
                              [(.-useLanguage js/navigator)]
                              [(.-language js/navigator)]
                              [(.-browserLanguage js/navigator)])
@@ -18,16 +18,15 @@
                                 (str/starts-with? % "fr-") :fr
                                 :else nil))
                            options)]
-    (or best-default :en))
-  :fr)
+    (or best-default :en)))
 
 
 (def lang (r/atom (get-default-language)))
 
 
 (def translations
-  {:job-title   {:en "Communication strategist"
-                 :fr "Stratège en communication"}
+  {:job-title    {:en "Communication strategist"
+                  :fr "Stratège en communication"}
 
    :competency-1 {:en "very cute"}
    :competency-2 {:en "best smile"}
@@ -36,11 +35,11 @@
    :competency-5 {:en "most well read"}
    :competency-6 {:en "light of my heart"}
 
-   :sncf-comics {:fr (str/join "\n" (repeat 100 (str/join " " (repeat 100 "À"))))
-                 :en (str/join "\n" (repeat 100 (str/join " " (repeat 100 "A"))))}
+   :sncf-comics  {:fr (str/join "\n" (repeat 100 (str/join " " (repeat 100 "À"))))
+                  :en (str/join "\n" (repeat 100 (str/join " " (repeat 100 "A"))))}
 
 
-   :thanks {:en "Thanks for reading"}})
+   :thanks       {:en "Thanks for reading"}})
 
 
 (defn synopsis

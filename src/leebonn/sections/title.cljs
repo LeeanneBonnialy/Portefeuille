@@ -30,14 +30,14 @@
                                            (cond
                                              narrow-two-lines? " w-min mx-auto"
                                              narrow? " w-max mx-auto"
-                                             :else "origin-left w-min")
+                                             :else " origin-left w-min")
                                            (if narrow?
                                              " text-pink-400 "
                                              " text-pink-400 "))}
         scene-two-title-class {:class (cond
                                         narrow-two-lines? "scale-[32000%] translate-x-[1500%] translate-y-[13000%]"
                                         narrow? "scale-[32000%] translate-x-[-40%] translate-y-[8600%]"
-                                        :else "origin-left scale-[32000%] translate-x-[-600%] translate-y-[-280%]")
+                                        :else "origin-left scale-[32000%] translate-x-[-600%] translate-y-[-210%]")
                                :style {:color bg-colour
                                        :background-color bg-colour}}]
     [:<>

@@ -4,6 +4,11 @@
 
 
 (def title
+  {:fr "Arte"
+   :en "Arte"})
+
+
+(def long-title
   {:fr "Arte : Génération Ecologie"
    :en "Arte : Génération Ecologie"})
 
@@ -91,7 +96,7 @@
 (defn project-detail
   []
   [:div.space-y-4.text-pink-400
-   [c/title title]
+   [c/title long-title]
    [c/competencies
     comp-1
     comp-2

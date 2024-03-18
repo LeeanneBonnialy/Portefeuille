@@ -94,10 +94,14 @@
   (let [seed @timer]
     [:svg {:xmlns "http://www.w3.org/2000/svg" :version "1.1"
            :class "w-0 h-0"}
-     (into [:defs
-            [:filter {:id "squiggly"}
-             [:feTurbulence#turbulence {:baseFrequency "0.02" :numOctaves "3" :result "noise" :seed (mod seed 1000)}]
-             [:feDisplacementMap {:in "SourceGraphic" :in2 "noise" :scale (+ 5 (mod seed 3))}]]])]))
+     [:defs
+      [:filter {:id "squiggly"}
+       [:feTurbulence#turbulence {:baseFrequency "0.02" :numOctaves "3" :result "noise" :seed (mod seed 1000)}]
+       [:feDisplacementMap {:in "SourceGraphic" :in2 "noise" :scale (+ 5 (mod seed 3))}]]]
+     [:defs
+      [:filter {:id "squiggly-lite"}
+       [:feTurbulence#turbulence {:baseFrequency "0.02" :numOctaves "3" :result "noise" :seed (mod seed 1000)}]
+       [:feDisplacementMap {:in "SourceGraphic" :in2 "noise" :scale (+ 2 (mod seed 3))}]]]]))
 
 
 (defn test-view

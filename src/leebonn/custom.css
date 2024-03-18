@@ -17,3 +17,6 @@ body {
 .squiggly {
     filter: url('#squiggly');
 }
+.squiggly-lite {
+    filter: url('#squiggly-lite');
+}

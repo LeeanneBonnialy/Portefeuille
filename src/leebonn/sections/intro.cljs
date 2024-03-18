@@ -6,7 +6,7 @@
     [leebonn.sections.projects :as projects]))
 
 
-(def title {:fr "Faisons connaissance !" :en "Let’s meet !"})
+(def title {:fr "Qui suis-je ?" :en "Let’s meet!"})
 
 
 (defn letter
@@ -19,14 +19,16 @@
     [i18n/text {:class "text-xl sm:text-2xl"}
      {:fr "Je suis Leeanne Bonnialy, une amoureuse des mots et des questions audacieuses. Je recherche un stage de 6 mois à l’étranger en stratégie de marque au sein d’une agence de communication..."
       :en "I am Leeanne Bonnialy, a lover of words and question marks. I am seeking a 6-month internship abroad in brand strategy within a communication agency..."}]
-    [:svg.w-16.h-16.mx-auto.mt-8 {:class       "transition-all hover:scale-90 cursor-pointer"
-                                  :on-click    (partial projects/open-project proj)
-                                  :aria-hidden "true" :xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :fill "currentColor" :viewBox "0 0 24 24"}
+    [i18n/text {:class "text-sm mt-4"} {:en "read more about me"
+                                        :fr "plus sur moi"}]
+    [:svg.w-16.h-12.mx-auto.squiggly-lite {:class       "transition-all hover:scale-90 cursor-pointer"
+                                           :on-click    (partial projects/open-project proj)
+                                           :aria-hidden "true" :xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :fill "currentColor" :viewBox "0 0 24 24"}
      [:path {:fill-rule "evenodd" :d "M11 4.717c-2.286-.58-4.16-.756-7.045-.71A1.99 1.99 0 0 0 2 6v11c0 1.133.934 2.022 2.044 2.007 2.759-.038 4.5.16 6.956.791V4.717Zm2 15.081c2.456-.631 4.198-.829 6.956-.791A2.013 2.013 0 0 0 22 16.999V6a1.99 1.99 0 0 0-1.955-1.993c-2.885-.046-4.76.13-7.045.71v15.081Z" :clip-rule "evenodd"}]]
-    [i18n/text {:en "discover more about me\nor\ncontinue exploring my projects."}]
-    [:svg.w-16.h-16.mx-auto {:class       "transition-all hover:scale-90 cursor-pointer"
-                             :on-click    (partial nav/go-to-next)
-                             :aria-hidden "true" :xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :fill "none" :viewBox "0 0 24 24"}
+    [i18n/text {:class "text-sm"} {:en "discover my projects." :fr "déouvrez mes projets"}]
+    [:svg.w-16.h-12.mx-auto.squiggly-lite {:class       "transition-all hover:scale-90 cursor-pointer"
+                                           :on-click    (partial nav/go-to-next)
+                                           :aria-hidden "true" :xmlns "http://www.w3.org/2000/svg" :width "24" :height "24" :fill "none" :viewBox "0 0 24 24"}
      [:path {:stroke "currentColor" :stroke-linecap "round" :stroke-linejoin "round" :stroke-width "2" :d "M12 19V5m0 14-4-4m4 4 4-4"}]]]])
 
 
