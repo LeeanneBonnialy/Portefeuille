@@ -167,6 +167,15 @@
     (close-detail -1)))
 
 
+(defn project-scroll
+  [modal-text-colour project]
+  [:div {:key (:anchor project) :class "relative w-full h-full pt-16 pointer-events-none"}
+   [:div {:class "w-full h-full overflow-y-auto pb-2 pointer-events-auto"}
+    [:div {:class "transition-all duration-500 w-11/12 mx-auto text-2xl font-sans"
+           :style {:color modal-text-colour}}
+     (:detail project)]]])
+
+
 (defn project-detail
   [_]
   (let [do-enter-close #(let [now (system-time)]
@@ -178,7 +187,6 @@
         closer-dash    9]
     (fn [{:keys [narrow? modal-text-colour]}]
       (let [open?   @detail-opened
-            project @current-project
             shift   (if open? " translate-x-[0%] "
                         " translate-x-[100%] ")]
         [:<>
@@ -217,8 +225,4 @@
               :stroke-linejoin   "round"
               :stroke-width      "2"
               :d                 "M7.5,7.5 1,11.25 M7.5,7.5 15,4.25 M7.5,7.5 1,4.25 M7.5,7.5 15,11.25"}]]
-           [:div {:class "relative w-full h-full pt-16 pointer-events-none"}
-            [:div {:class "w-full h-full overflow-y-auto pb-2 pointer-events-auto"}
-             [:div {:class "transition-all duration-500 w-11/12 mx-auto text-2xl font-sans"
-                    :style {:color modal-text-colour}}
-              (:detail project)]]]]]]))))
+           [project-scroll modal-text-colour @current-project]]]]))))
