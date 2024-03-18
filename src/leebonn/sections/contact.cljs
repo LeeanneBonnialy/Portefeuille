@@ -2,7 +2,6 @@
   (:require
     [leebonn.content.common :as c]
     [leebonn.i18n :as i18n]
-    [leebonn.sections.intro :as intro]
     [leebonn.util :as util]))
 
 
@@ -36,14 +35,11 @@
    {:target   "_blank"
     :download "CV Leeanne Bonnialy.pdf"
     :href     "assets/CV Leeanne Bonnialy.pdf"}
-   [:div.grid.grid-cols-2
-    [:div.bottom-0.h-min.mt-auto.mb-8.squiggly [c/download-icon]]
-    [:div {:class "ml-[-80px] text-6xl"
-           :style {:writing-mode     "vertical-rl"
-                   :text-orientation "mixed"
-                   :transform        "rotate(180deg)"}}
-     [i18n/text {:fr "ou\ntéléchargez mon CV"
-                 :en "or\ndownload my CV"}]]]])
+   [:div.flex
+    [:div {:class "flex text-4xl mt-auto"}
+     [i18n/text {:fr "ou téléchargez mon CV"
+                 :en "or download my CV"}]]
+    [:div.bottom-0.h-min.w-16.mt-auto.squiggly [c/download-icon]]]])
 
 
 (defn linkedin
@@ -55,17 +51,19 @@
 
 
 (defn contacts
-  [{:keys [narrow? height width]}]
+  [ctx]
   (let []
-    [:div {:class "w-full flex m-4"}
-     [:div {:class "my-auto mx-8 font-slim text-8xl md:text-9xl space-y-8"}
-      [i18n/text {:fr "Alors, on match ? Rencontrons-nous !"
-                  :en "So we match? Let’s connect!"}]
+    [:div {:class "w-full h-full flex p-4"}
+     [:div {:class "my-auto mx-4 md:mx-8 font-slim text-6xl sm:text-8xl lg:text-9xl space-y-8"}
+      [i18n/text {:fr "Alors, on match ?\nRencontrons-nous !"
+                  :en "So we match?\nLet’s connect!"}]
       [:div
-       {:class "mx-auto flex pointer-events-auto justify-items-end"}
-       [:div.flex.mr-4.squiggly.mt-auto [linkedin "https://www.linkedin.com/in/%F0%9F%8C%9Eleeanne-bonnialy%F0%9F%8C%9E-242b441b1/"]]
-       [:div.flex.mr-4.squiggly.mt-auto [mail "mailto:bonnigeorgina@gmail.com?subject=Bonjour Leeanne"]]
-       [:div.flex.mr-4
+       {:class "mx-auto flex pointer-events-auto"}
+       [:div.flex.mr-4.squiggly.mb-auto {:class "max-w-32"} [linkedin "https://www.linkedin.com/in/%F0%9F%8C%9Eleeanne-bonnialy%F0%9F%8C%9E-242b441b1/"]]
+       [:div.flex.squiggly.mb-auto {:class "max-w-32"} [mail "mailto:bonnigeorgina@gmail.com?subject=Bonjour Leeanne"]]]
+      [:div
+       {:class "mx-auto flex pointer-events-auto"}
+       [:div.flex.mt-8
         [cv-download]]]]]))
 
 
