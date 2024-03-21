@@ -124,10 +124,10 @@
                             (if narrow? " w-full " " w-10/12 "))
              :on-click kill-event}
        [:div {:class "relative w-full h-full py-10 pointer-events-none"}
-        [:div {:class "transition-all duration-500 w-full h-full pb-2 pointer-events-auto text-3xl sm:text-4xl font-slim grid grid-cols-3"
+        [:div {:class "w-full h-full pb-2 pointer-events-auto text-3xl sm:text-4xl font-slim grid grid-cols-3"
                :style {:color modal-text-colour}}
          [:span {:class "row-span-1"}]
-         [:div {:class "row-span-4 col-start-1 col-span-1 p-4 transition-all duration-500 border-r-2 text-right"
+         [:div {:class "row-span-4 col-start-1 col-span-1 p-4 border-r-2 text-right"
                 :style {:border-color modal-text-colour}}
           "projects"]
          [:div {:class "row-start-1 col-start-2 col-span-2 row-span-1"}
@@ -140,7 +140,7 @@
          [:span {:class "row-start-7 row-span-1 h-4"}]
 
 
-         [:div {:class "p-4 h-min row-start-8 col-start-1 col-span-1 row-span-1 transition-all duration-500 border-r-2 text-right"
+         [:div {:class "p-4 h-min row-start-8 col-start-1 col-span-1 row-span-1 border-r-2 text-right"
                 :style {:border-color modal-text-colour}}
           [:a {:class    "hover-squiggly pointer-events-auto cursor-pointer opacity-100 "
                :on-click #(i18n/set-lang! :fr)} "FR"]]
@@ -153,5 +153,5 @@
 (defn overlay
   [context]
   [:<>
-   [menu context]
+   [menu (assoc context :modal-text-colour "#F472B6")]
    [menu-lang-selection context]])

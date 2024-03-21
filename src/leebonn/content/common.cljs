@@ -110,12 +110,14 @@
 
 (defn small
   [x]
-  [:span {:class "text-[22px]"} x])
+  [:span {:class "text-[21px]"} x])
 
 
 (defn bullet-list
   [& items]
-  (into [:ul.list-outside.list-disc.ml-12]
+  (into [:ul.list-outside.list-disc
+         {:class "ml-6 sm:ml-12"}]
+
         (map-indexed (fn [index item] ^{:key index} [:li item]) items)))
 
 

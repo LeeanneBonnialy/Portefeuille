@@ -74,8 +74,22 @@
 
 
 (def steps-2
-  {:fr [:span "Afin de détourner l’attention de ces grands sites touristiques, il serait bon d’attirer les voyageurs français vers des territoires hors des sentiers battus, à portée de train, en leur donnant l’opportunité de contribuer à la revalorisation de ces " [:b "p’tits bleds à fort intérêt culturel."] "\n\nDans un second temps, l’enjeu est aussi de rendre la " [:b "dimension écologique"] " dans le tourisme plus concrète. \nEn effet, 64% des Français ont entendu parler de tourisme durable mais pour 42% d’entre eux cette notion reste floue. \n\nCette ambition stratégique s’incarne à travers la création de l’association P’tits Bleds qui agit pour la promotion des villes & villages franciliens isolés, mal connus.\n\nL’association finance des projets de valorisation touristique, culturelle et écologique pour donner une meilleure visibilité à ces lieux méconnus à grand potentiel touristique."]
-   :en [:span "To divert attention from these major tourist sites, it would be efficient to attract French travelers to off-the-beaten-path areas, within reach by train, and provide them with the opportunity to contribute to the revitalization of " [:b "these culturally significant hidden gems."] "\n\nAdditionally, the challenge is to make the " [:b "ecological dimension"] " in tourism more concrete. \nIndeed, 64% of French people have heard of sustainable tourism, but for 42% of them, this concept remains unclear.\n\nThis strategic ambition is embodied by the creation of the P’tits Bleds association which promotes isolated and lesser-known towns and villages in the Île-de-France region. \n\nThe association supports projects that improve tourism, culture and ecology to make these unnoticed places with significant tourist potential more visible."]})
+  {:fr [:span
+        "Afin de détourner l’attention de ces grands sites touristiques, il serait bon d’attirer les voyageurs français vers des territoires hors des sentiers battus, à portée de train, en leur donnant l’opportunité de contribuer à la revalorisation de ces "
+        [:b "p’tits bleds à fort intérêt culturel."]
+        "\n\nDans un second temps, l’enjeu est aussi de rendre la "
+        [:b "dimension écologique"]
+        " dans le tourisme plus concrète."
+        [c/small "\nEn effet, 64% des Français ont entendu parler de tourisme durable mais pour 42% d’entre eux cette notion reste floue."]
+        "\n\nCette ambition stratégique s’incarne à travers la création de l’association P’tits Bleds qui agit pour la promotion des villes & villages franciliens isolés, mal connus.\n\nL’association finance des projets de valorisation touristique, culturelle et écologique pour donner une meilleure visibilité à ces lieux méconnus à grand potentiel touristique."]
+   :en [:span
+        "To divert attention from these major tourist sites, it would be efficient to attract French travelers to off-the-beaten-path areas, within reach by train, and provide them with the opportunity to contribute to the revitalization of "
+        [:b "these culturally significant hidden gems."]
+        "\n\nAdditionally, the challenge is to make the "
+        [:b "ecological dimension"]
+        " in tourism more concrete."
+        [c/small "\nIndeed, 64% of French people have heard of sustainable tourism, but for 42% of them, this concept remains unclear."]
+        "\n\nThis strategic ambition is embodied by the creation of the P’tits Bleds association which promotes isolated and lesser-known towns and villages in the Île-de-France region. \n\nThe association supports projects that improve tourism, culture and ecology to make these unnoticed places with significant tourist potential more visible."]})
 
 
 (def recommendation-header
@@ -84,8 +98,19 @@
 
 
 (def recommendation-1
-  {:fr "Deux objectifs : \n• Accroître la notoriété de l’association (+500 donateurs annuels) et mettre en avant un mode de voyage alternatif \n• Atteindre un plafond de collecte de 5000 euros afin de financer des projets de réhabilitation du patrimoine local.\n\nPour atteindre le plafond de collecte l’association vise les donateurs particuliers, et les philanthropes que sont les entreprises privées. \n\nParmi les cibles de donateurs particuliers, il y a trois profils pertinents : les familles de la région parisienne qui recherchent des activités à faire avec leurs enfants durant le week-end, les retraités qui sont statistiquement les plus grands donateurs pour le patrimoine et les “bobos parisiens” qui souhaitent concilier leurs modes de vie branchés avec leurs idéaux écologiques."
-   :en "Two objectives:\n• Increase the association's visibility (with over 500 annual donors) and highlight an alternative mode of travel.\n• Achieve a fundraising target of 5000 euros to finance local heritage rehabilitation projects.\n\nTo reach the fundraising level, we are targeting individual donors and philanthropists (private companies). \n\nAmong specific donor targets, three relevant profiles emerge: families from the Paris region seeking weekend activities with their children, retirees who statistically are the largest donors for cultural heritage, and \"Parisian bobos\" aiming to align their trendy lifestyles with their ecological ideals."})
+  {:fr [:span
+        "Deux objectifs :"
+        [c/bullet-list
+         "Accroître la notoriété de l’association (+500 donateurs annuels) et mettre en avant un mode de voyage alternatif"
+         "Atteindre un plafond de collecte de 5000 euros afin de financer des projets de réhabilitation du patrimoine local."]
+        "\nPour atteindre le plafond de collecte l’association vise les donateurs particuliers, et les philanthropes que sont les entreprises privées."
+        [c/small "\n\nParmi les cibles de donateurs particuliers, il y a trois profils pertinents : les familles de la région parisienne qui recherchent des activités à faire avec leurs enfants durant le week-end, les retraités qui sont statistiquement les plus grands donateurs pour le patrimoine et les “bobos parisiens” qui souhaitent concilier leurs modes de vie branchés avec leurs idéaux écologiques."]]
+   :en [:span "Two objectives:"
+        [c/bullet-list
+         "Increase the association's visibility (with over 500 annual donors) and highlight an alternative mode of travel."
+         "Achieve a fundraising target of 5000 euros to finance local heritage rehabilitation projects."]
+        "\nTo reach the fundraising level, we are targeting individual donors and philanthropists (private companies)."
+        [c/small "\n\nAmong specific donor targets, three relevant profiles emerge: families from the Paris region seeking weekend activities with their children, retirees who statistically are the largest donors for cultural heritage, and \"Parisian bobos\" aiming to align their trendy lifestyles with their ecological ideals."]]})
 
 
 (def recommendation-2
@@ -94,13 +119,18 @@
 
 
 (def recommendation-3
-  {:fr [:span "Une campagne de communication multicanale portée par le message " [:b "“Rendez-vous en bled inconnu : Devenez touriste dans votre propre région.”"] "\n\nCe message de communication pousse les franciliens à devenir des aventuriers du bled qui soutiennent le tourisme local & créatif en Ile-de-France. Le message sera décliné au travers d’une campagne print et directement auprès des donateurs, par une lettre et un bulletin de don. Le bulletin de don est accompagné d’une “prime”; un carnet de voyage, une carte répertoriant les villages d’île-de-France et une fiche d’identité détachable des départements de la région."]
-   :en [:span "We create a multi- channel communication around the message " [:b "“Visit a hidden gem : Become a tourist in your own district.”"] "\n\nThis communication message pushes Ile-de-France residents to become rural adventurers who support local & creative tourism in Ile-de-France. The message is spread via a print campaign and directly to donators by a letter and donation slip. With the letter, the donators will receive two “goodies”, a travel diary accompanied by a map of Île-de-France listing villages to visit, along with a detachable identity card of the departments."]})
+  {:fr [:span "Une campagne de communication multicanale portée par le message "
+        [:b "“Rendez-vous en bled inconnu : Devenez touriste dans votre propre région.”"]
+        [c/small "\n\nCe message de communication pousse les franciliens à devenir des aventuriers du bled qui soutiennent le tourisme local & créatif en Ile-de-France. Le message sera décliné au travers d’une campagne print et directement auprès des donateurs, par une lettre et un bulletin de don. Le bulletin de don est accompagné d’une “prime”; un carnet de voyage, une carte répertoriant les villages d’île-de-France et une fiche d’identité détachable des départements de la région."]]
+   :en [:span "We created a multi-channel communication strategy around the message "
+        [:b "“Visit a hidden gem : Become a tourist in your own district.”"]
+        [c/small "\n\nThis communication message pushes Ile-de-France residents to become rural adventurers who support local & creative tourism in Ile-de-France. The message is spread via a print campaign and directly to donators by a letter and donation slip. With the letter, the donators will receive two “goodies”, a travel diary accompanied by a map of Île-de-France listing villages to visit, along with a detachable identity card of the departments."]]})
 
 
 (def recommendation-4
   {:fr "Le lancement de la campagne de dons sur les réseaux sociaux se fera pas le lancement de l’évènement Bled Express. L'événement en ligne réunit des créateurs de contenu engagés pour l’écologie."
-   :en "The launch of the donation campaign on social media will coincide with the launch of the Bled Express event. The online event brings together content creators committed to ecology.\nTheir mission? A high-speed bicycle race to reach the village of Seraincourt in the Val d'Oise. The interactive event will be broadcasted live on Instagram. Through stories, content creators will encourage their audience to challenge them, adding excitement to the race."})
+   :en [:span "The launch of the donation campaign on social media will coincide with the launch of the Bled Express event. The online event brings together content creators committed to ecology."
+        [c/small "\n\nTheir mission? A high-speed bicycle race to reach the village of Seraincourt in the Val d'Oise. The interactive event will be broadcasted live on Instagram. Through stories, content creators will encourage their audience to challenge them, adding excitement to the race."]]})
 
 
 (def recommendation-5
@@ -110,7 +140,7 @@
 
 (defn project-detail
   []
-  [:div.space-y-4.text-pink-400
+  [:div.space-y-4.text-pink-400.leading-relaxed
    [c/title title]
    [c/competencies
     comp-1

@@ -44,8 +44,14 @@
 
 
 (def context
-  {:fr "Arte est une chaîne publique de télévision franco-allemande qui propose des programmes culturels, artistiques et éducatifs. \n\nDes baby Boomers à la GenZ, Arte touche un large public grâce à sa présence sur d’autres plateformes dont YouTube et Twitch et en explorant de nouveaux formats narratifs, notamment le podcast.\nGuidée par son rôle de chaîne du service public, Arte souhaite sensibiliser le public à des thématiques de société, notamment la question écologique.\n\nL'objectif principal est de faire évoluer les contenus et les récits afin d'accorder une place plus significative à la thématique écologique sous toutes ses formes."
-   :en "Arte is a French-German public television channel that offers cultural, artistic, and educational programs. \n\nFrom Baby Boomers to Gen Z, Arte extends its reach through platforms like YouTube and Twitch, exploring innovative narrative formats, including podcasts.Driven by its commitment to public service, Arte aims to raise awareness about societal issues, with a primary focus on ecological concerns.\n\nThe main objective is to transform content and storytelling to give a more significant place to the ecological theme in all its forms."})
+  {:fr [:span
+        "Arte est une chaîne publique de télévision franco-allemande qui propose des programmes culturels, artistiques et éducatifs."
+        [c/small "\n\nDes baby Boomers à la GenZ, Arte touche un large public grâce à sa présence sur d’autres plateformes dont YouTube et Twitch et en explorant de nouveaux formats narratifs, notamment le podcast. Guidée par son rôle de chaîne du service public, Arte souhaite sensibiliser le public à des thématiques de société, notamment la question écologique."]
+        "\n\nL'objectif principal est de faire évoluer les contenus et les récits afin d'accorder une place plus significative à la thématique écologique sous toutes ses formes."]
+   :en [:span
+        "Arte is a French-German public television channel that offers cultural, artistic, and educational programs."
+        [c/small "\n\nFrom Baby Boomers to Gen Z, Arte extends its reach through platforms like YouTube and Twitch, exploring innovative narrative formats, including podcasts. Driven by its commitment to public service, Arte aims to raise awareness about societal issues, with a primary focus on ecological concerns."]
+        "\n\nThe main objective is to transform content and storytelling to give a more significant place to the ecological theme in all its forms."]})
 
 
 (def challenge-header
@@ -74,8 +80,14 @@
 
 
 (def steps-1
-  {:fr "La réalisation d’une étude qualitative comptant 10 entretiens semi-directifs. \n\nLes 10 personnes ont été sélectionnées en fonction de leur critère d'âge (appartenance à une génération) et de leur lieu d’habitation (en ville/ en milieu rural). \n5 générations ont été interrogées selon les catégories marketing préexistantes qui qualifient les stéréotypes générationnels : les baby boomers, la GenX, les Millenials, la GenZ et les Alpha.\n\nL’angle stratégique adopté pour réaliser cette étude qualitative ambitieuse : Interroger les sociotype générationnels par l’angle des moments de vie qui ont eu un impact sur leur imaginaire, leur engagement à propos de l’écologie. \n\nCette étude qualitative a été complétée par une étude quantitative via un formulaire Google doc. L'étude quantitative comptabilise 60 répondants."
-   :en "The realization  of a qualitative study involving 10 guided interviews. \n\nThe individuals were selected on their age criteria (belonging to a specific generation) and their living environment (urban/rural). \nFive generations were interviewed according to pre-existing marketing categories that characterize generational stereotypes: Baby Boomers, GenX, Millennials, GenZ, and Alpha.\n\nThe strategic focus of this qualitative study is to question the generational sociotype on their life moments that have shaped their relationship with ecology. \n\nThis qualitative study has been completed by a quantitative study on Google form. The quantitative study counts 60 participants."})
+  {:fr [:span
+        "La réalisation d’une étude qualitative comptant 10 entretiens semi-directifs."
+        [c/small "\n\nLes 10 personnes ont été sélectionnées en fonction de leur critère d'âge (appartenance à une génération) et de leur lieu d’habitation (en ville/ en milieu rural). \n5 générations ont été interrogées selon les catégories marketing préexistantes qui qualifient les stéréotypes générationnels : les baby boomers, la GenX, les Millenials, la GenZ et les Alpha."]
+        "\n\nL’angle stratégique adopté pour réaliser cette étude qualitative ambitieuse : Interroger les sociotype générationnels par l’angle des moments de vie qui ont eu un impact sur leur imaginaire, leur engagement à propos de l’écologie. \n\nCette étude qualitative a été complétée par une étude quantitative via un formulaire Google doc. L'étude quantitative comptabilise 60 répondants."]
+   :en [:span
+        "The realization of a qualitative study involving 10 guided interviews."
+        [c/small "\n\nThe individuals were selected on their age criteria (belonging to a specific generation) and their living environment (urban/rural).\nFive generations were interviewed according to pre-existing marketing categories that characterize generational stereotypes: Baby Boomers, GenX, Millennials, GenZ, and Alpha."]
+        "\n\nThe strategic focus of this qualitative study is to question the generational sociotype on their life moments that have shaped their relationship with ecology. \n\nThis qualitative study has been completed by a quantitative study on Google form. The quantitative study counts 60 participants."]})
 
 
 (def download-questionnaire
@@ -89,13 +101,13 @@
 
 
 (def recommendation
-  {:fr "Les résultats de l’analyse permettent d’établir un mapping des sujets qui intéressent le plus en fonction des générations. La cause animale arrive en tête. \n\nLa série est le format préféré pour toucher plusieurs générations. Les enjeux écologiques sont appréciés comme toile de fond mais la créativité de l'intrigue reste essentielle pour attirer l’audience."
-   :en "The analysis results allow for mapping the subjects that interest each generation the most, with animal welfare ranking first. \n\nSeries are the preferred format to reach multiple generations. While environmental issues are appreciated as a backdrop, the creativity of the plot remains essential to attract the audience."})
+  {:fr "Les résultats de l’analyse permettent d’établir un mapping des sujets qui intéressent le plus en fonction des générations. La cause animale arrive en tête.\n\nLa série est le format préféré pour toucher plusieurs générations. Les enjeux écologiques sont appréciés comme toile de fond mais la créativité de l'intrigue reste essentielle pour attirer l’audience."
+   :en "The results of the analysis make it possible to establish a mapping of the subjects which interest each generation the most, with animal welfare ranking first.\n\nTV series are the preferred format to reach multiple generations. While environmental issues are appreciated as a backdrop, the creativity of the plot remains essential to attract an audience."})
 
 
 (defn project-detail
   []
-  [:div.space-y-4.text-pink-400
+  [:div.space-y-4.text-pink-400.leading-relaxed
    [c/title long-title]
    [c/competencies
     comp-1
