@@ -15,7 +15,7 @@
 
 (def comp-2
   {:fr "Conception-rédaction"
-   :en "CR"})
+   :en "Copywriting"})
 
 
 (def comp-3
@@ -69,8 +69,14 @@
 
 
 (def objective
-  {:fr "• Notoriété : faire connaître la nouvelle marque. \n• L’usage : accroître le nombre d’utilisateurs.\n• Donner une meilleure visibilité à la marque employeur : valoriser Rogervoice comme entreprise inclusive, épanouissante, engagée dans une mission d'intérêt public."
-   :en "• Awareness: introduce the new brand.\n• Usage: increase the number of users.\n• Enhance employer brand visibility: show Rogervoice as an inclusive, fulfilling company committed to a public-interest mission."})
+  {:fr [c/bullet-list
+        "Notoriété : faire connaître la nouvelle marque."
+        "L’usage : accroître le nombre d’utilisateurs."
+        "Donner une meilleure visibilité à la marque employeur : valoriser Rogervoice comme entreprise inclusive, épanouissante, engagée dans une mission d'intérêt public."]
+   :en [c/bullet-list
+        "Awareness: introduce the new brand."
+        "Usage: increase the number of users."
+        "Enhance employer brand visibility: show Rogervoice as an inclusive, fulfilling company committed to a public-interest mission."]})
 
 
 (def recommendation-header
@@ -79,13 +85,55 @@
 
 
 (def recommendation
-  {:fr [:span "Rogervoice est actif sur Linkedin, Instagram, et Facebook. Ces plateformes réunissent les 4 cibles de la marque :\n• Les personnes avec différents niveaux de baisse auditive.\n• Les proches des personnes qui ont des difficultés à entendre\n• Les personnes signantes.\n• Les interprètes en langue des signes et les profils techniques travaillant dans le domaine de l’accessibilité.\n\nLa vision de Rogervoice ? Rogervoice est une application partenaire du quotidien qui par une approche dynamique, fun et simple déstigmatise la surdité et la malentendance pour favoriser la création de lien. \n\nPour déployer la vision de Rogervoice, de nouveaux formats social média ont été déployés, selon trois axes stratégiques.\n\n" [:b "Axe 1 : NOTORIÉTÉ"] "\n• Mettre en scène l’application à travers le quotidien de ses utilisateurs, en insistant sur la variété de public.\n• Positionner l’application sur des questions sociétales de l’inclusivité, l’accessibilité et rebondir sur l’actualité.\n• Raconter la création de lien social permis par l’application.\n\n" [:b "Axe 2 : USAGE"] "\n• Capitaliser sur les marronniers de communication pour donner de la visibilité à l’application.\n• Valoriser les fonctionnalités de Rogervoice pour inciter au téléchargement et démontrer son aspect novateur.\n\n" [:b "Axe 3 : RECRUTEMENT"] "\n• Valoriser la marque employeur.\n• Mettre en avant les collaborateurs et les valeurs de la culture d’entreprise.\n\nLe travail complémentaire sur le ton de voix est essentiel pour représenter la promesse du service Rogervoice.\nSur les réseaux sociaux grand public, Rogervoice adopte un ton chaleureux et empathique, similaire à une conversation entre amis, avec des pointes d'humour.\nSur LinkedIn, le ton est plus professionnel et expert, tout en conservant cette touche d'humour."]
-   :en [:span "Rogervoice is present on Linkedin, Instagram, and Facebook. These platforms bring together the four target audiences of Rogervoice:\n• Individuals with varying levels of hearing loss, including the hard of hearing and oral deaf individuals.\n• Relatives who are in contact with individuals experiencing hearing difficulties.\n• Deaf sign language users.\n• Sign language interpreters and technical profiles working in the field of accessibility.\n\nThe vision of Rogervoice? Rogervoice is an everyday companion application that, through a dynamic, fun, and simple approach, destigmatizes deafness and hearing impairment to promote the creation of connections.\n\nTo implement the vision of Rogervoice, new social media formats have been deployed according to the following three strategic axes.\n\n" [:b "Axe 1: AWARENESS"] "• Show the application through the daily lives of its users, emphasizing the diversity of the audience (deaf, hard of hearing, and their relatives).\n• Position the application on societal issues of inclusivity and accessibility, leveraging current events.\n• Narrate the social connections facilitated by the application.\n• Capitalize on communication milestones to increase visibility for the application.\n• Showcase Rogervoice's features to encourage downloads and demonstrate its innovative aspects.\n\n" [:b "Axe 2 : USER"] "\n• Capitalize on communication milestones to increase visibility for the application.\n• Showcase Rogervoice's features to encourage downloads and demonstrate its innovative aspects.\n\n" [:b "Axe 3 : RECRUITMENT"] "\n• Enhance employer branding: Present Rogervoice as an inclusive, fulfilling company with a public-interest mission.\n• Showcase employees and the values of the corporate culture.\n\nIn addition, to work on the tone of voice is essential to reflect Rogervoice's service promise.\nOn mainstream social media, Rogervoice adopts a warm and empathetic tone, akin to a conversation among friends, with dashes of humor.\nOn LinkedIn, the tone is more professional and expert, while still retaining that touch of humor."]})
+  {:fr [:span "Rogervoice est actif sur Linkedin, Instagram, et Facebook. Ces plateformes réunissent les 4 cibles de la marque :"
+        [c/small [c/bullet-list
+                  "Les personnes avec différents niveaux de baisse auditive."
+                  "Les proches des personnes qui ont des difficultés à entendre"
+                  "Les personnes signantes."
+                  "Les interprètes en langue des signes et les profils techniques travaillant dans le domaine de l’accessibilité."]]
+        "\nLa vision de Rogervoice ? Rogervoice est une application partenaire du quotidien qui par une approche dynamique, fun et simple déstigmatise la surdité et la malentendance pour favoriser la création de lien. \n\nPour déployer la vision de Rogervoice, de nouveaux formats social média ont été déployés, selon trois axes stratégiques.\n\n"
+        [:b "Axe 1 : NOTORIÉTÉ"]
+        [c/small [c/bullet-list
+                  "Mettre en scène l’application à travers le quotidien de ses utilisateurs, en insistant sur la variété de public."
+                  "Positionner l’application sur des questions sociétales de l’inclusivité, l’accessibilité et rebondir sur l’actualité."
+                  "Raconter la création de lien social permis par l’application."]]
+        [:b "\nAxe 2 : USAGE"]
+        [c/small [c/bullet-list
+                  "Capitaliser sur les marronniers de communication pour donner de la visibilité à l’application."
+                  "Valoriser les fonctionnalités de Rogervoice pour inciter au téléchargement et démontrer son aspect novateur."]]
+        [:b "\nAxe 3 : RECRUTEMENT"]
+        [c/small [c/bullet-list
+                  "Valoriser la marque employeur."
+                  "Mettre en avant les collaborateurs et les valeurs de la culture d’entreprise."]]
+        "\n\nLe travail complémentaire sur le ton de voix est essentiel pour représenter la promesse du service Rogervoice."
+        [c/small "\n\nSur les réseaux sociaux grand public, Rogervoice adopte un ton chaleureux et empathique, similaire à une conversation entre amis, avec des pointes d'humour.\nSur LinkedIn, le ton est plus professionnel et expert, tout en conservant cette touche d'humour."]]
+   :en [:span "Rogervoice is present on Linkedin, Instagram, and Facebook. These platforms bring together the four target audiences of Rogervoice:"
+        [c/small [c/bullet-list
+                  "Individuals with varying levels of hearing loss, including the hard of hearing and oral deaf individuals."
+                  "Relatives who are in contact with individuals experiencing hearing difficulties."
+                  "Deaf sign language users."
+                  "Sign language interpreters and technical profiles working in the field of accessibility."]]
+        "\nThe vision of Rogervoice? Rogervoice is an everyday companion application that, through a dynamic, fun, and simple approach, destigmatizes deafness and hearing impairment to promote the creation of connections.\n\nTo implement the vision of Rogervoice, new social media formats were developed according to the following three strategic axes.\n\n"
+        [:b "Axe 1: AWARENESS"]
+        [c/small [c/bullet-list
+                  "Show the application through the daily lives of its users, emphasizing the diversity of the audience (deaf, hard of hearing, and their relatives)."
+                  "Position the application on societal issues of inclusivity and accessibility, leveraging current events."
+                  "Narrate the social connections facilitated by the application."]]
+        [:b "\nAxe 2 : USER"]
+        [c/small [c/bullet-list
+                  "Capitalize on communication milestones to increase visibility for the application."
+                  "Showcase Rogervoice's features to encourage downloads and demonstrate its innovative aspects."]]
+        [:b "\nAxe 3 : RECRUITMENT"]
+        [c/small [c/bullet-list
+                  "Enhance employer branding: Present Rogervoice as an inclusive, fulfilling company with a public-interest mission."
+                  "Showcase employees and the values of the corporate culture."]]
+        "\n\nIn addition, to work on the tone of voice is essential to reflect Rogervoice's service promise."
+        [c/small "\n\nOn mainstream social media, Rogervoice adopts a warm and empathetic tone, akin to a conversation among friends, with dashes of humor.\nOn LinkedIn, the tone is more professional and expert, while still retaining that touch of humor."]]})
 
 
 (defn project-detail
   []
-  [:div.space-y-4.text-pink-400
+  [:div.space-y-4.text-pink-400.leading-relaxed
    [c/title title]
    [c/competencies
     comp-1

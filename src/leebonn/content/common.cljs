@@ -78,7 +78,7 @@
   [text & {:keys [classes]
            :or   {classes "text-pink-500"}}]
   [:<>
-   [i18n/text {:class (str "pt-8 font-slim text-4xl " classes)} text]
+   [i18n/text {:class (str "pt-10 font-slim text-4xl " classes)} text]
    [horizontal-rule]])
 
 
@@ -106,6 +106,17 @@
                                                                 :en "Acquired skills"}]
    (for [i18n i18ns]
      ^{:key i18n} [pill i18n])])
+
+
+(defn small
+  [x]
+  [:span {:class "text-[22px]"} x])
+
+
+(defn bullet-list
+  [& items]
+  (into [:ul.list-outside.list-disc.ml-12]
+        (map-indexed (fn [index item] ^{:key index} [:li item]) items)))
 
 
 (defn page-end-buffer
