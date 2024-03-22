@@ -40,14 +40,14 @@
 (defn carousel-image
   [src offset]
   (when (contains? #{-1 0 1} offset)
-    [:div {:class (str "absolute top-0 duration-500 px-8 md:px-14 transition-all "
+    [:div {:class (str "absolute top-0 duration-500 px-8 md:px-14 transition-all w-full"
                        (case offset
                          -1 " translate-x-[110%] opacity-0"
                          0 " translate-x-[0%] opacity-100"
                          1 " translate-x-[-110%] opacity-0"))}
      [img/deferred-image
       src
-      {:class "rounded-lg shadow-lg"}]]))
+      {:class "rounded-lg shadow-lg max-h-[80vh] mx-auto"}]]))
 
 
 (defn cross
@@ -118,19 +118,20 @@
 (defn carousel-view
   [& _args]
   (let [ref (react/createRef)]
-    (fn [index content on-click]
+    (fn [index content on-click {:keys [classes]}]
       [:div.w-full.relative.overflow-hidden
        [img/deferred-image
         (first @content)
-        {:class "px-8 md:px-14 opacity-0"
+        {:class "px-8 md:px-14 opacity-0 max-h-[80vh]"
          :ref   ref}]
        (doall (map-indexed
                 (fn [i image]
-                  ^{:key i} [carousel-image image (- @index i)])
+                  ^{:key i} [carousel-image image (- @index i)
+                             {:class "max-h-screen"}])
                 @content))
        [:div {:class    "absolute top-0 w-full h-full flex cursor-pointer"
               :on-click (fn [e] (on-click e (.-current ref) index content))}
-        [:div {:class "h-8 md:h-16 w-full my-auto flex justify-between text-pink-300"}
+        [:div {:class (str "h-8 md:h-16 w-full my-auto flex justify-between " (or classes "text-pink-300"))}
          [arrow index content -1]
          [arrow index content 1]]]])))
 

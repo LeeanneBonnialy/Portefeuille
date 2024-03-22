@@ -115,10 +115,12 @@
         narrow?           (> height width)
         transition        {:class "transition-all"
                            :style {:transition-duration (str scene-transition-ms "ms")}}
+
+        overlay (get self-context (/ (get-in nav-context [:target :index]) 2))
         text-colour       "#FFFFFF"
         modal-text-colour (if (or @overlay/open-atom?
                                   @projects/detail-opened)
-                            "#F472B6"
+                            (:text-colour overlay "#F472B6")
                             "#FFFFFF")
 
         bg-colour         "#F9A8D4"
@@ -134,7 +136,7 @@
                                 :transition transition
                                 :text-colour text-colour
                                 :modal-text-colour modal-text-colour)
-                              (merge (get self-context (/ (get-in nav-context [:target :index]) 2))))]
+                              (merge overlay))]
     (into view [context])))
 
 
@@ -155,10 +157,10 @@
   [ctx _projects]
   (let [[x y] (projects/max-project-fit ctx)
         max-per-page      (* x y)
-        ;options           (map inc (range (min max-per-page 4)))
-        ;option-preference (fn [o]
-        ;                    (- (group-badness (group-projects projects o) o)))
-        ;[best-option] (sort-by option-preference options)
+        ;; options           (map inc (range (min max-per-page 4)))
+        ;; option-preference (fn [o]
+        ;;                    (- (group-badness (group-projects projects o) o)))
+        ;; [best-option] (sort-by option-preference options)
         ]
     max-per-page))
 
@@ -203,7 +205,7 @@
                             :view [projects/project-detail]}
                            {:id   :menu
                             :view [overlay/overlay]}
-                           {:id   :carousel
+                           #_{:id   :carousel
                             :view [carousel/carousel-overlay]}
                            {:id   :svg-filters
                             :view [svg-defs]}]

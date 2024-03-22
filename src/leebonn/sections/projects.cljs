@@ -5,6 +5,7 @@
     [leebonn.content.ptit-bleds :as ptit-bleds]
     [leebonn.content.roger :as roger]
     [leebonn.content.seazon :as seazon]
+    [leebonn.content.sncf :as sncf]
     [leebonn.i18n :as i18n]
     [leebonn.image-loader :as img]
     [leebonn.navigation :as nav]
@@ -83,14 +84,14 @@
     :view           project-item}
 
 
-   {:bg-colour      "#19A8D4"
-    :anchor         :ptit-bleds2
-    :detail-anchor  :ptit-bleds2-detail
-    :image          "ptit-bleds/main_1.jpg"
-    :image-position "bg-[#fef2c2] object-contain object-center"
-    :title          ptit-bleds/title
-    :detail         [ptit-bleds/project-detail]
-    :view           project-item}
+   {:bg-colour     "#93C5FD"
+    :text-colour   "#60A5FA"
+    :anchor        :sncf
+    :detail-anchor :sncf-detail
+    :image         "sncf/sncf_comics2.jpg"
+    :title         sncf/title
+    :detail        [sncf/project-detail]
+    :view          project-item}
 
    #_{:anchor        :lart5
       :detail-anchor :lart-detail5

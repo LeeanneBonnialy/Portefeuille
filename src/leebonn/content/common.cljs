@@ -8,7 +8,7 @@
 
 
 (defn carousel
-  [_images]
+  [_images & {:as opts}]
   (let [index (r/atom 0)]
     (fn [images]
       [:div
@@ -16,7 +16,8 @@
        [carousel-overlay/carousel-view
         index
         (atom images)
-        carousel-overlay/click-scroll-carousel]])))
+        carousel-overlay/click-scroll-carousel
+        opts]])))
 
 
 (defn carousel-dir
@@ -27,8 +28,8 @@
 
 
 (defn horizontal-rule
-  []
-  [:hr {:class "w-full mt-4 h-0.5 bg-pink-300"}])
+  [& {:keys [classes]}]
+  [:hr {:class (str "w-full mt-4 h-0.5 " (or classes "bg-pink-300"))}])
 
 
 (defn inline-img
@@ -67,16 +68,15 @@
 
 
 (defn title
-  [text]
-  [i18n/text {:class "font-slim text-6xl text-pink-500 pb-4"} text])
+  [text & {:keys [classes]}]
+  [i18n/text {:class (str "font-slim text-6xl pb-4 " (or classes "text-pink-500"))} text])
 
 
 (defn header
-  [text & {:keys [classes]
-           :or   {classes "text-pink-500"}}]
+  [text & {:keys [classes rule-classes]}]
   [:<>
-   [i18n/text {:class (str "pt-10 font-slim text-4xl " classes)} text]
-   [horizontal-rule]])
+   [i18n/text {:class (str "pt-10 font-slim text-4xl " (or classes "text-pink-500"))} text]
+   [horizontal-rule :classes (or rule-classes "bg-pink-300")]])
 
 
 (defn body
@@ -91,18 +91,19 @@
 
 
 (defn pill
-  [i18n-key]
-  [:div {:class "col-span-1 row-span-1 bg-pink-300 text-white rounded-full w-max h-min px-4 text-sm mr-2 my-2"}
+  [i18n-key & {:keys [classes]}]
+  [:div {:class (str "col-span-1 row-span-1 rounded-full w-max h-min px-4 text-sm mr-2 my-2 " (or classes "bg-pink-300 text-white"))}
    [i18n/text {:class "whitespace-nowrap"} i18n-key]])
 
 
 (defn competencies
-  [& i18ns]
+  [i18ns & {:keys [classes pill-classes]}]
   [:div {:class "justify-items-center items-center h-min-fit h-min w-full flex flex-wrap"}
-   [i18n/text {:class "font-slim text-2xl text-pink-500 pr-4"} {:fr "Compétences mobilisées"
-                                                                :en "Acquired skills"}]
+   [i18n/text {:class (str "font-slim text-2xl pr-4 " (or classes "text-pink-500"))}
+    {:fr "Compétences mobilisées"
+     :en "Acquired skills"}]
    (for [i18n i18ns]
-     ^{:key i18n} [pill i18n])])
+     ^{:key i18n} [pill i18n {:classes pill-classes}])])
 
 
 (defn small

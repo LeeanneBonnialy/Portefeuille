@@ -131,10 +131,10 @@
   [:div.space-y-4.text-pink-400.leading-relaxed
    [c/title seazon-title]
    [c/competencies
-    seazon-comp-1
-    seazon-comp-2
-    seazon-comp-3
-    seazon-comp-4]
+    [seazon-comp-1
+     seazon-comp-2
+     seazon-comp-3
+     seazon-comp-4]]
 
    [c/header seazon-brief-header]
    [c/body seazon-brief]

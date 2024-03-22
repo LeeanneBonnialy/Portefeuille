@@ -39,19 +39,23 @@
 
 
 (defn hard-skills
-  [{:keys [header-classes]}]
+  [{:keys [header-classes rule-classes]}]
   [:div.space-y-4
    [c/header {:fr "Hard skills"
-              :en "Hard skills"} :classes header-classes]
+              :en "Hard skills"}
+    :classes header-classes
+    :rule-classes rule-classes]
    [c/body {:fr "✍\uD83C\uDFFEPlume incisive et sensible \n\uD83D\uDD78\uFE0FAttrapeuse d’insights\n\uD83D\uDCDACondenser des rapports en une phrase \n\uD83D\uDD0DAnalyser des stratégies de marque \n\uD83D\uDD75\uD83C\uDFFD\u200D♀\uFE0FInvestiguer et définir des territoires de marque \n\uD83D\uDC40Garder l’oeil ouvert sur la concurrence \n\uD83D\uDDD2\uFE0FConduire une étude qualitative et quantitative \n\uD83E\uDD33\uD83C\uDFFEStratégie de contenu social média ( la manière pro de dire que je passe mon temps sur Instagram, Threads, Tiktok…oups !)\n\n\uD83E\uDD1D\uD83C\uDFFECopine avec Powerpoint & Google slide\n\uD83E\uDD47Ceinture noire en Canva \n\uD83E\uDDD1\uD83C\uDFFD\u200D\uD83D\uDCBBJouer les Big Brother avec Visibrain"
             :en "✍\uD83C\uDFFEStrong writing skills \n\uD83D\uDD78\uFE0FInsights catcher\n\uD83D\uDCDACondensing reports into a single sentence\n\uD83D\uDD0DAnalyzing brand strategies\n\uD83D\uDD75\uD83C\uDFFD\u200D♀\uFE0FInvestigating and defining brand territories\n\uD83D\uDC40Keeping an eye on the competition\n\uD83D\uDDD2\uFE0FConducting qualitative and quantitative studies\n\uD83E\uDD33\uD83C\uDFFESocial media content strategy (the professional way of saying I spend my time on Instagram, Threads, TikTok...oops!)\n\n\uD83E\uDD1DBFFs with PowerPoint & Google Slides\n\uD83E\uDD47Black belt in Canva\n\uD83E\uDDD1\uD83C\uDFFD\u200D\uD83D\uDCBBPlaying Big Brother with Visibrain"}]])
 
 
 (defn soft-skills
-  [{:keys [header-classes]}]
+  [{:keys [header-classes rule-classes]}]
   [:div.space-y-4
    [c/header {:fr "Soft skills"
-              :en "Soft skills"} :classes header-classes]
+              :en "Soft skills"}
+    :classes header-classes
+    :rule-classes rule-classes]
    [c/body {:fr "❤\uFE0FCuriosité\n\uD83D\uDCA1Créativité \n✨Travail en équipe \n\uD83D\uDDE3\uFE0FA l’aise à l’oral \n\uD83E\uDD14Esprit critique"
             :en "❤\uFE0FCuriosity \n\uD83D\uDCA1Creative\n✨Teamwork lover \n\uD83D\uDDE3\uFE0FComfortable speaking in public\n\uD83E\uDD14Critical thinking"}]])
 
@@ -59,7 +63,7 @@
 (defn large-letter-1
   [ctx proj]
   [:div.space-y-4
-   [c/header title :classes ""]
+   [c/header title :classes "" :rule-classes "bg-white"]
    [c/body {:fr "“I am more than a communication strategist, I am a storyteller and a bold conversation-starter”.\n\nJe suis Leeanne Bonnialy, une amoureuse des mots et des questions audacieuses. Je recherche un stage de 6 mois à l’étranger en stratégie de marque au sein d’une agence de communication. \n\nMon histoire est celle d’une culture-lover formée à la recherche en science humaine devenue planneur stratégique. Passionnée par le spectacle vivant et l’écriture,j’ai d’abord fait mes armes en communication stratégique et évènementielle auprès d’institutions culturelles. \n(Après l’obtention de mon master en communication au CELSA-Sorbonne Université j’ai décidé de réaliser une année post-master pour me spécialiser en stratégie de marque.)"
             :en "“I am more than a communication strategist, I am a storyteller and a bold conversation-starter”.\n\nI am Leeanne Bonnialy, a lover of words and question marks. I am seeking a 6-month internship abroad in brand strategy within a communication agency.\nMy story is dealing with a culture-aficionado, trained in humanities research who turned into a communication strategist. Passionate about theater and writing, I honed my skills in strategic communication and event management within cultural institutions."}]])
 
@@ -84,8 +88,10 @@
 (defn large-letter-3
   [opts]
   [:div.space-y-4
-   [hard-skills opts]
-   [soft-skills opts]])
+   [hard-skills {:header-classes "text-white"
+                 :rule-classes   "bg-white"}]
+   [soft-skills {:header-classes "text-white"
+                 :rule-classes   "bg-white"}]])
 
 
 (defn intro-detail
@@ -94,8 +100,8 @@
    [c/title title]
    [c/body {:fr "Mon parcours est celui d'une culture-lover issue d'une formation en sciences humaines, aujourd’hui spécialisée en stratégie de communication.\nPassionnée par le spectacle vivant et d'écriture, j’ai d’abord fait mes armes en communication évènementielle et stratégique auprès d’institutions culturelles. \n\nMon métier aujourd’hui est de construire des récits de marque qui font bouger le monde. \n\nJe suis une metteure en scène qui a la volonté de trouver le meilleur arc narratif, le meilleur rôle et la meilleure scène pour faire briller la personnalité de chaque marque auprès de son public.  \n\nMes atouts ? Une belle plume, une créativité débordante et une capacité à penser en dehors des sentiers battus pour concevoir des identités de marque et des messages percutants.\n\nEt si on passait à l’action pour inventer ensemble le récit dont tout le monde se souviendra ?"
             :en "A culture-lover with a background in human sciences, now specialized in communication strategy.\nPassionate about theater and writing, I honed my skills in strategic communication and event management within cultural institutions.\n\nI choose to do brand strategy because it’s the perfect intersection between my curiosity to understand people and my passion for storytelling. \n\nMy mission today is to craft brand narratives that shake up the world.\nI see myself as a stage director, who is determined to find the most compelling storyline, the perfect role, and the ideal stage to showcase each brand's personality to its audience. \n\nWhat sets me apart? A flair for writing, boundless creativity, and the ability to think outside of the box to shape brand identities and send impactful messages.\n\nLet's embark on the journey together to create the narrative that will be etched in everyone's memory."}]
-   [hard-skills {:header-classes "text-pink-500"}]
-   [soft-skills {:header-classes "text-pink-500"}]
+   [hard-skills nil]
+   [soft-skills nil]
    [cv-download]
    [c/page-end-buffer]])
 

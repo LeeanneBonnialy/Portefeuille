@@ -110,9 +110,9 @@
   [:div.space-y-4.text-pink-400.leading-relaxed
    [c/title long-title]
    [c/competencies
-    comp-1
-    comp-2
-    comp-3]
+    [comp-1
+     comp-2
+     comp-3]]
 
    [c/header brief-header]
    [c/body brief]

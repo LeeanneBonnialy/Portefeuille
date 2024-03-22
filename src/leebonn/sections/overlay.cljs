@@ -97,16 +97,16 @@
 
 (defn simple-menu-item
   [modal-text-colour title on-click active?]
-  [:div {:class    (str "p-4 cursor-pointer h-full w-min"
+  [:div {:class    (str "px-2 cursor-pointer h-full w-min flex"
                         (when active? " border-l-2"))
          :style    {:border-color modal-text-colour}
          :on-click on-click}
-   [:div {:class "hover-squiggly whitespace-nowrap"}
-    [i18n/text {:class "whitespace-nowrap"} title]]])
+   [:div {:class "hover-squiggly whitespace-nowrap my-auto"}
+    [i18n/text {:class "whitespace-nowrap align-middle"} title]]])
 
 
 (defn menu
-  [{:keys [narrow? modal-text-colour] :as context}]
+  [{:keys [narrow? modal-text-colour]}]
   (let [open?           @open-atom?
         shift           (if open? " translate-x-[0%] "
                             " translate-x-[100%] ")
@@ -127,24 +127,34 @@
         [:div {:class "w-full h-full pb-2 pointer-events-auto text-3xl sm:text-4xl font-slim grid grid-cols-3"
                :style {:color modal-text-colour}}
          [:span {:class "row-span-1"}]
-         [:div {:class "row-span-4 col-start-1 col-span-1 p-4 border-r-2 text-right"
-                :style {:border-color modal-text-colour}}
-          "projects"]
+         ;; title
          [:div {:class "row-start-1 col-start-2 col-span-2 row-span-1"}
           [simple-menu-item modal-text-colour intro/title #(do (close-menu true %) (nav/go-to-anchor :intro-detail)) (active? :intro :intro-detail)]]
+
+         ;; project tag
+         [:div {:class "row-span-1 col-start-1 col-span-1 text-right px-2 w-full h-full flex border-r-2"
+                :style {:border-color modal-text-colour}}
+          [:div {:class "whitespace-nowrap w-full my-auto text-right"}
+           "projects"]]
+
+         ;; project items
          (for [{:keys [title anchor detail-anchor] :as proj} projects/projects]
            ^{:key anchor} [:div {:class "col-start-2 col-span-2 row-span-1"}
                            [simple-menu-item modal-text-colour title #(do (close-menu true %) (projects/open-project proj)) (active? anchor detail-anchor)]])
-         [:div {:class "row-start-6 col-start-2 col-span-2 row-span-1"}
+         [:div {:class "row-span-4 row-start-3 col-start-1 col-span-1 border-r-2"
+                :style {:border-color modal-text-colour}}]
+
+         ;; contact
+         [:div {:class "col-start-2 col-span-2 row-span-1"}
           [simple-menu-item modal-text-colour contact/title #(do (close-menu true %) (nav/go-to-anchor :contact)) (active? :contact)]]
-         [:span {:class "row-start-7 row-span-1 h-4"}]
+         [:span {:class "row-span-1 col-span-3 h-4"}]
 
-
-         [:div {:class "p-4 h-min row-start-8 col-start-1 col-span-1 row-span-1 border-r-2 text-right"
+         ;; lang
+         [:div {:class "p-4 h-min col-start-1 col-span-1 row-span-1 border-r-2 text-right"
                 :style {:border-color modal-text-colour}}
           [:a {:class    "hover-squiggly pointer-events-auto cursor-pointer opacity-100 "
                :on-click #(i18n/set-lang! :fr)} "FR"]]
-         [:div {:class "p-4 h-min row-start-8 col-start-2 col-span-1 row-span-1"
+         [:div {:class "p-4 h-min col-start-2 col-span-1 row-span-1"
                 :style {:border-color modal-text-colour}}
           [:a {:class    "hover-squiggly pointer-events-auto cursor-pointer opacity-100 "
                :on-click #(i18n/set-lang! :en)} "EN"]]]]]]]))
@@ -153,5 +163,5 @@
 (defn overlay
   [context]
   [:<>
-   [menu (assoc context :modal-text-colour "#F472B6")]
+   [menu context]
    [menu-lang-selection context]])
