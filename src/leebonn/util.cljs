@@ -64,21 +64,24 @@
 
 
 (defn fly-in
-  [{:keys [offset transition text-colour]} content before after]
+  [{:keys [offset transition text-colour bg-colour]} content before after]
   (let [translation {:style
                      {:transform (case offset
                                    -1 before
                                    1 after
                                    "translate(0%, 0%)")}}]
-    (when (contains? #{-1 0 1} offset)
+    (when (contains? #{-1 0 1 2} offset)
       [:div (combine-style transition
                            {:class "font-sans absolute text-xl w-full h-full flex"
-                            :style {:color text-colour}}
+                            :style {:color    text-colour
+                                    :background-color bg-colour}}
                            {:class (case offset
                                      -1 " pointer-events-none opacity-0"
                                      0 " opacity-100 pointer-events-auto"
-                                     1 " pointer-events-none opacity-0")})
-       [:div (combine-style transition
-                            {:class "flex w-full h-full relative"}
-                            translation)
-        content]])))
+                                     1 " pointer-events-none opacity-100"
+                                     2 " pointer-events-none opacity-100")})
+       (when (contains? #{-1 0 1} offset)
+         [:div (combine-style transition
+                              {:class "flex w-full h-full relative"}
+                              translation)
+          content])])))

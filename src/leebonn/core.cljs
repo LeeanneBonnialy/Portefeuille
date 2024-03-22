@@ -110,7 +110,7 @@
 
 
 (defn with-context
-  [menu-anchors view origin-index {:keys [current-index scene-transition-ms] :as nav-context}]
+  [self-context menu-anchors view origin-index {:keys [current-index scene-transition-ms] :as nav-context}]
   (let [{:keys [width height]} @screen
         narrow?           (> height width)
         transition        {:class "transition-all"
@@ -123,35 +123,44 @@
 
         bg-colour         "#F9A8D4"
         offset            (- current-index (* 2 origin-index))
-        context           (assoc nav-context
-                                 :menu-anchors menu-anchors
-                                 :offset offset
-                                 :bg-colour bg-colour
-                                 :width width
-                                 :height height
-                                 :narrow? narrow?
-                                 :transition transition
-                                 :text-colour text-colour
-                                 :modal-text-colour modal-text-colour)]
+        context           (-> nav-context
+                              (assoc
+                                :menu-anchors menu-anchors
+                                :offset offset
+                                :bg-colour bg-colour
+                                :width width
+                                :height height
+                                :narrow? narrow?
+                                :transition transition
+                                :text-colour text-colour
+                                :modal-text-colour modal-text-colour)
+                              (merge (get self-context (/ (get-in nav-context [:target :index]) 2))))]
     (into view [context])))
 
 
+(defn group-projects
+  [projects per-page]
+  (->> (partition-by (juxt :bg-colour :text-colour) projects)
+       (mapcat #(partition-all per-page %))))
+
+
+(defn group-badness
+  [groups desired-per-page]
+  (->> groups
+       (map (fn [g] (abs (- desired-per-page (count g)))))
+       (reduce + 0)))
+
+
 (defn projects-per-page
-  [ctx projects]
+  [ctx _projects]
   (let [[x y] (projects/max-project-fit ctx)
         max-per-page      (* x y)
-        min-pages         (count (->> projects
-                                      (partition-all max-per-page)))
-        c-projects        (count projects)
-        options           (range 1 (inc (min max-per-page 4)))
-
-        option-preference (fn [o]
-                            (let [r (rem c-projects o)
-                                  r (if (zero? r) r (- o r))]
-                              [(if (= 1 o) 1000000 r)
-                               (- o)]))
-        [best-option] (sort-by option-preference options)]
-    best-option))
+        ;options           (map inc (range (min max-per-page 4)))
+        ;option-preference (fn [o]
+        ;                    (- (group-badness (group-projects projects o) o)))
+        ;[best-option] (sort-by option-preference options)
+        ]
+    max-per-page))
 
 
 (defn set-scene
@@ -165,7 +174,7 @@
                             :anchors [:intro :intro-detail]
                             :view    [intro/intro]}]
 
-        project-groups    (partition-all projects-per-page projects/projects)
+        project-groups    (group-projects projects/projects projects-per-page)
         project-views     (->> project-groups
                                (map-indexed (fn [i projects]
                                               (let [last? (= i (dec (count project-groups)))]
@@ -178,7 +187,12 @@
                                                              "translate(100%,0%)")
                                                            (if last?
                                                              "translate(0%,-100%)"
-                                                             "translate(-100%,0%)")]}))))
+                                                             "translate(-100%,0%)")]
+                                                 :context (let [bg-colour   (some :bg-colour projects)
+                                                                text-colour (some :text-colour projects)]
+                                                            (cond-> {}
+                                                              bg-colour (assoc :bg-colour bg-colour)
+                                                              text-colour (assoc :text-colour text-colour)))}))))
 
         after             [{:id      :contact
                             :anchors [:contact]
@@ -194,9 +208,18 @@
                            {:id   :svg-filters
                             :view [svg-defs]}]
 
-        all-parts         (concat intro
-                                  project-views
-                                  after)
+        all-parts         (:parts (reduce
+                                    (fn [{:keys [index] :as agg} {:keys [anchors] :as part}]
+                                      (if anchors
+                                        (-> agg
+                                            (update :index inc)
+                                            (update :parts conj (assoc part :index index)))
+                                        (update agg :parts conj part)))
+                                    {:index 0
+                                     :parts []}
+                                    (concat intro
+                                            project-views
+                                            after)))
 
         menu-anchors      (concat
                             [{:title  "home"
@@ -207,16 +230,20 @@
                             [{:title  "contact"
                               :anchor :contact}])
 
+        self-context      (->> all-parts
+                               (filter :index)
+                               (filter :context)
+                               (map (juxt :index :context))
+                               (into {}))
+
         {:keys [views index->anchors]} (reduce
-                                         (fn [{:keys [index] :as agg} {:keys [anchors view id]}]
+                                         (fn [agg {:keys [index anchors view id]}]
                                            (if anchors
                                              (-> agg
-                                                 (update :index inc)
-                                                 (update :views conj (vary-meta [with-context menu-anchors view index] assoc :id id))
+                                                 (update :views conj (vary-meta [with-context self-context menu-anchors view index] assoc :id id))
                                                  (update :index->anchors assoc index anchors))
-                                             (update agg :views conj (vary-meta [with-context menu-anchors view 0] assoc :id id))))
-                                         {:index          0
-                                          :views          []
+                                             (update agg :views conj (vary-meta [with-context self-context menu-anchors view 0] assoc :id id))))
+                                         {:views          []
                                           :index->anchors {}}
                                          all-parts)]
     (nav/set-scene views index->anchors)))

@@ -21,9 +21,6 @@
 
 (defn carousel-dir
   [matcher slide-count]
-  (println (for [i (map inc (range slide-count))
-                 :let [is (str i)]]
-             (str/replace matcher #"%s" (str (apply str (repeat (- 4 (count is)) \0)) is))))
   [carousel (for [i (map inc (range slide-count))
                   :let [is (str i)]]
               (str/replace matcher #"%s" (str (apply str (repeat (- 4 (count is)) \0)) is)))])

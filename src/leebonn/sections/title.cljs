@@ -46,7 +46,7 @@
         {:id    "background"
          :class (str "object-cover absolute w-full h-full"
                      (when narrow? " object-bottom"))}])
-     (if (contains? #{0 1 2} offset)
+     (when (contains? #{0 1 2} offset)
        [:div {:id    "title-container"
               :class (str "flex h-full absolute leading-none"
                           (if narrow?
@@ -61,5 +61,5 @@
           [:div "Leeanne Bonnialy"]
           [:div {:style {:font-size (str (* font-size 0.5) "px")}}
            [i18n/text :job-title]]]]]
-       [:div {:class "w-full h-full"
+       #_[:div {:class "w-full h-full"
               :style {:background-color bg-colour}}])]))

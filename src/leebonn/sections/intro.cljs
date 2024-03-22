@@ -17,8 +17,14 @@
      {:fr "“I am more than a communication strategist, I am a storyteller and a bold conversation-starter”.\n\n"
       :en "“I am more than a communication strategist, I am a storyteller and a bold conversation-starter”.\n\n"}]
     [i18n/text {:class "text-xl sm:text-2xl"}
-     {:fr "Je suis Leeanne Bonnialy, une amoureuse des mots et des questions audacieuses. Je recherche un stage de 6 mois à l’étranger en stratégie de marque au sein d’une agence de communication..."
-      :en "I am Leeanne Bonnialy, a lover of words and question marks. I am seeking a 6-month internship abroad in brand strategy within a communication agency..."}]
+     {:fr [:span "Je suis "
+           [:b "Leeanne Bonnialy"]
+           ", une amoureuse des mots et des questions audacieuses."
+           [:b "\n\nJe recherche un stage de 6 mois à l’étranger en stratégie de marque au sein d’une agence de communication."]]
+      :en [:span "I am "
+           [:b "Leeanne Bonnialy"]
+           ", a lover of words and question marks."
+           [:b "\n\nI am seeking a 6-month internship abroad in brand strategy within a communication agency."]]}]
     [i18n/text {:class "text-sm mt-4"} {:en "read more about me"
                                         :fr "plus sur moi"}]
     [:svg.w-16.h-12.mx-auto.squiggly-lite {:class       "transition-all hover:scale-90 cursor-pointer"
@@ -84,10 +90,10 @@
 
 (defn intro-detail
   []
-  [:div.space-y-4.text-pink-400
+  [:div.space-y-4.text-pink-400.leading-relaxed
    [c/title title]
-   [c/body {:fr "... TODO"
-            :en "... TODO"}]
+   [c/body {:fr "Mon parcours est celui d'une culture-lover issue d'une formation en sciences humaines, aujourd’hui spécialisée en stratégie de communication.\nPassionnée par le spectacle vivant et d'écriture, j’ai d’abord fait mes armes en communication évènementielle et stratégique auprès d’institutions culturelles. \n\nMon métier aujourd’hui est de construire des récits de marque qui font bouger le monde. \n\nJe suis une metteure en scène qui a la volonté de trouver le meilleur arc narratif, le meilleur rôle et la meilleure scène pour faire briller la personnalité de chaque marque auprès de son public.  \n\nMes atouts ? Une belle plume, une créativité débordante et une capacité à penser en dehors des sentiers battus pour concevoir des identités de marque et des messages percutants.\n\nEt si on passait à l’action pour inventer ensemble le récit dont tout le monde se souviendra ?"
+            :en "A culture-lover with a background in human sciences, now specialized in communication strategy.\nPassionate about theater and writing, I honed my skills in strategic communication and event management within cultural institutions.\n\nI choose to do brand strategy because it’s the perfect intersection between my curiosity to understand people and my passion for storytelling. \n\nMy mission today is to craft brand narratives that shake up the world.\nI see myself as a stage director, who is determined to find the most compelling storyline, the perfect role, and the ideal stage to showcase each brand's personality to its audience. \n\nWhat sets me apart? A flair for writing, boundless creativity, and the ability to think outside of the box to shape brand identities and send impactful messages.\n\nLet's embark on the journey together to create the narrative that will be etched in everyone's memory."}]
    [hard-skills {:header-classes "text-pink-500"}]
    [soft-skills {:header-classes "text-pink-500"}]
    [cv-download]

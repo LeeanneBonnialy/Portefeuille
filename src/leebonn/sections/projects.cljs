@@ -82,6 +82,16 @@
     :detail         [ptit-bleds/project-detail]
     :view           project-item}
 
+
+   {:bg-colour      "#19A8D4"
+    :anchor         :ptit-bleds2
+    :detail-anchor  :ptit-bleds2-detail
+    :image          "ptit-bleds/main_1.jpg"
+    :image-position "bg-[#fef2c2] object-contain object-center"
+    :title          ptit-bleds/title
+    :detail         [ptit-bleds/project-detail]
+    :view           project-item}
+
    #_{:anchor        :lart5
       :detail-anchor :lart-detail5
       :image         "l-art/lartdanslarue.png"
@@ -186,9 +196,9 @@
                             (reset! hover-close false))
         closer-dash    9]
     (fn [{:keys [narrow? modal-text-colour]}]
-      (let [open?   @detail-opened
-            shift   (if open? " translate-x-[0%] "
-                        " translate-x-[100%] ")]
+      (let [open? @detail-opened
+            shift (if open? " translate-x-[0%] "
+                      " translate-x-[100%] ")]
         [:<>
          [:div {:class          (str "bg-white transition-all duration-500 top-0 left-0 right-0 bot-0 fixed w-full h-full cursor-pointer "
                                      (if open? " pointer-events-auto " " pointer-events-none "))
