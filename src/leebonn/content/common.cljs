@@ -40,10 +40,10 @@
       [:a {:href href}
        [img/deferred-image
         image
-        {:class "rounded-lg shadow-lg"}]]
+        {:class "max-h-[70vh] rounded-lg shadow-lg"}]]
       [img/deferred-image
        image
-       {:class "rounded-lg shadow-lg"}])]])
+       {:class "max-h-[70vh] rounded-lg shadow-lg"}])]])
 
 
 (defn download-icon

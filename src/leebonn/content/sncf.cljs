@@ -102,11 +102,16 @@
    [header project-header]
    [c/body project]
 
-   [:div.h-50
-    [c/carousel ["sncf/cara/Communiqué de presse 50 ans - 50 gares page 1 .jpg"
-                 "sncf/cara/Communiqué de presse 50 ans - 50 gares page 2 .jpg"
-                 "sncf/cara/Communiqué de presse 50 ans - 50 gares page 3.jpg"]
-     :classes "text-blue-300"]]
+   [c/carousel ["sncf/cara/page-1.jpg"
+                "sncf/cara/page-2.jpg"
+                "sncf/cara/page-3.jpg"]
+    :classes "text-blue-300"]
+
+   [c/carousel ["sncf/media/1.png"
+                "sncf/media/2.png"
+                "sncf/media/3.png"
+                "sncf/media/4.png"]
+    :classes "text-blue-300"]
 
    ;; [c/inline-img "roger/body_1.png" :href "https://www.instagram.com/p/C4I-LBRstjB/?utm_source=ig_web_copy_link"]
    ;; [c/inline-img "roger/body_2.png" :href "https://www.instagram.com/p/C4YeOwDMx0E/?utm_source=ig_web_copy_link"]

@@ -40,14 +40,14 @@
 (defn carousel-image
   [src offset]
   (when (contains? #{-1 0 1} offset)
-    [:div {:class (str "absolute top-0 duration-500 px-8 md:px-14 transition-all w-full"
+    [:div {:class (str "absolute top-0 duration-500 px-8 md:px-14 transition-all w-full h-full flex"
                        (case offset
                          -1 " translate-x-[110%] opacity-0"
                          0 " translate-x-[0%] opacity-100"
                          1 " translate-x-[-110%] opacity-0"))}
      [img/deferred-image
       src
-      {:class "rounded-lg shadow-lg max-h-[80vh] mx-auto"}]]))
+      {:class "rounded-lg shadow-lg max-h-[80vh] m-auto"}]]))
 
 
 (defn cross
