@@ -73,9 +73,9 @@
 
 
 (defn header
-  [text & {:keys [classes rule-classes]}]
+  [text & {:keys [classes rule-classes padding]}]
   [:<>
-   [i18n/text {:class (str "pt-10 font-slim text-4xl " (or classes "text-pink-500"))} text]
+   [i18n/text {:class (str "font-slim text-4xl " (or padding "pt-10") " " (or classes "text-pink-500"))} text]
    [horizontal-rule :classes (or rule-classes "bg-pink-300")]])
 
 

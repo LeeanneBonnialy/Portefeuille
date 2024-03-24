@@ -39,10 +39,11 @@
 
 
 (defn hard-skills
-  [{:keys [header-classes rule-classes]}]
+  [{:keys [padding header-classes rule-classes]}]
   [:div.space-y-4
    [c/header {:fr "Hard skills"
               :en "Hard skills"}
+    :padding padding
     :classes header-classes
     :rule-classes rule-classes]
    [c/body {:fr "✍\uD83C\uDFFEPlume incisive et sensible \n\uD83D\uDD78\uFE0FAttrapeuse d’insights\n\uD83D\uDCDACondenser des rapports en une phrase \n\uD83D\uDD0DAnalyser des stratégies de marque \n\uD83D\uDD75\uD83C\uDFFD\u200D♀\uFE0FInvestiguer et définir des territoires de marque \n\uD83D\uDC40Garder l’oeil ouvert sur la concurrence \n\uD83D\uDDD2\uFE0FConduire une étude qualitative et quantitative \n\uD83E\uDD33\uD83C\uDFFEStratégie de contenu social média ( la manière pro de dire que je passe mon temps sur Instagram, Threads, Tiktok…oups !)\n\n\uD83E\uDD1D\uD83C\uDFFECopine avec Powerpoint & Google slide\n\uD83E\uDD47Ceinture noire en Canva \n\uD83E\uDDD1\uD83C\uDFFD\u200D\uD83D\uDCBBJouer les Big Brother avec Visibrain"
@@ -50,10 +51,11 @@
 
 
 (defn soft-skills
-  [{:keys [header-classes rule-classes]}]
+  [{:keys [padding header-classes rule-classes]}]
   [:div.space-y-4
    [c/header {:fr "Soft skills"
               :en "Soft skills"}
+    :padding padding
     :classes header-classes
     :rule-classes rule-classes]
    [c/body {:fr "❤\uFE0FCuriosité\n\uD83D\uDCA1Créativité \n✨Travail en équipe \n\uD83D\uDDE3\uFE0FA l’aise à l’oral \n\uD83E\uDD14Esprit critique"
@@ -78,7 +80,7 @@
 (defn large-letter-2
   [opts]
   [:div
-   [:div {:class "h-[106px] w-full"}]
+   [:div {:class "h-[154px] w-full"}]
    [:div.space-y-4
     [c/body {:fr "Je me suis tournée vers la stratégie de marque car c’est le point de rencontre idéal entre la curiosité que je nourris pour comprendre les gens et ma passion pour les histoires. Créer des récits de marque fait écho à ce pourquoi je fais de la communication : pour raconter des histoires qui bousculent le monde et créent des rencontres.\n\nMes atouts ? Une capacité à adopter une approche anthropologique de l’insight pour penser “out of the box”. Ajouté à cela, une belle plume et une bonne dose de créativité pour concevoir des récits de marque en phase avec les publics cibles et les problématiques contemporaines."
              :en "I want to do brand strategy because it’s the perfect intersection between my curiosity to understand people and my passion for storytelling. Creating brand narratives resonates with the reason why I’ve started communication : to tell stories that question the world and foster connections. \n\nMy strengths? A capability to embrace an anthropological approach to insight for thinking \"out of the box\". Additionally, I possess strong writing skills and a keen creative flair to craft brand narratives that resonate with target audiences and address contemporary challenges."}]
@@ -88,9 +90,11 @@
 (defn large-letter-3
   [opts]
   [:div.space-y-4
-   [hard-skills {:header-classes "text-white"
+   [hard-skills {:padding "pt-4"
+                 :header-classes "text-white"
                  :rule-classes   "bg-white"}]
-   [soft-skills {:header-classes "text-white"
+   [soft-skills {:padding "pt-4"
+                 :header-classes "text-white"
                  :rule-classes   "bg-white"}]])
 
 
