@@ -81,7 +81,7 @@
 
 (def seazon-steps-1
   {:fr [:span
-        "Afin de promouvoir la gamme Seazon Équilibre il est essentiel de tenir un discours non culpabilisant auprès d’une audience cible majoritairement féminine qui cherche à concilier pragmatisme et envie de manger sainement."
+        "Afin de promouvoir la gamme Seazon Équilibre il est essentiel de tenir un discours non culpabilisant auprès d’une audience cible majoritairement féminine qui cherche à concilier pragmatisme et l'envie de manger sainement."
         [c/small "\n\nL’objectif est de faire la distinction entre le rééquilibrage alimentaire synonyme de plaisir et de bien-être et le régime plutôt associé à l’échec et à la privation."]]
    :en [:span
         "To effectively promote the Seazon Equilibre, it is essential to convey a message free of guilt to a predominantly female audience looking to balance practicality seeking to reconcile pragmatism with a desire for healthy eating."
@@ -91,7 +91,7 @@
 (def seazon-steps-2
   {:fr [:span
         "Outre ce changement de valeur symbolique, il s’agit de se démarquer des offres multiples du secteur et détourner les adaptes des marques les plus installées."
-        [c/small "\n\nD’après le benchmark concurrentiel , Seazon Équilibre se démarque grâce à trois caractéristiques :  la facilité de préparation, l’accent mis sur les recettes préparés avec des produits locaux de saison et l’objectif de rééquilibrage alimentaire. Ces trois éléments différenciants doivent figurer dans le message de communication finale."]]
+        [c/small "\n\nD’après le benchmark concurrentiel , Seazon Équilibre se démarque grâce à trois caractéristiques :  la facilité de préparation, l’accent mis sur les recettes préparés avec des produits locaux de saison et l’objectif de rééquilibrage alimentaire. Ces trois éléments différenciants doivent figurer dans le message de communication final."]]
    :en [:span
         "In addition to this symbolic value shift, the aim is to stand out from the numerous offerings in the sector and divert followers from more established brands."
         [c/small "\n\nAccording to competitive benchmarking, Seazon Équilibre distinguishes itself through three key features: ease of preparation, a focus on recipes made with local seasonal ingredients, and the goal of nutritional rebalancing. These three distinctive elements should be highlighted in the final communication message."]]})
@@ -119,11 +119,10 @@
 
 
 (def tab-context
-  [{:fr "Cultural"
-    :en "Cultural"}
+  [{:fr [:div.whitespace-nowrap.truncate.h-full "CRÉATION PUBLICITAIRE"]
+    :en [:div.whitespace-nowrap.truncate.h-full "ADVERTISING"]}
    nil
-   {:fr "2021 TODO"
-    :en "2021 TODO"}])
+   nil])
 
 
 (defn project-detail

@@ -75,6 +75,13 @@
    :rule-classes "bg-blue-500"])
 
 
+(def tab-context
+  [{:fr [:div.whitespace-nowrap.truncate.h-full "ÉVÉNEMENTIEL"]
+    :en [:div.whitespace-nowrap.truncate.h-full "EVENT"]}
+   nil
+   nil])
+
+
 (defn project-detail
   []
   [:div.space-y-4.text-blue-400.leading-relaxed

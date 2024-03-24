@@ -14,7 +14,7 @@
 
 
 (def comp-1
-  {:fr "Création de guide d’entretien"
+  {:fr "Création de guides d’entretien"
    :en "Creating interview guidance"})
 
 
@@ -83,16 +83,16 @@
   {:fr [:span
         "La réalisation d’une étude qualitative comptant 10 entretiens semi-directifs."
         [c/small "\n\nLes 10 personnes ont été sélectionnées en fonction de leur critère d'âge (appartenance à une génération) et de leur lieu d’habitation (en ville/ en milieu rural). \n5 générations ont été interrogées selon les catégories marketing préexistantes qui qualifient les stéréotypes générationnels : les baby boomers, la GenX, les Millenials, la GenZ et les Alpha."]
-        "\n\nL’angle stratégique adopté pour réaliser cette étude qualitative ambitieuse : Interroger les sociotype générationnels par l’angle des moments de vie qui ont eu un impact sur leur imaginaire, leur engagement à propos de l’écologie. \n\nCette étude qualitative a été complétée par une étude quantitative via un formulaire Google doc. L'étude quantitative comptabilise 60 répondants."]
+        "\n\nL’angle stratégique adopté pour réaliser cette étude qualitative ambitieuse : Interroger les sociotypes générationnels par l’angle des moments de vie qui ont eu un impact sur leur imaginaire, leur engagement à propos de l’écologie. \n\nCette étude qualitative a été complétée par une étude quantitative via un formulaire Google doc. L'étude quantitative comptabilise 60 répondants."]
    :en [:span
         "The realization of a qualitative study involving 10 guided interviews."
-        [c/small "\n\nThe individuals were selected on their age criteria (belonging to a specific generation) and their living environment (urban/rural).\nFive generations were interviewed according to pre-existing marketing categories that characterize generational stereotypes: Baby Boomers, GenX, Millennials, GenZ, and Alpha."]
-        "\n\nThe strategic focus of this qualitative study is to question the generational sociotype on their life moments that have shaped their relationship with ecology. \n\nThis qualitative study has been completed by a quantitative study on Google form. The quantitative study counts 60 participants."]})
+        [c/small "\n\nThe individuals were selected to match an age criteria (belonging to a specific generation) and their living environment (urban/rural).\nFive generations were interviewed according to pre-existing marketing categories that characterize generational stereotypes: Baby Boomers, GenX, Millennials, GenZ, and Alpha."]
+        "\n\nThe strategic focus of the qualitative study is to question the generational sociotype that have shaped their relationship with ecology.\n\nThis qualitative study was completed by a quantitative study using Google forms. 60 participants were interviewed as part of the quantitative study."]})
 
 
 (def download-questionnaire
-  {:en "Quality and quantity maintenance guide"
-   :fr "Guide entretien quali et quanti téléchargeable"})
+  {:fr "Guide d’entretien qualitatif et quantitatif à télécharger"
+   :en "Qualitative and quantitative maintenance guide"})
 
 
 (def recommendation-header
@@ -103,6 +103,13 @@
 (def recommendation
   {:fr "Les résultats de l’analyse permettent d’établir un mapping des sujets qui intéressent le plus en fonction des générations. La cause animale arrive en tête.\n\nLa série est le format préféré pour toucher plusieurs générations. Les enjeux écologiques sont appréciés comme toile de fond mais la créativité de l'intrigue reste essentielle pour attirer l’audience."
    :en "The results of the analysis make it possible to establish a mapping of the subjects which interest each generation the most, with animal welfare ranking first.\n\nTV series are the preferred format to reach multiple generations. While environmental issues are appreciated as a backdrop, the creativity of the plot remains essential to attract an audience."})
+
+
+(def tab-context
+  [{:fr [:div.whitespace-nowrap.truncate.h-full "ÉTUDE"]
+    :en [:div.whitespace-nowrap.truncate.h-full "STUDY"]}
+   nil
+   nil])
 
 
 (defn project-detail

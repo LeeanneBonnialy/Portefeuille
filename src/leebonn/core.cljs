@@ -120,7 +120,7 @@
         text-colour       "#FFFFFF"
         modal-text-colour (if (or @overlay/open-atom?
                                   @projects/detail-opened)
-                            (:text-colour overlay "#F472B6")
+                            (:modal-base-text-colour overlay "#F472B6")
                             "#FFFFFF")
 
         bg-colour         "#F9A8D4"
@@ -194,7 +194,7 @@
                                                                 text-colour (some :text-colour projects)]
                                                             (cond-> {}
                                                               bg-colour (assoc :bg-colour bg-colour)
-                                                              text-colour (assoc :text-colour text-colour)))}))))
+                                                              text-colour (assoc :modal-base-text-colour text-colour)))}))))
 
         after             [{:id      :contact
                             :anchors [:contact]

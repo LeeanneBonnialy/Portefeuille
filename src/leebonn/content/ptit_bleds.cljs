@@ -138,6 +138,13 @@
    :en "The media strategy involves releasing a press statement alongside the coordination of a gala event."})
 
 
+(def tab-context
+  [{:fr [:div.whitespace-nowrap.truncate.h-full "COMMUNICATION ASSOCIATIVE"]
+    :en [:div.whitespace-nowrap.truncate.h-full "FUNDRAISING COMMUNICATION"]}
+   nil
+   nil])
+
+
 (defn project-detail
   []
   [:div.space-y-4.text-pink-400.leading-relaxed

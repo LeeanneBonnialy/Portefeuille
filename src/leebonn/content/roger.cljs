@@ -88,7 +88,7 @@
   {:fr [:span "Rogervoice est actif sur Linkedin, Instagram, et Facebook. Ces plateformes réunissent les 4 cibles de la marque :"
         [c/small [c/bullet-list
                   "Les personnes avec différents niveaux de baisse auditive."
-                  "Les proches des personnes qui ont des difficultés à entendre"
+                  "Les proches des personnes qui ont des difficultés à entendre."
                   "Les personnes signantes."
                   "Les interprètes en langue des signes et les profils techniques travaillant dans le domaine de l’accessibilité."]]
         "\nLa vision de Rogervoice ? Rogervoice est une application partenaire du quotidien qui par une approche dynamique, fun et simple déstigmatise la surdité et la malentendance pour favoriser la création de lien. \n\nPour déployer la vision de Rogervoice, de nouveaux formats social média ont été déployés, selon trois axes stratégiques.\n\n"
@@ -129,6 +129,13 @@
                   "Showcase employees and the values of the corporate culture."]]
         "\n\nIn addition, to work on the tone of voice is essential to reflect Rogervoice's service promise."
         [c/small "\n\nOn mainstream social media, Rogervoice adopts a warm and empathetic tone, akin to a conversation among friends, with dashes of humor.\nOn LinkedIn, the tone is more professional and expert, while still retaining that touch of humor."]]})
+
+
+(def tab-context
+  [{:fr [:div.whitespace-nowrap.truncate.h-full "SOCIAL MEDIA"]
+    :en [:div.whitespace-nowrap.truncate.h-full "SOCIAL MEDIA"]}
+   nil
+   nil])
 
 
 (defn project-detail

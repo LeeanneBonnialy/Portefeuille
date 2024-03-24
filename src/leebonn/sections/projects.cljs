@@ -36,10 +36,10 @@
       [:div {:class "row-span-1 col-span-1 flex min-h-0 min-w-0 h-full w-full p-4"}
        [:div {:class "relative w-full h-full transition-all duration-500 hover:scale-95"}
         [:div {:class "absolute w-full h-full"}
-         (when c0 [:div {:class "text-2xl absolute bottom-4 left-[-29px]"
+         (when c0 [:div {:class "text-2xl absolute bottom-4 left-[-29px] h-full pb-4"
                          :style {:writing-mode     "vertical-rl"
                                  :transform        "rotate(180deg)"
-                                 :text-orientation "mixed"}} [i18n/text c0]])
+                                 :text-orientation "mixed"}} [i18n/text {:classes "h-full"} c0]])
          (when c1 [:div {:class "text-2xl absolute left-4 top-[-29px]"} [i18n/text c1]])
          (when c2 [:div {:class "text-2xl absolute top-4 right-[-29px]"
                          :style {:writing-mode     "vertical-rl"
@@ -50,21 +50,22 @@
 
 
 (def projects
-  [{:anchor         :seazon
-    :detail-anchor  :seazon-detail
-    :image          "seazon/main_1.jpg"
-    :image-position "bg-white object-contain object-center"
-    :title          seazon/seazon-title
-    :detail         [seazon/project-detail]
-    ;; :context       seazon/tab-context
-    :view           project-item}
-
-   {:anchor         :roger
+  [{:anchor         :roger
     :detail-anchor  :roger-detail
     :image          "roger/main_1.jpg"
     :image-position "bg-white object-contain object-center"
     :title          roger/title
     :detail         [roger/project-detail]
+    :context        roger/tab-context
+    :view           project-item}
+
+   {:anchor         :seazon
+    :detail-anchor  :seazon-detail
+    :image          "seazon/main_1.jpg"
+    :image-position "bg-white object-contain object-center"
+    :title          seazon/seazon-title
+    :detail         [seazon/project-detail]
+    :context        seazon/tab-context
     :view           project-item}
 
    {:anchor         :arte
@@ -73,6 +74,7 @@
     :image-position "bg-white object-contain object-right-bottom"
     :title          arte/title
     :detail         [arte/project-detail]
+    :context        arte/tab-context
     :view           project-item}
 
    {:anchor         :ptit-bleds
@@ -81,6 +83,7 @@
     :image-position "bg-[#fef2c2] object-contain object-center"
     :title          ptit-bleds/title
     :detail         [ptit-bleds/project-detail]
+    :context        ptit-bleds/tab-context
     :view           project-item}
 
 
@@ -91,6 +94,7 @@
     :image         "sncf/sncf_comics2.jpg"
     :title         sncf/title
     :detail        [sncf/project-detail]
+    :context       sncf/tab-context
     :view          project-item}
 
    #_{:anchor        :lart5

@@ -54,9 +54,9 @@
 (defn text
   ([attrs kw]
    (if-let [t (get-in translations [kw @lang])]
-     [:div.whitespace-pre-line attrs [:span attrs t]]
+     [:div.whitespace-pre-line attrs [:div attrs t]]
      (if-let [t (and (map? kw) (get kw @lang))]
-       [:div.whitespace-pre-line attrs [:span attrs t]]
+       [:div.whitespace-pre-line attrs [:div attrs t]]
        [:div.whitespace-pre-line.text-red-500 (str "missing[" (synopsis kw) "]")])))
   ([kw]
    (text {} kw)))
