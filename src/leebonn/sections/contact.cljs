@@ -1,8 +1,8 @@
 (ns leebonn.sections.contact
   (:require
-    [leebonn.content.common :as c]
-    [leebonn.i18n :as i18n]
-    [leebonn.util :as util]))
+   [leebonn.content.common :as c]
+   [leebonn.i18n :as i18n]
+   [leebonn.util :as util]))
 
 
 (def title
@@ -31,15 +31,18 @@
 
 (defn cv-download
   []
-  [:a
-   {:target   "_blank"
-    :download "CV Leeanne Bonnialy.pdf"
-    :href     "assets/CV Leeanne Bonnialy.pdf"}
-   [:div.flex
-    [:div {:class "flex text-4xl mt-auto"}
-     [i18n/text {:fr "ou téléchargez mon CV"
-                 :en "or download my CV"}]]
-    [:div.bottom-0.h-min.w-16.mt-auto.squiggly [c/download-icon]]]])
+  (let [file-name (get {:en "EN - CV Leeanne Bonnialy.pdf"
+                        :fr "FR - CV Leeanne Bonnialy.pdf"}
+                       @i18n/lang)]
+    [:a
+     {:target   "_blank"
+      :download file-name
+      :href     (str "assets/" file-name)}
+     [:div.flex
+      [:div {:class "flex text-4xl mt-auto"}
+       [i18n/text {:fr "ou téléchargez mon CV"
+                   :en "or download my CV"}]]
+      [:div.bottom-0.h-min.w-16.mt-auto.squiggly [c/download-icon]]]]))
 
 
 (defn linkedin

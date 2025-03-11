@@ -157,7 +157,7 @@
                      :style {:grid-template-columns (str/join " " (repeat x "1fr"))
                              :grid-template-rows    (str/join " " (repeat y "1fr"))}}]
               (for [project projects]
-                [(:view project) context project]))))))
+                [(:view project) (assoc context :x x :y y) project]))))))
 
 
 (defn project-page
